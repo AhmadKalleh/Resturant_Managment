@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Offer extends Model
@@ -19,8 +20,13 @@ class Offer extends Model
         return $this->belongsTo(Chef::class);
     }
 
-    public function offer_products() : HasMany
+    public function image()
     {
-        return $this->hasMany(OfferProduct::class);
+        return $this->morphOne(Image::class,'imageable');
+    }
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'offer_products');
     }
 }

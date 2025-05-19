@@ -11,13 +11,13 @@ class Table extends Model
 {
     use HasFactory,HasTranslations;
 
-    protected $fillable = ['image_id','seats','location','status'];
+    protected $fillable = ['image_id','seats','location','status','price'];
 
     public $translatable= ['location'];
 
-    public function image(): BelongsTo
+    public function image()
     {
-        return $this->belongsTo(Image::class);
+        return $this->morphOne(Image::class,'imageable');
     }
 
     public function reservation(): BelongsTo
@@ -28,6 +28,11 @@ class Table extends Model
     public function getSeatsTextAttribute(): string
     {
         return $this->seats.' seats';
+    }
+
+    public function getPriceTextAttribute():string
+    {
+        return $this->price.' $';
     }
 
 }

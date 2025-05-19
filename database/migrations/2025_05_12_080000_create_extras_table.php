@@ -17,6 +17,7 @@ return new class extends Migration
             $table->json('name');
             $table->foreignIdFor(Chef::class)->constrained()->cascadeOnDelete();
             $table->decimal('price',8,2);
+            $table->integer('calories');
             $table->timestamps();
         });
     }

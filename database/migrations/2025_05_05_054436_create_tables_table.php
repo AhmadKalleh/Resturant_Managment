@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->integer("seats");
             $table->json("location");
+            $table->decimal("price",8,2);
             $table->enum("status",["available","reserved"]);
             $table->timestamps();
         });

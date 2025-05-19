@@ -43,9 +43,9 @@ class Chef extends Model
         return $this->hasMany(Offer::class);
     }
 
-    public function rating():BelongsTo
+    public function rating()
     {
-        return $this->belongsTo(Rating::class);
+        return $this->morphOne(Rating::class,'rateable');
     }
 
     public function getYearsOfExperienceTextAttribute(): string

@@ -82,9 +82,9 @@ class User extends Authenticatable
         return $this->hasOne(Customer::class);
     }
 
-    public function image(): HasOne
+    public function image()
     {
-        return $this->hasOne(Image::class);
+        return $this->morphOne(Image::class,'imageable');
     }
 
     public function getFullNameAttribute(): string

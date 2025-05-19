@@ -12,13 +12,5 @@ class OfferProduct extends Model
 
     protected $fillable = ['offer_id','product_id'];
 
-    public function product(): BelongsTo
-    {
-        return $this->belongsTo(Product::class);
-    }
-
-    public function offer(): BelongsTo
-    {
-        return $this->belongsTo(Offer::class);
-    }
+    
 }

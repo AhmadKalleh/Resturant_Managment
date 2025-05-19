@@ -23,8 +23,8 @@ class Category extends Model
     {
         return $this->belongsTo(Chef::class);
     }
-    public function image(): BelongsTo
+    public function image()
     {
-        return $this->belongsTo(Image::class);
+        return $this->morphOne(Image::class,'imageable');
     }
 }
