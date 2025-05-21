@@ -39,6 +39,7 @@ class RolesPermissionsSeeder extends Seeder
             'create-reservation','approve-reservation','reject-reservation','confirm-arrival','manage-profile',
             'mark-order-complete','delete-reservation','show-reservation','index-reservation','filter',
             'index-favorite','create-favorite','delete-favorite','create-rating','update-rating','create-cart','update-cart','index-cart',
+            'show-info','change-mobile','update-password','update-image-profile','delete-account'
         ];
 
         foreach($resturant_manager_permissions as $permission)
@@ -59,7 +60,7 @@ class RolesPermissionsSeeder extends Seeder
             'create-categories','update-categories','delete-categories','show-categories','index-categories',
             'create-offer','update-offer','delete-offer','show-offer','index-offer','index-extra',
             'create-extra','update-extra','delete-extra','show-extra','manage-profile',
-            'index-order','mark-order-complete'
+            'index-order','mark-order-complete','show-info','change-mobile','update-password','update-image-profile','delete-account'
         ];
 
         $chef_role->syncPermissions($chef_permissions);
@@ -72,6 +73,7 @@ class RolesPermissionsSeeder extends Seeder
                 'create-table','update-table','delete-table','show-table','index-table',
                 'approve-reservation','reject-reservation','confirm-arrival','manage-profile',
                 'create-reservation','delete-reservation','show-reservation','index-reservation',
+                'show-info','change-mobile','update-password','update-image-profile','delete-account'
             ]);
 
         $customer_role->givePermissionTo(
@@ -80,8 +82,8 @@ class RolesPermissionsSeeder extends Seeder
             'show-offer','index-offer','index-favorite','create-favorite','delete-favorite',
             'create-rating','update-rating','create-cart','update-cart','index-cart',
             'create-reservation','delete-reservation','show-reservation','index-reservation',
-            'create-order','show-order','index-order','manage-profile','show-table','index-table'
-
+            'create-order','show-order','index-order','manage-profile','show-table','index-table',
+            'show-info','change-mobile','update-password','update-image-profile','delete-account'
         ]);
 
 
@@ -140,8 +142,10 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'2004-08-15',
             'preferred_language' =>'ar',
             'preferred_theme' =>'dark',
-        ])
-        ->chef()->create([
+        ]);
+
+
+        $chef->chef()->create([
             'speciality' => ['en' => ['Italian Cuisine', 'Seafood'],'ar' => ['المطبخ الإيطالي', 'المأكولات البحرية'],],
             'years_of_experience' => 10,
             'bio' => 'Chef Mario has over a decade of experience specializing in authentic Italian dishes and fresh seafood. He studied in Naples and worked in several 5-star restaurants across Europe.',
@@ -160,8 +164,8 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'2004-07-04',
             'preferred_language' =>'ar',
             'preferred_theme' =>'dark',
-        ])
-        ->chef()->create([
+        ]);
+        $chef2->chef()->create([
             'speciality' => ['en' => ['Japanese Cuisine', 'Sushi'],'ar' => ['المطبخ الياباني', 'السوشي'],],
             'years_of_experience' => 7,
             'bio' => 'Chef Aiko is an expert in traditional Japanese cuisine with a strong focus on sushi and sashimi. Trained in Tokyo, she brings precision and artistry to every dish.',
@@ -180,8 +184,8 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'2004-12-20',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])
-        ->chef()->create([
+        ]);
+        $chef3->chef()->create([
             'speciality' => ['en' => ['French Pastry', 'Desserts'],'ar' => ['المعجنات الفرنسية', 'الحلويات'],],
             'years_of_experience' => 5,
             'bio' => 'Chef Pierre is passionate about French pastry arts. A graduate of Le Cordon Bleu Paris, he creates exquisite desserts that blend tradition with creativity.',
@@ -218,7 +222,8 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'2000-12-20',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->reception()->create([
+        ]);
+        $reception->reception()->create([
             'shift' =>'morning',
             'years_of_experience' => 5,
         ]);
@@ -237,7 +242,8 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'1995-11-02',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->reception()->create([
+        ]);
+        $reception->reception()->create([
             'shift' =>'evening',
             'years_of_experience' => 3,
         ]);
@@ -263,15 +269,16 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'1980-10-18',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->customer()->create([
+        ]);
+        $cutomer->customer()->create([
             'person_height' =>'178',
             'person_weight' =>'70'
         ]);
 
 
 
-        $cutomer->assignRole($reception_role);
-        $permissions = $reception_role->permissions()->pluck('name')->toArray();
+        $cutomer->assignRole($customer_role);
+        $permissions = $customer_role->permissions()->pluck('name')->toArray();
         $cutomer->givePermissionTo($permissions);
 
         $customer2 = User::query()->create([
@@ -284,13 +291,14 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'2004-06-06',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->customer()->create([
+        ]);
+        $customer2->customer()->create([
             'person_height' =>'160',
             'person_weight' =>'65'
         ]);
 
-        $customer2->assignRole($reception_role);
-        $permissions = $reception_role->permissions()->pluck('name')->toArray();
+        $customer2->assignRole($customer_role);
+        $permissions = $customer_role->permissions()->pluck('name')->toArray();
         $customer2->givePermissionTo($permissions);
 
         $customer3 = User::query()->create([
@@ -303,13 +311,14 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'1990-07-25',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->customer()->create([
+        ]);
+        $customer3->customer()->create([
             'person_height' =>'180',
             'person_weight' =>'80'
         ]);
 
-        $customer3->assignRole($reception_role);
-        $permissions = $reception_role->permissions()->pluck('name')->toArray();
+        $customer3->assignRole($customer_role);
+        $permissions = $customer_role->permissions()->pluck('name')->toArray();
         $customer3->givePermissionTo($permissions);
 
         $customer4 = User::query()->create([
@@ -322,13 +331,14 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'1999-05-25',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->customer()->create([
+        ]);
+        $customer4->customer()->create([
             'person_height' =>'150',
             'person_weight' =>'45'
         ]);
 
-        $customer4->assignRole($reception_role);
-        $permissions = $reception_role->permissions()->pluck('name')->toArray();
+        $customer4->assignRole($customer_role);
+        $permissions = $customer_role->permissions()->pluck('name')->toArray();
         $customer4->givePermissionTo($permissions);
 
 
@@ -342,13 +352,14 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'2002-06-05',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->customer()->create([
+        ]);
+        $customer5->customer()->create([
             'person_height' =>'152',
             'person_weight' =>'48'
         ]);
 
-        $customer5->assignRole($reception_role);
-        $permissions = $reception_role->permissions()->pluck('name')->toArray();
+        $customer5->assignRole($customer_role);
+        $permissions = $customer_role->permissions()->pluck('name')->toArray();
         $customer5->givePermissionTo($permissions);
     }
 }
