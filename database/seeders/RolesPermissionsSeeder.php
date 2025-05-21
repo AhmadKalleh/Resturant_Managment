@@ -39,6 +39,7 @@ class RolesPermissionsSeeder extends Seeder
             'create-reservation','approve-reservation','reject-reservation','confirm-arrival','manage-profile',
             'mark-order-complete','delete-reservation','show-reservation','index-reservation','filter',
             'index-favorite','create-favorite','delete-favorite','create-rating','update-rating','create-cart','update-cart','index-cart',
+            'show-info','change-mobile','update-password','update-image-profile','delete-account'
         ];
 
         foreach($resturant_manager_permissions as $permission)
@@ -59,7 +60,7 @@ class RolesPermissionsSeeder extends Seeder
             'create-categories','update-categories','delete-categories','show-categories','index-categories',
             'create-offer','update-offer','delete-offer','show-offer','index-offer','index-extra',
             'create-extra','update-extra','delete-extra','show-extra','manage-profile',
-            'index-order','mark-order-complete'
+            'index-order','mark-order-complete','show-info','change-mobile','update-password','update-image-profile','delete-account'
         ];
 
         $chef_role->syncPermissions($chef_permissions);
@@ -72,6 +73,7 @@ class RolesPermissionsSeeder extends Seeder
                 'create-table','update-table','delete-table','show-table','index-table',
                 'approve-reservation','reject-reservation','confirm-arrival','manage-profile',
                 'create-reservation','delete-reservation','show-reservation','index-reservation',
+                'show-info','change-mobile','update-password','update-image-profile','delete-account'
             ]);
 
         $customer_role->givePermissionTo(
@@ -80,8 +82,8 @@ class RolesPermissionsSeeder extends Seeder
             'show-offer','index-offer','index-favorite','create-favorite','delete-favorite',
             'create-rating','update-rating','create-cart','update-cart','index-cart',
             'create-reservation','delete-reservation','show-reservation','index-reservation',
-            'create-order','show-order','index-order','manage-profile','show-table','index-table'
-
+            'create-order','show-order','index-order','manage-profile','show-table','index-table',
+            'show-info','change-mobile','update-password','update-image-profile','delete-account'
         ]);
 
 
@@ -273,8 +275,8 @@ $chef->assignRole($chef_role);
 
 
 
-        $cutomer->assignRole($reception_role);
-        $permissions = $reception_role->permissions()->pluck('name')->toArray();
+        $cutomer->assignRole($customer_role);
+        $permissions = $customer_role->permissions()->pluck('name')->toArray();
         $cutomer->givePermissionTo($permissions);
 
         $customer2 = User::query()->create([
@@ -293,8 +295,8 @@ $chef->assignRole($chef_role);
             'person_weight' =>'65'
         ]);
 
-        $customer2->assignRole($reception_role);
-        $permissions = $reception_role->permissions()->pluck('name')->toArray();
+        $customer2->assignRole($customer_role);
+        $permissions = $customer_role->permissions()->pluck('name')->toArray();
         $customer2->givePermissionTo($permissions);
 
 $customer3 = User::query()->create([
@@ -313,8 +315,8 @@ $customer3 = User::query()->create([
             'person_weight' =>'80'
         ]);
 
-        $customer3->assignRole($reception_role);
-        $permissions = $reception_role->permissions()->pluck('name')->toArray();
+        $customer3->assignRole($customer_role);
+        $permissions = $customer_role->permissions()->pluck('name')->toArray();
         $customer3->givePermissionTo($permissions);
 
         $customer4 = User::query()->create([
@@ -333,8 +335,8 @@ $customer3 = User::query()->create([
             'person_weight' =>'45'
         ]);
 
-        $customer4->assignRole($reception_role);
-        $permissions = $reception_role->permissions()->pluck('name')->toArray();
+        $customer4->assignRole($customer_role);
+        $permissions = $customer_role->permissions()->pluck('name')->toArray();
         $customer4->givePermissionTo($permissions);
 
 
@@ -354,8 +356,8 @@ $customer3 = User::query()->create([
             'person_weight' =>'48'
         ]);
 
-        $customer5->assignRole($reception_role);
-        $permissions = $reception_role->permissions()->pluck('name')->toArray();
+        $customer5->assignRole($customer_role);
+        $permissions = $customer_role->permissions()->pluck('name')->toArray();
         $customer5->givePermissionTo($permissions);
     }
 }

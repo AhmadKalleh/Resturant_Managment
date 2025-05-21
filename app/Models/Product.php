@@ -16,7 +16,7 @@ class Product extends Model
 
     public $translatable= ['name','description'];
 
-    protected $fillable = ['cateogory_id','image_id','rating_id','chef_id','name','description','price','calories'];
+    protected $fillable = ['cateogory_id','chef_id','name','description','price','calories'];
 
     public function extras(): BelongsToMany
     {
@@ -65,6 +65,6 @@ class Product extends Model
 
     public function getPriceTextAttribute():string
     {
-        return $this->amount.' $';
+        return $this->price.' $';
     }
 }
