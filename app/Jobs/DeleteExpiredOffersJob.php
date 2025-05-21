@@ -29,7 +29,7 @@ class DeleteExpiredOffersJob implements ShouldQueue
     {
         Offer::query()
             ->where('id', $this->id)
-            ->where('end_time', '<=', now())
+            ->where('end_date', '<=', now())
             ->delete();
 
     }

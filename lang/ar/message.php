@@ -16,7 +16,14 @@ return [
     'Correct_Password' => 'كلمة المرور صحيحة',
     'Incorrect_Password' => 'كلمة المرور غير صحيحة',
     'Image_Profile_Uploaded' => 'تم تحميل صورة الملف الشخصي بنجاح',
-    
+    'All_Tables_Retrives' => 'استرجاع جميع الجداول',
+    'Table_Created_Successfully' => 'تم إنشاء الطاولة بنجاح',
+    'Table_Updated_Successfully' => 'تم تعديل الطاولة بنجاح',
+    'resource_not_found' => 'الطاولة غير موجودة',
+    'resources_not_found'=>'لا يوجد طاولات',
+    'Table_Delete_Successfully' => 'تم حذف الطاولة بنجاح',
+    'Table_Displayed_Successfully' => 'تم عرض الطاولة بنجاح',
+
 
 
 ];

@@ -87,7 +87,7 @@ class RolesPermissionsSeeder extends Seeder
 
         // Visitor Permissions:
 
-            $visitor_permissions =
+$visitor_permissions =
             [
                 'show-categories',
                 'index-categories',
@@ -116,7 +116,7 @@ class RolesPermissionsSeeder extends Seeder
             'mobile' => '+963995884773',
             'gendor' =>'male',
             'date_of_birth' =>'2004-03-31',
-            'preferred_language' =>'en',
+            'preferred_language' =>'ar',
             'preferred_theme' =>'light',
         ]);
 
@@ -140,8 +140,10 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'2004-08-15',
             'preferred_language' =>'ar',
             'preferred_theme' =>'dark',
-        ])
-        ->chef()->create([
+        ]);
+
+
+        $chef->chef()->create([
             'speciality' => ['en' => ['Italian Cuisine', 'Seafood'],'ar' => ['المطبخ الإيطالي', 'المأكولات البحرية'],],
             'years_of_experience' => 10,
             'bio' => 'Chef Mario has over a decade of experience specializing in authentic Italian dishes and fresh seafood. He studied in Naples and worked in several 5-star restaurants across Europe.',
@@ -160,8 +162,8 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'2004-07-04',
             'preferred_language' =>'ar',
             'preferred_theme' =>'dark',
-        ])
-        ->chef()->create([
+        ]);
+        $chef2->chef()->create([
             'speciality' => ['en' => ['Japanese Cuisine', 'Sushi'],'ar' => ['المطبخ الياباني', 'السوشي'],],
             'years_of_experience' => 7,
             'bio' => 'Chef Aiko is an expert in traditional Japanese cuisine with a strong focus on sushi and sashimi. Trained in Tokyo, she brings precision and artistry to every dish.',
@@ -180,17 +182,15 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'2004-12-20',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])
-        ->chef()->create([
+        ]);
+        $chef3->chef()->create([
             'speciality' => ['en' => ['French Pastry', 'Desserts'],'ar' => ['المعجنات الفرنسية', 'الحلويات'],],
             'years_of_experience' => 5,
             'bio' => 'Chef Pierre is passionate about French pastry arts. A graduate of Le Cordon Bleu Paris, he creates exquisite desserts that blend tradition with creativity.',
             'certificates' => json_encode(['Le Cordon Bleu Pâtisserie Diploma', 'French Dessert Specialist Certificate'])
         ]);
 
-
-
-        $chef->assignRole($chef_role);
+$chef->assignRole($chef_role);
         $permissions = $chef_role->permissions()->pluck('name')->toArray();
         $chef->givePermissionTo($permissions);
 
@@ -218,7 +218,8 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'2000-12-20',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->reception()->create([
+        ]);
+        $reception->reception()->create([
             'shift' =>'morning',
             'years_of_experience' => 5,
         ]);
@@ -237,7 +238,8 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'1995-11-02',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->reception()->create([
+        ]);
+        $reception->reception()->create([
             'shift' =>'evening',
             'years_of_experience' => 3,
         ]);
@@ -263,7 +265,8 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'1980-10-18',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->customer()->create([
+        ]);
+        $cutomer->customer()->create([
             'person_height' =>'178',
             'person_weight' =>'70'
         ]);
@@ -284,7 +287,8 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'2004-06-06',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->customer()->create([
+        ]);
+        $customer2->customer()->create([
             'person_height' =>'160',
             'person_weight' =>'65'
         ]);
@@ -293,7 +297,7 @@ class RolesPermissionsSeeder extends Seeder
         $permissions = $reception_role->permissions()->pluck('name')->toArray();
         $customer2->givePermissionTo($permissions);
 
-        $customer3 = User::query()->create([
+$customer3 = User::query()->create([
             'first_name' => 'Feras',
             'last_name'=>'Mohmmad',
             'email' => 'ferasmohmmad1985aav989@example.com',
@@ -303,7 +307,8 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'1990-07-25',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->customer()->create([
+        ]);
+        $customer3->customer()->create([
             'person_height' =>'180',
             'person_weight' =>'80'
         ]);
@@ -322,7 +327,8 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'1999-05-25',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->customer()->create([
+        ]);
+        $customer4->customer()->create([
             'person_height' =>'150',
             'person_weight' =>'45'
         ]);
@@ -342,7 +348,8 @@ class RolesPermissionsSeeder extends Seeder
             'date_of_birth' =>'2002-06-05',
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
-        ])->customer()->create([
+        ]);
+        $customer5->customer()->create([
             'person_height' =>'152',
             'person_weight' =>'48'
         ]);
@@ -352,4 +359,3 @@ class RolesPermissionsSeeder extends Seeder
         $customer5->givePermissionTo($permissions);
     }
 }
-

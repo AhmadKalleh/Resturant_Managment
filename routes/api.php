@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Table\TableController;
 use App\Mail\SendLinkMail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
@@ -38,6 +39,19 @@ Route::controller(AuthController::class)->group(function ()
 
 
 
-// Route::get('/test',function () {
-//     return QrCode::size(300)->generate('http://laraveldaily.com/courses');
-// });
+Route::controller(TableController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+         Route::get('/show-table','show')->middleware('can:show-table');
+
+        Route::get('/index_table','index')->middleware('can:index-table');
+
+        Route::post('/store_table','store')->middleware('can:create-table');
+
+        Route::post('/update_table','update')->middleware('can:update-table');
+
+        Route::delete('/destroy_table','destroy')->middleware('can:delete-table');
+
+    });
+});

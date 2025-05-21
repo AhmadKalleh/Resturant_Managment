@@ -16,10 +16,12 @@ return [
     'Correct_Password' =>'The password is correct',
     'Incorrect_Password' =>'The password is incorrect',
     'Image_Profile_Uploaded' =>'Image profile uploaded successfully',
-    
-
-
-
-
+    'All_Tables_Retrives' => 'Retrieve all tables',
+    'Table_Created_Successfully' => 'The table has been created successfully',
+    'Table_Updated_Successfully' => 'The table has been updated successfully',
+    'resource_not_found' => 'Table not found',
+    'resources_not_found'=>'Tables not found',
+    'Table_Delete_Successfully' => 'The table has been deleted successfully',
+    'Table_Displayed_Successfully' => 'The table has been displayed successfully',
 
 ];
