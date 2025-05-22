@@ -50,5 +50,13 @@ return [
     'In_Correct_Password' =>'كلمة المرور الحالية غير صحيحة.',
     'Account_Deleted' => 'تم حذف الحساب بنجاح.',
     'Profile_Image_Updated' => 'تم تحديث صورة الملف الشخصي بنجاح.',
+    'All_category_Retrived' => 'تم جلب الفئات بنجاح.',
+    'Category_Not_Found' => 'الفئة غير موجودة.',
+    'Category_Retrived' => 'تم جلب التصنيف بنجاح.',
+    'Category_Not_Found' => 'التصنيف غير موجود.',
+    'Category_Created'=>'تم إنشاء الفئة بنجاح',
+    'Category_Updated'=>'تم تعديل الفئة بنجاح ',
+    'Category_Deleted' => 'تم حذف الفئة بنجاح',
+
 
 ];

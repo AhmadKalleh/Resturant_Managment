@@ -46,6 +46,11 @@ return [
     'In_Correct_Password' =>'The current password is not correct.',
     'Account_Deleted' => 'Account has been deleted successfully.',
     'Profile_Image_Updated' => 'Profile image updated successfully.',
-
+    'All_category_Retrived' => 'All category retrieved successfully.',
+    'Category_Not_Found'=> 'categore not found.',
+    'Category_Retrived' => 'categore retrieved successfully.',
+    'Category_Created'=>'categore created successfully',
+    'Category_Updated'=>'category updated successfully',
+    'Category_Deleted' => 'categore deleted successfully',
 
 ];
