@@ -31,12 +31,13 @@ class Customer extends Model
         return $this->morphMany(Rating::class, 'rateable');
     }
 
-    public function chat():BelongsTo
+    public function chat()
     {
-        return $this->belongsTo(Chat::class);
+        return $this->hasOne(Chat::class); // تأكد من هذا
     }
 
-    public function chatmessages(): HasMany
+
+    public function chat_messages(): HasMany
     {
         return $this->hasMany(ChatMessage::class);
     }

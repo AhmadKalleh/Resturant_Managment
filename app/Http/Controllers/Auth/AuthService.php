@@ -134,11 +134,11 @@ class AuthService
     {
 
         $user = User::query()->where('email',$request['email'])->first();
-        $lang = $user->preferred_language;
+
 
         if(!is_null($user))
         {
-
+            $lang = $user->preferred_language;
             if(!Hash::check($request['password'], $user->password))
             {
                 $data = [];
@@ -162,6 +162,7 @@ class AuthService
         }
         else
         {
+            $lang = Auth::user()->preferred_language;
             $data = [];
             $message  = __('message.Account_Not_Found',[],$lang);
             $code = 404;
@@ -199,7 +200,7 @@ class AuthService
     }
 
 
-    
+
 
 
 }

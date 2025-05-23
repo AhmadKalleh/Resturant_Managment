@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Table;
-
-use Illuminate\Foundation\Http\FormRequest;
+namespace App\Http\Controllers\Chat;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\ResponseHelper\ResponseHelper;
+use Illuminate\Foundation\Http\FormRequest;
 
-
-class FormRequestTable extends FormRequest
+class FormRequestChat extends FormRequest
 {
 
     use ResponseHelper;
@@ -27,38 +25,8 @@ class FormRequestTable extends FormRequest
      */
     public function rules(): array
     {
-        return match ($this->method()) {
-            'POST' => match ($this->route()->getActionMethod()) {
-                'store' => $this->createTable(),
-                'update' => $this->updateTable(),
-
-                default => []
-            },
-
-            default => []
-        };
-    }
-
-    public function createTable(): array
-    {
         return [
-            'seats' => 'required|integer|min:1',
-            'location_en' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
-            'location_ar' => 'required|string|max:255|regex:/^[\p{Arabic}\s]+$/u',
-            'price' => 'required|numeric|min:0',
-            'table_Image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,ico',
-        ];
-    }
-
-    public function updateTable(): array
-    {
-        return [
-
-            'seats' => 'sometimes|integer|min:1',
-            'location_en' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
-            'location_ar' => 'required|string|max:255|regex:/^[\p{Arabic}\s]+$/u',
-            'price' => 'sometimes|numeric|min:0',
-            'table_Image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,ico',
+            'message'=> 'string|min:1',
         ];
     }
 

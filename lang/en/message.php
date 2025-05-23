@@ -46,6 +46,16 @@ return [
     'In_Correct_Password' =>'The current password is not correct.',
     'Account_Deleted' => 'Account has been deleted successfully.',
     'Profile_Image_Updated' => 'Profile image updated successfully.',
-
-
+    'No_Products_Available' => 'There are no products available.',
+    'Products_Retrieved' => 'Products retrieved successfully.',
+    'Category_Not_Found' => 'Category not found.',
+    'Product_Retrieved' => 'Product retrieved successfully.',
+    'Product_Created'  => 'Product created successfully.',
+    'Product_Updated'  => 'Product updated successfully.',
+    'Product_Deleted'  => 'Product deleted successfully.',
+    'Product_Not_Found' => 'Product not found.',
+    'No_Products_For_Category' => 'There are no products available for this category.',
+    'Product_Already_Exist_En_en' => 'The name in English already exists. Please choose a different name.',
+    'Product_Already_Exist_Ar_en' => 'The name in Arabic already exists. Please choose a different name.',
+    'Chat_Empty' => 'There are no conversations yet.',
 ];

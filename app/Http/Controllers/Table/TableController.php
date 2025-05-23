@@ -11,13 +11,17 @@ use Throwable;
 
 class TableController extends Controller
 {
-use ResponseHelper;
+    use ResponseHelper;
     private TableService $_tableService;
-     public function __construct(TableService $tableService)
+
+
+    public function __construct(TableService $tableService)
     {
         $this->_tableService = $tableService;
     }
-        public function index ():JsonResponse
+
+
+    public function index ():JsonResponse
     {
 
         $data=[];
@@ -33,7 +37,9 @@ use ResponseHelper;
             return $this->Error($data,$message);
         }
     }
-            public function store (FormRequestTable $request):JsonResponse
+
+
+    public function store (FormRequestTable $request):JsonResponse
     {
 
         $data=[];
@@ -50,7 +56,9 @@ use ResponseHelper;
         }
 
     }
-                public function update (FormRequestTable $request):JsonResponse
+
+
+    public function update (FormRequestTable $request):JsonResponse
     {
 
         $data=[];
@@ -68,7 +76,9 @@ use ResponseHelper;
         }
 
     }
-               public function destroy (Request $request):JsonResponse
+
+
+    public function destroy (Request $request):JsonResponse
     {
 
         $data=[];
@@ -85,7 +95,9 @@ use ResponseHelper;
         }
 
     }
-                   public function show (Request $request):JsonResponse
+
+    
+    public function show (Request $request):JsonResponse
     {
 
         $data=[];

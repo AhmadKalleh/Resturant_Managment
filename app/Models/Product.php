@@ -67,4 +67,9 @@ class Product extends Model
     {
         return $this->price.' $';
     }
+
+    public function getCaloriesTextAttribute():string
+    {
+        return $this->calories.' calories';
+    }
 }

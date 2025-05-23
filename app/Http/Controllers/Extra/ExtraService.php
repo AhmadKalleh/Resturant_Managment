@@ -126,19 +126,7 @@ class ExtraService
             'calories' =>$request['calories']
         ]);
 
-        $data = [
-            'id' => $extra->id,
-            'name' => $extra->getTranslation('name', $lang),
-                'chef' => [
-                    'id' =>$extra['chef']['id'],
-                    'speciality' => $extra['chef']->getTranslation('speciality', $lang),
-                    'years_of_experience'=> $extra['chef']['years_of_experience'],
-                    'bio' => $extra['chef']['bio'],
-                    'certificates' =>json_decode($extra['chef']['certificates'], true),
-                    ],
-            'price' => $extra->price_text,
-            'calories' => $extra['calories'],
-        ];
+        $data = [true];
 
         $message = __('message.Extra_Created',[],$lang);
         $code = 201;
@@ -205,19 +193,7 @@ class ExtraService
             'calories' =>$request['calories']
         ]);
 
-        $data = [
-            'id' => $old_extra->id,
-            'name' => $old_extra->getTranslation('name', $lang),
-                'chef' => [
-                    'id' =>$old_extra['chef']['id'],
-                    'speciality' => $old_extra['chef']->getTranslation('speciality', $lang),
-                    'years_of_experience'=> $old_extra['chef']['years_of_experience'],
-                    'bio' => $old_extra['chef']['bio'],
-                    'certificates' =>json_decode($old_extra['chef']['certificates'], true),
-                    ],
-            'price' => $old_extra->price_text,
-            'calories' => $old_extra['calories'],
-        ];
+        $data = [true];
         $code= 200;
         $message = __('message.Extra_Updated',[],$lang);
 

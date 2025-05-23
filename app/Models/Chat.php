@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -11,12 +12,13 @@ class Chat extends Model
 {
     use HasFactory;
 
-    public function customer():HasOne
+    protected $fillable = ['name','customer_id'];
+    public function customer():BelongsTo
     {
-        return $this->hasOne(Customer::class);
+        return $this->BelongsTo(Customer::class);
     }
 
-    public function chatmessages(): HasMany
+    public function chat_messages(): HasMany
     {
         return $this->hasMany(ChatMessage::class);
     }

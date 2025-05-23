@@ -1,17 +1,15 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
-
+use App\Http\Controllers\Chat\ChatController;
 use App\Http\Controllers\Table\TableController;
 use App\Http\Controllers\Extra\ExtraControlle;
 use App\Http\Controllers\Favorite\FavoriteController;
+use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\User\UserController;
-use App\Mail\SendLinkMail;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -102,7 +100,7 @@ Route::controller(TableController::class)->group(function()
 {
     Route::middleware(['auth:sanctum'])->group(function ()
     {
-         Route::get('/show-table','show')->middleware('can:show-table');
+        Route::get('/show_table','show')->middleware('can:show-table');
 
         Route::get('/index_table','index')->middleware('can:index-table');
 
@@ -113,4 +111,44 @@ Route::controller(TableController::class)->group(function()
         Route::delete('/destroy_table','destroy')->middleware('can:delete-table');
 
     });
+});
+
+
+
+Route::controller(ProductController::class)->group(function ()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+        Route::get('/index_product','index')->middleware('can:index-products');
+
+        Route::post('/store_product','store')->middleware('can:create-products');
+
+        Route::get('/show_product','show')->middleware('can:show-products');
+
+        Route::get('/searchByCategory','searchByCategory')->middleware('can:show-products');
+
+        Route::get('/search','search')->middleware('can:show-products');
+
+        Route::get('/filter','filter')->middleware('can:filter');
+
+        Route::post('/update_product','update')->middleware('can:update-products');
+
+        Route::delete('/destroy_product','destroy')->middleware('can:delete-products');
+    });
+
+});
+
+
+
+Route::controller(ChatController::class)->group(function ()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+        Route::get('/index_chat','index_chat')->middleware('can:index-chat');
+
+        Route::get('/index_chat_message','index_chat_message')->middleware('can:index-chat_message');
+
+        Route::post('/send_message','send_message')->middleware('can:send-message');
+    });
+
 });

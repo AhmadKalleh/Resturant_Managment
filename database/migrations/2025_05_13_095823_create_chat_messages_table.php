@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Chat::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
             $table->smallInteger('reciver_id')->default(env('AI_ID'));
+            $table->enum('sender_type',['customer','ai']);
             $table->text('message');
             $table->timestamps();
         });

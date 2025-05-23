@@ -27,8 +27,8 @@ class RolesPermissionsSeeder extends Seeder
         $resturant_manager_permissions =
         [
             'create-table','update-table','delete-table','show-table','index-table',
-            'delete-offer','show-offer','index-offer','index-rating','update-rating',
-            'create-chef','update-chef','delete-chef','show-chef','index-chef',
+            'delete-offer','show-offer','index-offer','index-rating','update-rating','send_message',
+            'create-chef','update-chef','delete-chef','show-chef','index-chef','index-chat','index-chat_message','send-message',
             'create-customer','update-customer','delete-customer','show-customer','index-customer',
             'create-reception','update-reception','delete-reception','show-reception','index-reception',
             'delete-reservations','show-reservations','index-reservations','create-offer','update-offer',
@@ -83,7 +83,8 @@ class RolesPermissionsSeeder extends Seeder
             'create-rating','update-rating','create-cart','update-cart','index-cart',
             'create-reservation','delete-reservation','show-reservation','index-reservation',
             'create-order','show-order','index-order','manage-profile','show-table','index-table',
-            'show-info','change-mobile','update-password','update-image-profile','delete-account'
+            'show-info','change-mobile','update-password','update-image-profile','delete-account',
+            'index-chat','index-chat_message','send-message',
         ]);
 
 

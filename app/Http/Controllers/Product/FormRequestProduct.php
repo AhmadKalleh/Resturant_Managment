@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Extra;
+namespace App\Http\Controllers\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -8,7 +8,7 @@ use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\ResponseHelper\ResponseHelper;
 
 
-class FormRequestExtra extends FormRequest
+class FormRequestProduct extends FormRequest
 {
 
     use ResponseHelper;
@@ -30,7 +30,11 @@ class FormRequestExtra extends FormRequest
         return match ($this->method()) {
             'GET' => match ($this->route()->getActionMethod())
             {
+                'index' => $this->index(),
                 'show' => $this->show(),
+                'searchByCategory' => $this->searchByCategory(),
+                'search' => $this->search(),
+                'filter' => $this->filter(),
             },
             'POST' => match ($this->route()->getActionMethod()) {
                 'store' => $this->store(),
@@ -46,38 +50,78 @@ class FormRequestExtra extends FormRequest
         };
     }
 
-    public function show():array
+    public function show(): array
     {
         return [
-            'extra_id' => 'required'
+            "product_id"=>'required|integer',
         ];
     }
 
-    public function delete():array
+    public function searchByCategory(): array
     {
         return [
-            'extra_id' => 'required'
+            'category_id'=>'required|integer',
+            'value' =>'required|string'
         ];
     }
 
-    public function update():array
+    public function filter():array
     {
         return [
-            'extra_id' =>'required|integer|exists:extras,id',
+            'price_start' =>'required|numeric|between:1,2000',
+            'price_end' =>'required|numeric|between:1,2000|gte:price_start',
+            'category_id' =>'required|integer',
+            'calories_start' =>'required|integer||between:1,800',
+            'calories_end' =>'required|integer||between:1,800|gte:calories_start',
+        ];
+    }
+
+    public function search(): array
+    {
+        return [
+            'value' =>'required|string'
+        ];
+    }
+
+    public function update(): array
+    {
+        return [
+            'product_id'=>'required|integer',
             'name_en' =>'sometimes|string|regex:/^[a-zA-Z\s]+$/',
             'name_ar' =>'sometimes|string|regex:/^[\p{Arabic}\s]+$/u',
-            'price' => 'sometimes|numeric|min:0|max:999999.99',
-            'calories' => 'sometimes|integer|min:0',
+            'description_en' =>'sometimes|string|regex:/^[a-zA-Z\s]+$/',
+            'description_ar' =>'sometimes|string|regex:/^[\p{Arabic}\s]+$/u',
+            'price' => 'sometimes|numeric',
+            'calories' =>'sometimes|numeric',
+            'image_file' =>'sometimes|file|mimes:jpeg,png,jpg,gif,svg,ico'
         ];
     }
 
-    public function store():array
+    public function store(): array
     {
         return [
-            'name_en' =>'required|string',
-            'name_ar' =>'required|string',
-            'price' => 'required|numeric|min:0|max:999999.99',
-            'calories' => 'required|integer|min:0',
+            'category_id'=>'required|integer',
+            'name_en' =>'required|string|regex:/^[a-zA-Z\s]+$/',
+            'name_ar' =>'required|string|regex:/^[\p{Arabic}\s]+$/u',
+            'description_en' =>'required|string|regex:/^[a-zA-Z\s]+$/',
+            'description_ar' =>'required|string|regex:/^[\p{Arabic}\s]+$/u',
+            'price' => 'required|numeric',
+            'calories' =>'required|numeric',
+            'image_file' =>'required|file|mimes:jpeg,png,jpg,gif,svg,ico'
+        ];
+    }
+
+    public function delete(): array
+    {
+        return [
+            'product_id'=>'required|integer',
+        ];
+    }
+
+    public function index(): array
+    {
+        return [
+            'category_id'=>'required|integer',
         ];
     }
 

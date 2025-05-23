@@ -50,5 +50,16 @@ return [
     'In_Correct_Password' =>'كلمة المرور الحالية غير صحيحة.',
     'Account_Deleted' => 'تم حذف الحساب بنجاح.',
     'Profile_Image_Updated' => 'تم تحديث صورة الملف الشخصي بنجاح.',
+    'Products_Retrieved' => 'تم جلب المنتج بنجاح.',
+    'Product_Created'  => 'تم إنشاء المنتج بنجاح.',
+    'Product_Updated'  => 'تم تحديث المنتج بنجاح.',
+    'Product_Deleted'  => 'تم حذف المنتج بنجاح.',
+    'Product_Not_Found' => 'المنتج غير موجود.',
+    'No_Products_Available' => 'لا توجد منتجات متاحة.',
+    'Category_Not_Found' => 'لم يتم العثور على الفئة.',
+    'No_Products_For_Category' => 'لا توجد منتجات متاحة لهذه الفئة.',
+    'Product_Already_Exist_En_ar' => 'الاسم باللغة الإنجليزية موجود بالفعل، يرجى اختيار اسم مختلف.',
+    'Product_Already_Exist_Ar_ar' => 'الاسم باللغة العربية موجود بالفعل، يرجى اختيار اسم مختلف.',
+    'Chat_Empty' => 'لا توجد محادثات حتى الآن.',
 
 ];
