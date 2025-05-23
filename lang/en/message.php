@@ -58,4 +58,10 @@ return [
     'Product_Already_Exist_En_en' => 'The name in English already exists. Please choose a different name.',
     'Product_Already_Exist_Ar_en' => 'The name in Arabic already exists. Please choose a different name.',
     'Chat_Empty' => 'There are no conversations yet.',
+    'All_category_Retrived' => 'All category retrieved successfully.',
+    'Category_Not_Found'=> 'categore not found.',
+    'Category_Retrived' => 'categore retrieved successfully.',
+    'Category_Created'=>'categore created successfully',
+    'Category_Updated'=>'category updated successfully',
+    'Category_Deleted' => 'categore deleted successfully',
 ];

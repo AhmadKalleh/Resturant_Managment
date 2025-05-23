@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+
 use App\Http\Controllers\Chat\ChatController;
+
+use App\Http\Controllers\Category\CategoryController;
+
 use App\Http\Controllers\Table\TableController;
 use App\Http\Controllers\Extra\ExtraControlle;
 use App\Http\Controllers\Favorite\FavoriteController;
@@ -111,6 +115,27 @@ Route::controller(TableController::class)->group(function()
         Route::delete('/destroy_table','destroy')->middleware('can:delete-table');
 
     });
+
+});
+
+
+
+Route::controller(CategoryController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+        Route::get('/show-Category','show')->middleware('can:show-categories');
+
+        Route::get('/index_Category','index')->middleware('can:index-categories');
+
+        Route::post('/store_Category','store')->middleware('can:create-categories');
+
+        Route::post('/update_Category','update')->middleware('can:update-categories');
+
+        Route::delete('/destroy_Category','destroy')->middleware('can:delete-categories');
+
+    });
+
 });
 
 

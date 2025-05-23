@@ -61,5 +61,13 @@ return [
     'Product_Already_Exist_En_ar' => 'الاسم باللغة الإنجليزية موجود بالفعل، يرجى اختيار اسم مختلف.',
     'Product_Already_Exist_Ar_ar' => 'الاسم باللغة العربية موجود بالفعل، يرجى اختيار اسم مختلف.',
     'Chat_Empty' => 'لا توجد محادثات حتى الآن.',
+    'All_category_Retrived' => 'تم جلب الفئات بنجاح.',
+    'Category_Not_Found' => 'الفئة غير موجودة.',
+    'Category_Retrived' => 'تم جلب التصنيف بنجاح.',
+    'Category_Not_Found' => 'التصنيف غير موجود.',
+    'Category_Created'=>'تم إنشاء الفئة بنجاح',
+    'Category_Updated'=>'تم تعديل الفئة بنجاح ',
+    'Category_Deleted' => 'تم حذف الفئة بنجاح',
+
 
 ];
