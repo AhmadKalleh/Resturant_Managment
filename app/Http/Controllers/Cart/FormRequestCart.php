@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Category;
+namespace App\Http\Controllers\Cart;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -8,8 +8,7 @@ use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\ResponseHelper\ResponseHelper;
 
 
-
-class FormRequestCategory extends FormRequest
+class FormRequestCart extends FormRequest
 {
     use ResponseHelper;
     /**
@@ -28,10 +27,6 @@ class FormRequestCategory extends FormRequest
     public function rules(): array
     {
         return match ($this->method()) {
-            'GET' => match ($this->route()->getActionMethod())
-            {
-                'show' => $this->show(),
-            },
             'POST' => match ($this->route()->getActionMethod()) {
                 'store' => $this->store(),
                 'update' => $this->update(),
@@ -46,42 +41,29 @@ class FormRequestCategory extends FormRequest
         };
     }
 
-    public function show():array
+    public function delete(): array
     {
         return [
-            'category_id' => 'required'
+            'cart_item_id' => 'required|integer',
         ];
     }
 
-    public function delete():array
+    public function update(): array
     {
         return [
-            'category_id' => 'required'
-        ];
-    }
-
-    public function update():array
-    {
-        return [
-            'category_id' =>'required|integer|exists:extras,id',
-            'name_en' =>'sometimes|string|regex:/^[a-zA-Z\s]+$/',
-            'name_ar' =>'sometimes|string|regex:/^[\p{Arabic}\s]+$/u',
-            'description_en' => 'sometimes|string|regex:/^[a-zA-Z\s]+$/',
-            'description_ar' => 'sometimes|string|regex:/^[\p{Arabic}\s]+$/u',
-            'category_Image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,ico',
+            'cart_item_id' => 'required|integer',
+            'quantity' => 'required|integer'
         ];
     }
 
     public function store():array
     {
         return [
-            'name_en' =>'required|string|regex:/^[a-zA-Z\s]+$/',
-            'name_ar' =>'required|string|regex:/^[\p{Arabic}\s]+$/u',
-            'description_en' =>'required|string|regex:/^[a-zA-Z\s]+$/',
-            'description_ar' => 'required|string|regex:/^[\p{Arabic}\s]+$/u',
-            'category_Image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,ico',
+            'product_id' =>'required|integer',
+            'quantity' => 'required|min:1|max:20|integer'
         ];
     }
+
 
     protected function failedValidation(Validator $validator)
     {

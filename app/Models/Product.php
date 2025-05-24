@@ -43,7 +43,7 @@ class Product extends Model
     {
         return $this->hasMany(Favorite::class);
     }
-    public function catogery():BelongsTo
+    public function category():BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
@@ -65,7 +65,7 @@ class Product extends Model
 
     public function getPriceTextAttribute():string
     {
-        return $this->price.' $';
+        return number_format($this->total_price, 0, ',', ',') . ' $';
     }
 
     public function getCaloriesTextAttribute():string

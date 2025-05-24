@@ -92,7 +92,7 @@ class ProductService
         {
             $message = __('message.Product_Not_Found',[],$lang);
             $code = 404;
-            return ['data' =>$product,'message'=>$message,'code'=>$code];
+            return ['data' =>[],'message'=>$message,'code'=>$code];
         }
     }
 
@@ -276,7 +276,7 @@ class ProductService
                     'en' => $descriptionEn,
                     'ar' => $descriptionAr,
                 ],
-                'chef_id' => Auth::user()->id,
+                'chef_id' => Auth::user()->chef->id,
                 'price' => $request['price'],
                 'calories' => $request['calories'],
             ]);

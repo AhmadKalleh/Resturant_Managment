@@ -68,6 +68,10 @@ return [
     'Category_Created'=>'تم إنشاء الفئة بنجاح',
     'Category_Updated'=>'تم تعديل الفئة بنجاح ',
     'Category_Deleted' => 'تم حذف الفئة بنجاح',
-
-
+    'Insert_New_Password' => 'يرجى إدخال كلمة مرور جديدة للمتابعة.',
+    'Cart_Empty' => 'سلة المشتريات فارغة حالياً.',
+    'Cart_Retrived' => 'تم استرجاع سلة المشتريات بنجاح.',
+    'Cart_Item_Added' => 'تمت إضافة المنتج إلى سلة المشتريات بنجاح.',
+    'Cart_Item_Updated_Quantity' => 'تم تحديث كمية المنتج بنجاح.',
+    'Cart_Item_Deleted' => 'تمت إزالة المنتج من سلة المشتريات.',
 ];

@@ -31,6 +31,9 @@ class FormRequestAuth extends FormRequest
                 'register_pendding_user' => $this->register_pendding_user(),
                 'login' => $this->login(),
                 'register' => $this->register(),
+                'send_varification_code_to_email' => $this->send_varification_code_to_email(),
+                'is_varification_code_right' => $this->is_varification_code_right(),
+                'reset_password' => $this->reset_password(),
                 'logout' => [],
                 default => []
             },
@@ -39,6 +42,28 @@ class FormRequestAuth extends FormRequest
     }
 
 
+
+    public function send_varification_code_to_email(): array
+    {
+        return [
+            'email' =>'required|email'
+        ];
+    }
+
+    public function is_varification_code_right(): array
+    {
+        return [
+            'verfication_code' =>'required'
+        ];
+    }
+
+    public function reset_password(): array
+    {
+        return [
+            'email' =>'required|email',
+            'password' => 'required|min:6'
+        ];
+    }
 
     public function register_pendding_user(): array
     {

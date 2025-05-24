@@ -64,4 +64,10 @@ return [
     'Category_Created'=>'categore created successfully',
     'Category_Updated'=>'category updated successfully',
     'Category_Deleted' => 'categore deleted successfully',
+    'Insert_New_Password' => 'Please enter a new password to continue.',
+    'Cart_Empty' => 'Your cart is currently empty.',
+    'Cart_Retrived' => 'Your cart has been retrieved successfully.',
+    'Cart_Item_Added' => 'The item has been added to your cart successfully.',
+    'Cart_Item_Updated_Quantity' => 'The item quantity has been updated successfully.',
+    'Cart_Item_Deleted' => 'The item has been removed from your cart.',
 ];
