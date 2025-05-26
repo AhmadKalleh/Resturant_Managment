@@ -25,8 +25,14 @@ class OfferSeeder extends Seeder
         $Fast_Food_Discount_Value = $Fast_Food_Total * 0.2;
         $Fast_Food_Cambo = Offer::query()->create([
             'created_by' =>1,
-            'title' =>'Fast Food Combo',
-            'description' =>'The meal includes a juicy cheeseburger with melted cheddar cheese, crispy golden French fries, a chilled Coca-Cola with visible ice cubes, and a fresh Caesar salad with croutons, lettuce',
+            'title' => [
+                'en'=>'Fast Food Combo',
+                'ar'=>'وجبة كومبو للوجبات السريعة',
+            ],
+            'description' => [
+                'en'=>'The meal includes a juicy cheeseburger with melted cheddar cheese, crispy golden French fries, a chilled Coca-Cola with visible ice cubes, and a fresh Caesar salad with croutons, lettuce',
+                'ar'=>'الوجبة تتضمن برجر بالجبن الشهي مع جبن شيدر ذائب، وبطاطس مقلية ذهبية ومقرمشة، وعلبة كوكاكولا باردة مع مكعبات ثلج واضحة، وسلطة سيزر طازجة تحتوي على الخس وقطع الخبز المحمّص (كروتون).',
+            ],
             'total_price' => $Fast_Food_Total,
             'price_after_discount' => $Fast_Food_Total - $Fast_Food_Discount_Value,
             'discount_value'       => '20%',
@@ -47,8 +53,14 @@ class OfferSeeder extends Seeder
         $Refreshing_Drinks_Discount_Value = $Refreshing_Drinks_Total * 0.15;
         $Crunch_Fresh = Offer::query()->create([
             'created_by' =>2,
-            'title' =>'Crunch & Fresh',
-            'description' =>'The meal includes a Fried Chicken with Mayonnaise, a chilled Lemon Mint with visible ice cubes, and a fresh Greek Salad',
+            'title' => [
+                'en'=>'Crunch & Fresh',
+                'ar'=>'مُقرمش وطازج'
+            ],
+            'description' => [
+                'en'=>'The meal includes a Fried Chicken with Mayonnaise, a chilled Lemon Mint with visible ice cubes, and a fresh Greek Salad',
+                'ar'=>'الوجبة تتضمن دجاج مقلي مع المايونيز، وليمون بالنعناع بارد مع مكعبات ثلج واضحة، وسلطة يونانية طازجة.'
+            ],
             'total_price' => $Refreshing_Drinks_Total,
             'price_after_discount' => $Refreshing_Drinks_Total - $Refreshing_Drinks_Discount_Value,
             'discount_value'       => '15%',
@@ -69,8 +81,14 @@ class OfferSeeder extends Seeder
         $Healthy_Salads_Discount_Value = $Healthy_Salads_Total * 0.25;
         $Veggie_Boost = Offer::query()->create([
             'created_by' =>3,
-            'title' =>'Veggie & Boost',
-            'description' =>'The meal includes a grilled veggie burger with lettuce and tomato, aa glass of fresh orange juice with a straw and ice cubes, and a bowl of avocado salad with corn and leafy greens',
+            'title' => [
+                'en'=>'Veggie & Boost',
+                'ar'=>'مُقرمش وطازج'
+            ],
+            'description' => [
+                'en'=>'The meal includes a grilled veggie burger with lettuce and tomato, aa glass of fresh orange juice with a straw and ice cubes, and a bowl of avocado salad with corn and leafy greens',
+                'ar'=>'الوجبة تتضمن برجر نباتي مشوي مع الخس والطماطم، وكأسًا من عصير البرتقال الطازج مع قشة ومكعبات ثلج، ووعاء من سلطة الأفوكادو مع الذرة والخضروات الورقية.'
+            ],
             'total_price' => $Healthy_Salads_Total,
             'price_after_discount' => $Healthy_Salads_Total - $Healthy_Salads_Discount_Value,
             'discount_value'       => '25%',

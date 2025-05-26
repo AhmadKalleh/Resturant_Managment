@@ -64,4 +64,15 @@ return [
     'Category_Created'=>'categore created successfully',
     'Category_Updated'=>'category updated successfully',
     'Category_Deleted' => 'categore deleted successfully',
+    'All_Offer_Retrived' => 'All offers retrieved successfully.',
+    'Offers_Not_Found' => 'No offers available',
+    'Offer_Retrieved' => 'Offer retrieved successfully.',
+    'Offer_Not_Found' => 'Offer not found.',
+    'Offer_Created'=>'offer created successfully.',
+    'Offer_Updated'=>'offer updated successfully',
+    'Offer_Deleted'=>'Offer deleted successfully',
+
+
+
+
 ];

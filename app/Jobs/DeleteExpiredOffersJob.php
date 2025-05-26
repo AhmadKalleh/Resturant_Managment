@@ -17,7 +17,7 @@ class DeleteExpiredOffersJob implements ShouldQueue
      * Create a new job instance.
      */
 
-    public function __construct(public $id)
+    public function __construct()
     {
         //
     }
@@ -27,10 +27,6 @@ class DeleteExpiredOffersJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Offer::query()
-            ->where('id', $this->id)
-            ->where('end_date', '<=', now())
-            ->delete();
-
+        Offer::where('end_date', '<=', now())->delete();
     }
 }
