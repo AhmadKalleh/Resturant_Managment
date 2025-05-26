@@ -117,7 +117,7 @@ class ExtraService
         }
 
         $extra = Extra::query()->create([
-            'chef_id' => Auth::user()->id,
+            'chef_id' => Auth::user()->chef->id,
             'name' => [
                 'en' => $nameEn,
                 'ar' => $nameAr,

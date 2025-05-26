@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\TWILIO_SERVICE\TwilioService;
 use App\Mail\SendVerificationCodeMail;
 use App\Models\Customer;
+use App\Models\ForgetPassword;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -199,6 +200,83 @@ class AuthService
 
     }
 
+
+    public function send_varification_code_to_email($request):array
+    {
+        $user = User::query()->where('email',$request['email'])->first();
+
+        if(!is_null($user))
+        {
+            $verificationCode = $this->generateUniqueVerificationCode();
+
+            Mail::to($user->email)->send(new SendVerificationCodeMail($verificationCode));
+            ForgetPassword::query()->create([
+                'email' => $user->email,
+                'verfication_code' => $verificationCode
+            ]);
+            $data = [true];
+
+            $message = __('message.Verification_code',[],$user->preferred_language);
+            $code = 200;
+
+            // Send the token to the client and send it to the server with the authorization
+            return ['data' =>$data,'message'=>$message,'code'=>$code];
+        }
+        else
+        {
+            $data = [];
+            $message  = __('message.Account_Not_Found',[],'en');
+            $code = 404;
+            return ['data' =>$data,'message'=>$message,'code'=>$code];
+        }
+    }
+
+    public function is_varification_code_right($request):array
+    {
+        $user = ForgetPassword::query()->where('verfication_code',$request['verfication_code'])->first();
+
+        if(!is_null($user))
+        {
+            $user->delete();
+            $data = [true];
+            $message = __('Insert_New_Password',[],'en');
+            $code = 200;
+            return ['data'=>$data,'message'=>$message,'code'=>$code];
+        }
+        else
+        {
+            return [
+                'data' => [],
+                'message' => __('message.Invalid_Code',[],'en'),
+                'code' => 400
+            ];
+        }
+
+    }
+
+
+    public function reset_password($request):array
+    {
+        $user = User::query()->where('email',$request['email'])->first();
+
+        if(!is_null($user))
+        {
+            $user->update(['password'=> Hash::make($request['password'])]);
+
+            $message = __('message.Password_Changed',[],$user->preferred_language);
+            $code = 200;
+            $data = [true];
+        }
+        else
+        {
+            $data = [];
+            $message  = __('message.Account_Not_Found',[],'en');
+            $code = 404;
+        }
+
+
+        return ['data' =>$data,'message'=>$message,'code'=>$code];
+    }
 
 
 

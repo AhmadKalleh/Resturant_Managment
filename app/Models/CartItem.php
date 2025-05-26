@@ -13,6 +13,18 @@ class CartItem extends Model
 
     protected $fillable = ['cart_id','product_id','price_at_order','total_price','quantity'];
 
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($cartItem)
+        {
+            $cartItem->total_price = $cartItem->price_at_order * $cartItem->quantity;
+        });
+    }
+
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
@@ -26,4 +38,15 @@ class CartItem extends Model
     {
         return $this->hasMany(ExtraProductCartItem::class);
     }
+
+    public function getTotalPriceTextAttribute()
+    {
+        return number_format($this->total_price, 0, ',', ',') . ' $';
+    }
+
+    public function scopeTotalPriceForCart($query, $cartId)
+    {
+        return $query->where('cart_id', $cartId)->sum('total_price');
+    }
+
 }

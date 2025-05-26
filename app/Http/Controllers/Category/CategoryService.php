@@ -19,28 +19,28 @@ use UplodeImageHelper;
         $data = [];
         if($categories)
         {
-        foreach ($categories as $category)
-        {
-            $data[] = [
-              "category"=>[
-              "id"=>$category->id,
-              "name"=>$category->getTranslation('name', $lang),
-              "description"=>$category->getTranslation('description', $lang),
-              "image_path"=>url('storage/' . $category->image->path),
-              ],
-                "chef"=>[
-                    'id' =>$category->chef->id,
-                    'speciality' => $category->chef->getTranslation('speciality', $lang),
-                    'years_of_experience'=> $category->chef->years_of_experience,
-                    'bio' => $category->chef->bio,
-                    'certificates' =>json_decode($category['chef']['certificates'], true),
-                ]
-            ];
+            foreach ($categories as $category)
+            {
+                $data[] =
+                    [
+                        "id"=>$category->id,
+                        "name"=>$category->getTranslation('name', $lang),
+                        "description"=>$category->getTranslation('description', $lang),
+                        "image_path"=>url('storage/' . $category->image->path),
+                        "chef"=>
+                        [
+                            'id' =>$category->chef->id,
+                            'speciality' => $category->chef->getTranslation('speciality', $lang),
+                            'years_of_experience'=> $category->chef->years_of_experience,
+                            'bio' => $category->chef->bio,
+                            'certificates' =>json_decode($category['chef']['certificates'], true),
+                        ]
+                    ];
 
-        }
+            }
 
-        $message = __('message.All_category_Retrived',[],$lang);
-        $code = 200;
+            $message = __('message.All_category_Retrived',[],$lang);
+            $code = 200;
         }
         else
         {
@@ -134,7 +134,7 @@ use UplodeImageHelper;
         }
 
         $category = Category::query()->create([
-            'chef_id' => Auth::user()->id,
+            'chef_id' => Auth::user()->chef->id,
             'name' => [
                 'en' => $nameEn,
                 'ar' => $nameAr,
@@ -145,13 +145,19 @@ use UplodeImageHelper;
             ],
 
         ]);
-            $category->image()->create([
+
+
+        $category->image()->create([
             'path' => $this->uplodeImage($request['category_Image'],"categories"),
         ]);
+
+
         $data = [true];
 
         $message = __('message.Category_Created',[],$lang);
         $code = 201;
+
+
         return ['data'=>$data,'message'=>$message,'code'=>$code];
 
     }
@@ -216,18 +222,22 @@ use UplodeImageHelper;
                 'ar' => $request["description_ar"] ??$old_category->description->ar,
                 ],
         ]);
-    if (request()->hasFile('category_Image')) {
-        if ($old_category->image) {
-            Storage::disk('public')->delete($old_category->image->path);
+
+
+        if (request()->hasFile('category_Image'))
+        {
+            if (Storage::disk('public')->exists($old_category->image->path))
+            {
+                Storage::disk('public')->delete($old_category->image->path);
+            }
+
+            $path = $this->uplodeImage(request()->file('category_Image'), 'categories');
+
+            $old_category->image()->updateOrCreate([], ['path' => $path]);
         }
 
-        $path = $this->uplodeImage(request()->file('category_Image'), 'categories');
 
-        $old_category->image()->updateOrCreate([], ['path' => $path]);
-    }
-
-
-        $data = [];
+        $data = [true];
         $code= 200;
         $message = __('message.Category_Updated',[],$lang);
 
@@ -238,14 +248,17 @@ use UplodeImageHelper;
     public function delete($request)
     {
         $category = Category::query()->where('id',$request['category_id'])->first();
+
         $lang = Auth::user()->preferred_language;
         if($category)
         {
-        if ($category->image) {
-        Storage::disk('public')->delete($category->image->path);
-        $category->image->delete();
-        }
-        $category->delete();
+            if (Storage::disk('public')->exists($category->image->path))
+            {
+                Storage::disk('public')->delete($category->image->path);
+                $category->image->delete();
+            }
+
+            $category->delete();
             $data = [true];
             $code= 200;
             $message = __('message.Category_Deleted',[],$lang);

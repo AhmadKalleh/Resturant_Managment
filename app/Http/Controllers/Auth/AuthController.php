@@ -54,6 +54,55 @@ class AuthController extends Controller
         }
     }
 
+    public function send_varification_code_to_email(FormRequestAuth $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_authService->send_varification_code_to_email($request->validated());
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+    public function is_varification_code_right(FormRequestAuth $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_authService->is_varification_code_right($request->validated());
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+    public function reset_password(FormRequestAuth $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_authService->reset_password($request->validated());
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+
 
     public function login(FormRequestAuth $request):JsonResponse
     {

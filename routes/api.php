@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
-
+use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Chat\ChatController;
 
 use App\Http\Controllers\Category\CategoryController;
@@ -39,6 +39,12 @@ Route::controller(AuthController::class)->group(function ()
     Route::post('/login','login')   ;
 
     Route::post('/register','register');
+
+    Route::post('/send_varification_code_to_email','send_varification_code_to_email');
+
+    Route::post('/is_varification_code_right','is_varification_code_right');
+
+    Route::post('/reset_password','reset_password');
 
     Route::post('/logout','logout')->middleware('auth:sanctum');
 
@@ -125,15 +131,15 @@ Route::controller(CategoryController::class)->group(function()
 {
     Route::middleware(['auth:sanctum'])->group(function ()
     {
-        Route::get('/show-Category','show')->middleware('can:show-categories');
+        Route::get('/show_category','show')->middleware('can:show-categories');
 
-        Route::get('/index_Category','index')->middleware('can:index-categories');
+        Route::get('/index_category','index')->middleware('can:index-categories');
 
-        Route::post('/store_Category','store')->middleware('can:create-categories');
+        Route::post('/store_category','store')->middleware('can:create-categories');
 
-        Route::post('/update_Category','update')->middleware('can:update-categories');
+        Route::post('/update_category','update')->middleware('can:update-categories');
 
-        Route::delete('/destroy_Category','destroy')->middleware('can:delete-categories');
+        Route::delete('/destroy_category','destroy')->middleware('can:delete-categories');
 
     });
 
@@ -195,6 +201,22 @@ Route::controller(OfferController::class)->group(function()
         Route::post('/update_offer','update')->middleware('can:update-offer');
 
         Route::delete('/destroy_offer','destroy')->middleware('can:delete-offer');
+            });
+
+});
+
+Route::controller(CartController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+
+        Route::get('/index_cart','index')->middleware('can:index-cart');
+
+        Route::post('/store_cart','store')->middleware('can:create-cart');
+
+        Route::post('/update_cart','update')->middleware('can:update-cart');
+
+        Route::delete('/destroy_cart','destroy')->middleware('can:update-cart');
 
     });
 
