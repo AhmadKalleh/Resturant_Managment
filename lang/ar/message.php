@@ -68,6 +68,15 @@ return [
     'Category_Created'=>'تم إنشاء الفئة بنجاح',
     'Category_Updated'=>'تم تعديل الفئة بنجاح ',
     'Category_Deleted' => 'تم حذف الفئة بنجاح',
+    'All_Offer_Retrived' => 'تم جلب العروض بنجاح.',
+    'Offers_Not_Found' => 'لا يوجد عروض متاحة ',
+    'Offer_Retrieved' => 'تم عرض العرض بنجاح.',
+    'Offer_Not_Found' => 'العرض غير موجود.',
+    'Offer_Created'=>'تم انشاء العرض بنجاح ',
+    'Offer_Updated'=>'تم تعديل العرض بنجاح',
+    'Offer_Deleted'=>'تم حذف العرض بنجاح',
+
+
     'Insert_New_Password' => 'يرجى إدخال كلمة مرور جديدة للمتابعة.',
     'Cart_Empty' => 'سلة المشتريات فارغة حالياً.',
     'Cart_Retrived' => 'تم استرجاع سلة المشتريات بنجاح.',

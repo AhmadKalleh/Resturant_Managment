@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Chef::class,'created_by')->constrained('chefs')->cascadeOnDelete();
-            $table->string('title')->unique();
-            $table->text('description')->nullable();
+            $table->json('title')->unique();
+            $table->json('description')->nullable();
             $table->decimal('total_price',8,0);
             $table->decimal('price_after_discount',8,0);
             $table->string('discount_value');

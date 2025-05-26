@@ -9,6 +9,7 @@ use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Table\TableController;
 use App\Http\Controllers\Extra\ExtraControlle;
 use App\Http\Controllers\Favorite\FavoriteController;
+use App\Http\Controllers\Offer\OfferController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
@@ -187,6 +188,24 @@ Route::controller(ChatController::class)->group(function ()
 });
 
 
+
+
+Route::controller(OfferController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+        Route::get('/show-offer','show')->middleware('can:show-offer');
+
+        Route::get('/index_offer','index')->middleware('can:index-offer');
+
+        Route::post('/store_offer','store')->middleware('can:create-offer');
+
+        Route::post('/update_offer','update')->middleware('can:update-offer');
+
+        Route::delete('/destroy_offer','destroy')->middleware('can:delete-offer');
+            });
+
+});
 
 Route::controller(CartController::class)->group(function()
 {
