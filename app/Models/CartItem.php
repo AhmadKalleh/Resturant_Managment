@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CartItem extends Model
@@ -34,9 +35,9 @@ class CartItem extends Model
     {
         return $this->belongsTo(Cart::class);
     }
-    public function extra_products_cart_items():HasMany
+    public function extra_products():BelongsToMany
     {
-        return $this->hasMany(ExtraProductCartItem::class);
+        return $this->belongsToMany(ExtraProduct::class,'extra_product_cart_items', );
     }
 
     public function getTotalPriceTextAttribute()

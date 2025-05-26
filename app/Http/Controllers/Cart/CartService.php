@@ -28,7 +28,7 @@ class CartService
         else
         {
             $cart_items = $exist_cart->cart_items()
-            ->with(['product.image', 'product.category']) // eager loading
+            ->with(['product.image', 'product.category','extra_products.extra']) // eager loading
             ->get()
             ->map(function ($item) use ($lang) {
                 $product = $item->product;
@@ -45,7 +45,15 @@ class CartService
                     'category_name' => $product->category ? $product->category->getTranslation('name', $lang) : null,
                     'total_price' => $item->total_price_text,
                     'quantity' => $item->quantity,
+                    'extras' => $item->extra_products->map(function ($extraProduct) use ($lang) {
+                        return [
+                            'extra_product_id' => $extraProduct->id,
+                            'extra_name' => $extraProduct->extra?->getTranslation('name', $lang),
+                        ];
+                    })
                 ];
+
+
             })
             ->filter()
             ->values();
@@ -97,34 +105,56 @@ class CartService
                     'is_checked_out' => false
                 ]);
 
-                $new_cart->cart_items()->create([
+                $cart_item = $new_cart->cart_items()->create([
                     'product_id' => $request['product_id'],
                     'price_at_order' => $product->price,
                     'total_price' => $product->price * $request['quantity'],
                     'quantity' => $request['quantity']
                 ]);
+
+                if (count($request['extra_product_ids'] ??[]) > 0)
+                {
+                    $cart_item->extra_products()->attach($request['extra_product_ids']);
+                }
+
             }
             else
             {
-                $exist_cart_item = $exist_cart->cart_items()->where('product_id', $request['product_id'])->first();
-                if($exist_cart_item)
+                $cart_item = $exist_cart->cart_items()->where('product_id', $request['product_id'])->first();
+                if($cart_item)
                 {
-                    $exist_cart_item->update([
-                        'quantity' => $exist_cart_item->quantity + $request['quantity']
+                    $cart_item->update([
+                        'quantity' => $cart_item->quantity + $request['quantity']
                     ]);
+
+                    if (count($request['extra_product_ids'] ?? []) > 0)
+                    {
+                        $cart_item->extra_products()->attach($request['extra_product_ids']);
+                    }
                 }
                 else
                 {
-                    $exist_cart->cart_items()->create([
+                    $cart_item = $exist_cart->cart_items()->create([
                         'product_id' => $request['product_id'],
                         'price_at_order' => $product->price,
                         'total_price' => $product->price * $request['quantity'],
                         'quantity' => $request['quantity']
                     ]);
+
+                    if (count($request['extra_product_ids']?? []) > 0)
+                    {
+                        $cart_item->extra_products()->attach($request['extra_product_ids']);
+                    }
                 }
+
+                $total_extras_price = $cart_item->extra_products->sum(function ($extraProduct) {
+                return $extraProduct->extra->price ?? 0;
+                });
+
+                $total_price = number_format($cart_item->total_price + $total_extras_price , 0, ',', ',') . ' $';
             }
 
-            $data = [true];
+            $data = ['total_price' => $total_price];
             $message = __('message.Cart_Item_Added',[],$lang);
             $code = 201;
 
@@ -139,7 +169,7 @@ class CartService
         return ['data' =>$data,'message'=>$message,'code'=>$code];
     }
 
-    public function update($request):array
+    public function update_quantity($request):array
     {
         $cart_item = CartItem::query()->where('id', $request['cart_item_id'])->first();
         $lang = Auth::user()->preferred_language;
@@ -176,10 +206,51 @@ class CartService
             $total_price = CartItem::TotalPriceForCart($exist_cart->id);
             $message = __('message.Cart_Item_Updated_Quantity',[],$lang);
             $code = 200;
+            $data = [
+                'total_price' => number_format($total_price, 0, ',', ',') . ' $'
+            ];
 
         }
+        else
+        {
+            $data = [];
+            $message = __('message.Cart_Item_Not_Found',[],$lang);
+            $code = 404;
+        }
 
-        return ['data'=>['total_price' => number_format($total_price, 0, ',', ',') . ' $',],'message'=>$message,'code'=>$code];
+        return ['data'=>$data,'message'=>$message,'code'=>$code];
+    }
+
+    public function destroy_extra($request):array
+    {
+        $cart_item = CartItem::query()->where('id', $request['cart_item_id'])->first();
+        $lang = Auth::user()->preferred_language;
+
+        if(!is_null($cart_item))
+        {
+            $extra = $cart_item->extra_products()->where('extra_product_id', $request['extra_product_id'])->first();
+
+            if(!is_null($extra))
+            {
+                $extra->delete();
+                $data = [];
+                $message = __('message.Extra_Deleted',[],$lang);
+                $code = 200;
+            }
+            else
+            {
+                $data = [];
+                $message = __('message.Extra_Not_Found',[],$lang);
+                $code = 404;
+            }
+        }
+        else
+        {
+            $data = [];
+            $message = __('message.Cart_Item_Not_Found',[],$lang);
+            $code = 404;
+        }
+        return ['data'=>$data,'message'=>$message,'code'=>$code];
     }
 
     public function destroy($request):array
@@ -213,6 +284,12 @@ class CartService
             }
 
             return ['data' =>$data,'message'=>$message,'code'=>$code];
+        }
+        else
+        {
+            $data = [];
+            $message = __('message.Cart_Item_Not_Found',[],$lang);
+            $code = 404;
         }
 
         return ['data' =>[],'message'=>'','code'=>200];

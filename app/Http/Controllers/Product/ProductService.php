@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\ResponseHelper\ResponseHelper;
 use App\Http\Controllers\Upload\UplodeImageHelper;
+use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Product;
 use DB;
@@ -15,16 +16,22 @@ class ProductService
 
     use ResponseHelper;
     use UplodeImageHelper;
-    public function index($request):array
-    {
-        $category = Category::query()->where('id',$request['category_id'])->first();
-        $lang = Auth::user()->preferred_language;
 
-        if (!is_null($category))
+    public function top_ratings()
+    {
+        $categories = Category::with(['products.rating'])->get();
+        $lang = Auth::user()->preferred_language;
+        $result = $categories->map(function ($category) use ( $lang)
         {
-            $products = $category->products()
-                ->get()
-                ->map(function ($product) use ($lang)
+            $topProducts = $category->products->sortByDesc(function ($product)
+            {
+                return optional($product->rating)->rating ?? 0;
+            })->take(2);
+
+            return [
+                'category_id' => $category->id,
+                'category_name' => $category->name,
+                'top_products' => $topProducts->map(function ($product) use ($lang)
                 {
                     $image_path = $product->image->path;
                     $name = $product->getTranslation('name', $lang);
@@ -35,9 +42,56 @@ class ProductService
                         'description' => $description,
                         'price' => $product->price_text,
                         'calories' => $product->calories_text,
-                        'image_path' => url(Storage::url($image_path) ?? null)
+                        'image_path' => url(Storage::url($image_path) ?? null),
+                        'rating' => optional($product->rating)->rating,
+                    ];
+                }),
+            ];
+        });
+
+        if(!is_null($result))
+        {
+            $message = __('message.Top_Ratings_Retirived',[],$lang);
+            $data = $result;
+        }
+        else
+        {
+            $message = __('message.No_Products_Available',[],$lang);
+            $data = [];
+        }
+
+        $code = 200;
+        return ['data' =>$data,'message'=>$message,'code'=>$code];
+
+
+    }
+    public function index($request):array
+    {
+        $category = Category::query()->where('id',$request['category_id'])->first();
+        $lang = Auth::user()->preferred_language;
+
+        if (!is_null($category))
+        {
+            $products = $category->products()
+            ->with('rating') 
+            ->get()
+            ->sortByDesc(fn($product) => $product->rating->rating ?? 0) // الترتيب داخل collection
+            ->values()
+            ->map(function ($product) use ($lang) {
+                $image_path = $product->image->path ?? null;
+                $name = $product->getTranslation('name', $lang);
+                $description = $product->getTranslation('description', $lang);
+                return [
+                    'id' => $product->id,
+                    'name' => $name,
+                    'description' => $description,
+                    'price' => $product->price_text,
+                    'calories' => $product->calories_text,
+                    'image_path' => url(Storage::url($image_path)),
+                    'rating' => optional($product->rating)->rating,
                 ];
             });
+
 
             if ($products->isEmpty())
             {
@@ -73,6 +127,16 @@ class ProductService
             $name = $product->getTranslation('name', $lang);
             $description = $product->getTranslation('description', $lang);
 
+            $exist_cart = Auth::user()->customer->carts()
+            ->where('is_checked_out', false)
+            ->latest()
+            ->first();
+
+            if ($exist_cart)
+            {
+                $cart_item = $exist_cart->cart_items()->where('product_id', $product->id)->with('extra_products')->first();
+            }
+
 
             $data = [
                 'id' => $product->id,
@@ -80,7 +144,25 @@ class ProductService
                 'description' => $description,
                 'price' => $product->price_text,
                 'calories' => $product->calories_text,
-                'image_path' => url(Storage::url($image_path) ?? null)
+                'rating' => optional($product->rating)->rating,
+                'image_path' => url(Storage::url($image_path) ?? null),
+                'extra_product' => $product->extra_products->map(function ($extraProduct) use ($lang,$cart_item)
+                {
+                    $is_reserved = false;
+
+                    if ($cart_item && $cart_item->extra_products->contains($extraProduct->id)) {
+                        $is_reserved = true;
+                    }
+
+                    return [
+                        'extra_product_id' => $extraProduct->id,
+                        'extra_name' => $extraProduct->extra?->getTranslation('name', $lang),
+                        'extra_price' => $extraProduct->extra->price_text,
+                        'is_reserved' => $is_reserved
+                    ];
+
+            }),
+
             ];
 
             $message = __('message.Product_Retrieved',[],$lang);

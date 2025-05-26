@@ -65,7 +65,7 @@ class Product extends Model
 
     public function getPriceTextAttribute():string
     {
-        return number_format($this->total_price, 0, ',', ',') . ' $';
+        return number_format($this->price, 0, ',', ',') . ' $';
     }
 
     public function getCaloriesTextAttribute():string

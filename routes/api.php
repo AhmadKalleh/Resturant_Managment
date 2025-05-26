@@ -152,6 +152,8 @@ Route::controller(ProductController::class)->group(function ()
     {
         Route::get('/index_product','index')->middleware('can:index-products');
 
+        Route::get('/top_ratings','top_ratings')->middleware('can:index-products');
+
         Route::post('/store_product','store')->middleware('can:create-products');
 
         Route::get('/show_product','show')->middleware('can:show-products');
@@ -195,7 +197,9 @@ Route::controller(CartController::class)->group(function()
 
         Route::post('/store_cart','store')->middleware('can:create-cart');
 
-        Route::post('/update_cart','update')->middleware('can:update-cart');
+        Route::post('/update_quantity','update_quantity')->middleware('can:update-cart');
+
+        Route::delete('/destroy_extra','destroy_extra')->middleware('can:update-cart');
 
         Route::delete('/destroy_cart','destroy')->middleware('can:update-cart');
 

@@ -32,6 +32,22 @@ class ProductController extends Controller
         }
     }
 
+
+    public function top_ratings():JsonResponse
+    {
+        $data=[];
+        try
+        {
+            $data = $this->_productService->top_ratings();
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
     public function searchByCategory(FormRequestProduct $request):JsonResponse
     {
         $data=[];
