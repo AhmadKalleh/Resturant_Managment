@@ -194,7 +194,7 @@ Route::controller(OfferController::class)->group(function()
 {
     Route::middleware(['auth:sanctum'])->group(function ()
     {
-        Route::get('/show-offer','show')->middleware('can:show-offer');
+        Route::get('/show_offer','show')->middleware('can:show-offer');
 
         Route::get('/index_offer','index')->middleware('can:index-offer');
 
@@ -203,7 +203,8 @@ Route::controller(OfferController::class)->group(function()
         Route::post('/update_offer','update')->middleware('can:update-offer');
 
         Route::delete('/destroy_offer','destroy')->middleware('can:delete-offer');
-            });
+
+    });
 
 });
 

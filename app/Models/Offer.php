@@ -11,8 +11,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Spatie\Translatable\HasTranslations;
 
 class Offer extends Model
-{   use HasTranslations;
+{
+
+    use HasTranslations;
     use HasFactory;
+
+
     public $translatable= ['title','description'];
     protected $fillable = ['created_by','title','description','total_price','price_after_discount','discount_value','start_date','end_date'];
 
@@ -34,23 +38,31 @@ class Offer extends Model
 
     protected static function booted()
     {
-    static::addGlobalScope('notExpired', function (Builder $builder) {
-        $builder->where('end_date', '>', now());
+        static::addGlobalScope('notExpired', function (Builder $builder)
+        {
+            $builder->where('end_date', '>', now());
         });
     }
     public function getTotalPriceTextAttribute(): string
     {
-        return $this->total_price . ' $';
+        return number_format($this->total_price, 0, ',', ',') . ' $';
     }
 
     public function getPriceAfterDiscountTextAttribute(): string
     {
-        return $this->price_after_discount . ' $';
+        return number_format($this->price_after_discount, 0, ',', ',') . ' $';
     }
     public function getDiscountRateAttribute(): float
     {
         return (float) str_replace('%', '', $this->discount_value) / 100;
     }
+
+    public function getTotalCaloriesTextAttribute(): string
+    {
+        $total = $this->products->sum('calories');
+        return $total . ' calories';
+    }
+
 
 
 }

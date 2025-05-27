@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Offer;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResponseHelper\ResponseHelper;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Throwable;
 
 class OfferController extends Controller
@@ -19,7 +18,7 @@ class OfferController extends Controller
         $this->_offerService = $offerService;
     }
 
-        public function index():JsonResponse
+    public function index():JsonResponse
     {
         $data=[];
         try

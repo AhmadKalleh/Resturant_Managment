@@ -47,7 +47,22 @@ class CartItem extends Model
 
     public function scopeTotalPriceForCart($query, $cartId)
     {
-        return $query->where('cart_id', $cartId)->sum('total_price');
+        $cartItems = $query->with('extra_products')->where('cart_id', $cartId)->get();
+
+        $total = 0;
+
+        foreach ($cartItems as $item)
+        {
+            $itemTotal = $item->total_price;
+
+            $extraTotal = $item->extra_products->sum(function ($extraProduct) {
+                return $extraProduct->extra->price ?? 0;
+                });
+
+            $total += $itemTotal + $extraTotal;
+        }
+
+        return $total;
     }
 
 }

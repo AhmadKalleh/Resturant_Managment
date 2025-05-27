@@ -228,12 +228,19 @@ class CartService
 
         if(!is_null($cart_item))
         {
+            $exist_cart = $cart_item->cart()
+            ->where('is_checked_out', false)
+            ->first();
             $extra = $cart_item->extra_products()->where('extra_product_id', $request['extra_product_id'])->first();
 
             if(!is_null($extra))
             {
                 $extra->delete();
-                $data = [];
+                $total_price = CartItem::TotalPriceForCart($exist_cart->id);
+                $data = [
+                    'total_price' => number_format($total_price, 0, ',', ',') . ' $'
+                ];
+
                 $message = __('message.Extra_Deleted',[],$lang);
                 $code = 200;
             }
@@ -272,7 +279,6 @@ class CartService
             if(count($cart_items) == 1)
             {
                 $exist_cart->delete();
-
             }
             else
             {
