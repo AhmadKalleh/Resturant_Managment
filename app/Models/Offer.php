@@ -40,7 +40,7 @@ class Offer extends Model
     {
         static::addGlobalScope('notExpired', function (Builder $builder)
         {
-            $builder->where('end_date', '>', now());
+            $builder->where('end_date', '>=', now()->toDateString());
         });
     }
     public function getTotalPriceTextAttribute(): string

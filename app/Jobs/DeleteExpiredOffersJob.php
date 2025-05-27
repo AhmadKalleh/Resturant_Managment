@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Storage;
 
 class DeleteExpiredOffersJob implements ShouldQueue
 {
@@ -17,16 +18,31 @@ class DeleteExpiredOffersJob implements ShouldQueue
      * Create a new job instance.
      */
 
-    public function __construct()
+
+    protected int $offerId;
+
+    public function __construct(int $offerId)
     {
-        //
+        $this->offerId = $offerId;
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
-        Offer::where('end_date', '<=', now())->delete();
+        $offer = Offer::withoutGlobalScopes()->find($this->offerId);
+
+        if (!$offer) {
+            return;
+        }
+        if ($offer->end_date >= now()->toDateString()) {
+            return;
+        }
+
+        if ($offer->image) {
+            Storage::disk('public')->delete($offer->image->path);
+            $offer->image()->delete();
+        }
+
+        $offer->delete();
     }
+
 }

@@ -1,19 +1,19 @@
 <?php
 
 namespace App\Http\Controllers\Offer;
-
+use App\Jobs\DeleteExpiredOffersJob;
 use App\Http\Controllers\ResponseHelper\ResponseHelper;
 use App\Http\Controllers\Upload\UplodeImageHelper;
 use App\Models\Offer;
 use App\Models\Product;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class OfferService
 {
     use ResponseHelper;
     use UplodeImageHelper;
-
 
     public function index ()
     {
@@ -171,7 +171,11 @@ class OfferService
         $offer->Products()->attach($request->products_ids);
         $offer->image()->create([
             'path' => $this->uplodeImage($request->file('image_file'),'offers')
+
         ]);
+
+        $end = Carbon::parse($offer->end_date)->addDay();
+        DeleteExpiredOffersJob::dispatch($offer->id);
 
         $data =[true];
         $code = 201;
@@ -234,16 +238,15 @@ class OfferService
 
                 return ['data' =>$data,'message'=>$message,'code'=>$code];
             }
-            $old_offer->update([
+                 $old_offer->update([
                 'title' => [
-                'en' => $request['title_en'] ?? $old_offer->title->en,
-                'ar' => $request['title_ar'] ?? $old_offer->title->ar,
-                ]   ,
+                'en' => $request['title_en'] ?? $old_offer->getTranslation('title', 'en'),
+                'ar' => $request['title_ar'] ?? $old_offer->getTranslation('title', 'ar'),
+                          ],
                 'description' => [
-                'en' => $request['description_en'] ?? $old_offer->description->en,
-                'ar' => $request['description_ar'] ?? $old_offer->description->ar,
-                ],
-
+                'en' => $request['description_en'] ?? $old_offer->getTranslation('description', 'en'),
+                'ar' => $request['description_ar'] ?? $old_offer->getTranslation('description', 'ar'),
+                     ],
                 'total_price' => $request['products_ids'] ? Product::whereIn('id', $request['products_ids'])->sum('price') : $old_offer->total_price,
                 'discount_value' => $request['discount_value'] ?? $old_offer->discount_value,
                 'price_after_discount' => $request['products_ids'] ?
@@ -254,11 +257,13 @@ class OfferService
                 'end_date' => $request['end_date'] ?? $old_offer->end_date,
             ]);
 
+
             if (isset($request['products_ids']))
             {
                 $old_offer->products()->sync($request['products_ids']);
             }
-
+            $end = Carbon::parse($old_offer->end_date)->addDay();
+            DeleteExpiredOffersJob::dispatch($old_offer->id);
             $data = [true];
             $code= 200;
             $message = __('message.Offer_Updated',[],$lang);
@@ -274,6 +279,7 @@ class OfferService
 
                 $old_offer->image()->updateOrCreate([], ['path' => $path]);
             }
+
 
         return ['data'=>$data,'message'=>$message,'code'=>$code];
 
