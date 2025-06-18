@@ -11,7 +11,9 @@ use App\Http\Controllers\Extra\ExtraControlle;
 use App\Http\Controllers\Favorite\FavoriteController;
 use App\Http\Controllers\Offer\OfferController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Reception\ReceptionController;
 use App\Http\Controllers\User\UserController;
+use App\Models\Reception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -196,6 +198,8 @@ Route::controller(OfferController::class)->group(function()
     {
         Route::get('/show_offer','show')->middleware('can:show-offer');
 
+        Route::get('/special_offers','special_offers')->middleware('can:show-offer');
+
         Route::get('/index_offer','index')->middleware('can:index-offer');
 
         Route::post('/store_offer','store')->middleware('can:create-offer');
@@ -222,6 +226,24 @@ Route::controller(CartController::class)->group(function()
         Route::delete('/destroy_extra','destroy_extra')->middleware('can:update-cart');
 
         Route::delete('/destroy_cart','destroy')->middleware('can:update-cart');
+
+    });
+
+});
+
+
+
+Route::controller(ReceptionController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+        Route::post('/show_reception','show')->middleware('can:show-reception');
+
+        Route::get('/index_reception','index')->middleware('can:index-reception');
+
+        Route::post('/store_reception','store')->middleware('can:create-reception');
+
+        Route::delete('/destroy_reception','destroy')->middleware('can:delete-reception');
 
     });
 

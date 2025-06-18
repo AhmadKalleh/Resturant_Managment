@@ -50,7 +50,20 @@ class OfferController extends Controller
             return $this->Error($data,$message);
         }
     }
-
+    public function special_offers(FormRequestOffer $request):JsonResponse
+    {
+        $data=[];
+        try
+        {
+            $data = $this->_offerService->special_offers($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
 
 
     /**

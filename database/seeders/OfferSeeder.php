@@ -25,6 +25,7 @@ class OfferSeeder extends Seeder
         $Fast_Food_Discount_Value = $Fast_Food_Total * 0.2;
         $Fast_Food_Cambo = Offer::query()->create([
             'created_by' =>1,
+            'type'=>'special_day',
             'title' => [
                 'en'=>'Fast Food Combo',
                 'ar'=>'وجبة كومبو للوجبات السريعة',
@@ -53,6 +54,7 @@ class OfferSeeder extends Seeder
         $Refreshing_Drinks_Discount_Value = $Refreshing_Drinks_Total * 0.15;
         $Crunch_Fresh = Offer::query()->create([
             'created_by' =>2,
+            'type'=>'special_day',
             'title' => [
                 'en'=>'Crunch & Fresh',
                 'ar'=>'مُقرمش وطازج'
@@ -81,6 +83,7 @@ class OfferSeeder extends Seeder
         $Healthy_Salads_Discount_Value = $Healthy_Salads_Total * 0.25;
         $Veggie_Boost = Offer::query()->create([
             'created_by' =>3,
+            'type'=>'special_day',
             'title' => [
                 'en'=>'Veggie & Boost',
                 'ar'=>'مُقرمش وطازج'

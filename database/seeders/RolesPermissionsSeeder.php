@@ -30,7 +30,7 @@ class RolesPermissionsSeeder extends Seeder
             'delete-offer','show-offer','index-offer','index-rating','update-rating','send_message',
             'create-chef','update-chef','delete-chef','show-chef','index-chef','index-chat','index-chat_message','send-message',
             'create-customer','update-customer','delete-customer','show-customer','index-customer',
-            'create-reception','update-reception','delete-reception','show-reception','index-reception',
+            'create-reception','update-reception','delete-reception','index-reception','show-reception',
             'delete-reservations','show-reservations','index-reservations','create-offer','update-offer',
             'create-products','update-products','delete-products','show-products','index-products',
             'create-categories','update-categories','delete-categories','show-categories','index-categories',
@@ -64,6 +64,7 @@ class RolesPermissionsSeeder extends Seeder
         ];
 
         $chef_role->syncPermissions($chef_permissions);
+
 
 
 
@@ -242,7 +243,7 @@ $chef->assignRole($chef_role);
             'preferred_language' =>'en',
             'preferred_theme' =>'light',
         ]);
-        $reception->reception()->create([
+        $reception2->reception()->create([
             'shift' =>'evening',
             'years_of_experience' => 3,
         ]);

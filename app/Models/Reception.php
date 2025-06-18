@@ -19,6 +19,10 @@ class Reception extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+    public function image()
+    {
+        return $this->morphOne(Image::class,'imageable');
+    }
 
     public function user(): BelongsTo
     {

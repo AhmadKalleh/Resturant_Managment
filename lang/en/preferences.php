@@ -35,4 +35,9 @@ return [
         'evening' => 'Evening',
         'night' => 'Night',
     ],
+
+    'type' => [
+        'normal_day' => 'Normal Day',
+        'special_day' => 'Special Day',
+    ],
 ];

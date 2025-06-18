@@ -30,11 +30,12 @@ class FormRequestOffer extends FormRequest
             'GET' => match ($this->route()->getActionMethod())
             {
                     'show' => $this->show(),
+                     default => [],
             },
             'POST' => match ($this->route()->getActionMethod()) {
                 'store' => $this->store(),
                 'update' => $this->update(),
-                default => []
+                 default => []
                 },
 
             'DELETE'=> match ($this->route()->getActionMethod())
@@ -48,6 +49,7 @@ class FormRequestOffer extends FormRequest
     public function store(): array
     {
         return [
+            'type' => 'required|in:normal_day,special_day',
             'title_en' => [
                 'required',
                 'string',
@@ -80,6 +82,7 @@ class FormRequestOffer extends FormRequest
     public function update(): array
     {
         return [
+            'type' => 'sometimes|in:normal_day,special_day',
             'offer_id' => 'required|integer|exists:offers,id',
             'title_en' => [
                 'sometimes',

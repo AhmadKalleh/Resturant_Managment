@@ -3,18 +3,20 @@
 namespace App\Http\Controllers\Offer;
 use App\Jobs\DeleteExpiredOffersJob;
 use App\Http\Controllers\ResponseHelper\ResponseHelper;
+use App\Http\Controllers\TranslateHelper\TranslateHelper;
 use App\Http\Controllers\Upload\UplodeImageHelper;
 use App\Models\Offer;
 use App\Models\Product;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Log;
 
 class OfferService
 {
     use ResponseHelper;
     use UplodeImageHelper;
-
+    use TranslateHelper;
     public function index ()
     {
         $lang=Auth::user()->preferred_language;
@@ -28,6 +30,43 @@ class OfferService
             $data[]=
             [
                 'id'=>$offer->id,
+                'type'=>$this->translate('type',$offer['type']),
+                'title'=>$offer->getTranslation('title', $lang),
+                'total_price'=>$offer->total_price_text,
+                'price_after_discount'=>$offer->price_after_discount_text,
+                'discount_value'=>$offer->discount_value,
+                'start_date'=>$offer->start_date,
+                'end_date'=>$offer->end_date,
+                'image'=> $offer->image ? url('storage/' . $offer->image->path) : null,
+                'calories' => $offer->total_calories_text,
+            ];
+
+        }
+
+        $message=__('message.All_Offer_Retrived',[],$lang);
+        }
+
+        else
+        {
+            $message=__('message.Offers_Not_Found',[],$lang);
+        }
+
+        return ['data'=>$data,'message'=>$message,'code'=>200];
+    }
+        public function special_offers ()
+    {
+        $lang=Auth::user()->preferred_language;
+        $offers = Offer::withoutGlobalScopes()->onlyTrashed()->with('products')->get();
+        $data=[];
+
+        if ($offers->isNotEmpty())
+        {
+            foreach ($offers as $offer)
+            {
+            $data[]=
+            [
+                'id'=>$offer->id,
+                'type'=>$this->translate('type',$offer['type']),
                 'title'=>$offer->getTranslation('title', $lang),
                 'total_price'=>$offer->total_price_text,
                 'price_after_discount'=>$offer->price_after_discount_text,
@@ -62,6 +101,7 @@ class OfferService
             'offer'=>
             [
                 'id'=>$offer->id,
+                'type'=>$this->translate('type',$offer['type']),
                 'title'=>$offer->getTranslation('title', $lang),
                 'description'=>$offer->getTranslation('description', $lang),
                 'total_price'=>$offer->total_price_text,
@@ -150,7 +190,9 @@ class OfferService
 
         $discountAmount = $totalPrice * $discountRate;
         $priceAfterDiscount = $totalPrice - $discountAmount;
+        Log::info('القيمة المرسلة للنوع:', ['type' => $request->input('type')]);
         $offer =Offer::create([
+            'type' =>$request['type'],
             'title' =>[
                 'en' => $nameEn,
                 'ar' => $nameAr,
@@ -239,6 +281,7 @@ class OfferService
                 return ['data' =>$data,'message'=>$message,'code'=>$code];
             }
                  $old_offer->update([
+                'type' =>$request['type']??$this->translate('type',$offer['type']),
                 'title' => [
                 'en' => $request['title_en'] ?? $old_offer->getTranslation('title', 'en'),
                 'ar' => $request['title_ar'] ?? $old_offer->getTranslation('title', 'ar'),
@@ -304,8 +347,8 @@ class OfferService
                 Storage::disk('public')->delete($offer->image->path);
             }
 
-            $offer->image()->delete();
-            $offer->delete();
+            $offer->image()->forceDelete();
+            $offer->forceDelete();
 
             $message = __('message.Offer_Deleted',[],$lang);
             $code = 200;

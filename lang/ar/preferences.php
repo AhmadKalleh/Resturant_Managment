@@ -36,4 +36,9 @@ return [
         'night' => 'ليلي',
     ],
 
+    'type' => [
+        'normal_day' => 'يوم عادي ',
+        'special_day' => 'يوم مميز',
+    ],
+
 ];

@@ -8,17 +8,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
 class Offer extends Model
 {
-
+    use SoftDeletes;
     use HasTranslations;
     use HasFactory;
 
-
+    protected $dates = ['deleted_at'];
     public $translatable= ['title','description'];
-    protected $fillable = ['created_by','title','description','total_price','price_after_discount','discount_value','start_date','end_date'];
+    protected $fillable = ['created_by','title','description','total_price','price_after_discount','discount_value','start_date','end_date','type'];
 
     public function chef():BelongsTo
     {
@@ -28,7 +29,7 @@ class Offer extends Model
 
     public function image()
     {
-        return $this->morphOne(Image::class,'imageable');
+        return $this->morphOne(Image::class,'imageable')->withTrashed();
     }
 
     public function products(): BelongsToMany

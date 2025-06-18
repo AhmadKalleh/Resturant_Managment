@@ -73,8 +73,8 @@ return [
     'Offer_Retrieved' => 'تم عرض العرض بنجاح.',
     'Offer_Not_Found' => 'العرض غير موجود.',
     'Offer_Created'=>'تم انشاء العرض بنجاح ',
-    'Offer_Updated'=>'تم تعديل العرض بنجاح',
     'Offer_Deleted'=>'تم حذف العرض بنجاح',
+    'Offer_Updated'=>'تم تعديل العرض بنجاح',
 
 
     'Insert_New_Password' => 'يرجى إدخال كلمة مرور جديدة للمتابعة.',
@@ -85,4 +85,9 @@ return [
     'Cart_Item_Deleted' => 'تمت إزالة المنتج من سلة المشتريات.',
     'Cart_Item_Not_Found' => 'لم يتم العثور على عنصر في سلة المشتريات.',
     'Top_Ratings_Retirived' => 'تم جلب المنتجات الأعلى تقييماً بنجاح.',
+
+    'Reception_Retrieved' => 'تم عرض بيانات الاستقبال بنجاح.',
+    'Reception_Not_Found' => 'بيانات الاستقبال غير موجودة.',
+    'Reception_Created' => 'تم إنشاء بيانات الاستقبال بنجاح.',
+    'Reception_Deleted' => 'تم حذف بيانات الاستقبال بنجاح.',
 ];

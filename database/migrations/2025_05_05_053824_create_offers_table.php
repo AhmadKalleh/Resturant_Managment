@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Chef::class,'created_by')->constrained('chefs')->cascadeOnDelete();
+            $table->enum('type',['normal_day','special_day']);
             $table->json('title');
             $table->json('description')->nullable();
             $table->decimal('total_price',8,0);
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->string('discount_value');
             $table->date('start_date');
             $table->date('end_date');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

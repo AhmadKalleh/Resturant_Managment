@@ -83,4 +83,10 @@ return [
     'Cart_Item_Deleted' => 'The item has been removed from your cart.',
     'Cart_Item_Not_Found' => 'Cart item not found.',
     'Top_Ratings_Retirived' => 'Top-rated products have been retrieved successfully.',
+
+    'Reception_Retrieved' => 'Reception data retrieved successfully.',
+    'Reception_Not_Found' => 'Reception data not found.',
+    'Reception_Created' => 'Reception data created successfully.',
+    'Reception_Deleted' => 'Reception data deleted successfully.',
+
 ];

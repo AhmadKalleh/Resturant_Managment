@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Log;
 use Storage;
 
 class DeleteExpiredOffersJob implements ShouldQueue
@@ -26,7 +27,7 @@ class DeleteExpiredOffersJob implements ShouldQueue
         $this->offerId = $offerId;
     }
 
-    public function handle(): void
+    public function handle()
     {
         $offer = Offer::withoutGlobalScopes()->find($this->offerId);
 
@@ -38,11 +39,22 @@ class DeleteExpiredOffersJob implements ShouldQueue
         }
 
         if ($offer->image) {
-            Storage::disk('public')->delete($offer->image->path);
+        $rawType = $offer->getRawOriginal('type');
+        if ($rawType === 'special_day') {
             $offer->image()->delete();
+            $offer->delete();
+        }
+        elseif ($rawType === 'normal_day') {
+        if(Storage::disk('public')->exists($offer->image->path))
+            {
+                Storage::disk('public')->delete($offer->image->path);
+            }
+            $offer->image()->forceDelete();
+            $offer->forceDelete();
+        }
         }
 
-        $offer->delete();
+
     }
 
 }
