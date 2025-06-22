@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\AutoCancelExpiredReservations;
 use App\Jobs\DeleteExpiredOffersJob;
 use App\Jobs\ReduceNoShowCounts;
 use Illuminate\Console\Scheduling\Schedule;
@@ -15,6 +16,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->job(new ReduceNoShowCounts)->weekly();
+
+        $schedule->job(new AutoCancelExpiredReservations)->everyMinute();
+
     }
 
     /**

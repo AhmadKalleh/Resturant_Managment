@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\STRIP_SERVICE\StripeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,3 +18,5 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('stripe-test',[StripeController::class,'pay']);

@@ -11,10 +11,12 @@ use App\Http\Controllers\Extra\ExtraControlle;
 use App\Http\Controllers\Extra_product\ExtraProductController;
 use App\Http\Controllers\Favorite\FavoriteController;
 use App\Http\Controllers\Offer\OfferController;
+use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Reception\ReceptionController;
 use App\Http\Controllers\Rate\RateController;
 use App\Http\Controllers\Reservation\ReservationController;
+use App\Http\Controllers\STRIP_SERVICE\StripeController;
 use App\Http\Controllers\User\UserController;
 use App\Models\Reception;
 use Illuminate\Http\Request;
@@ -255,7 +257,7 @@ Route::controller(ReceptionController::class)->group(function()
         Route::delete('/destroy_reception','destroy')->middleware('can:delete-reception');
 
     });
-    
+
 });
 
 Route::controller(ExtraProductController::class)->group(function()
@@ -315,6 +317,26 @@ Route::controller(ReservationController::class)->group(function()
 });
 
 
+Route::controller(OrderController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+
+        Route::get('/index_pre_orders','index_pre_orders')->middleware('can:index-order');
+
+        Route::get('/show_all_reservation_for_table','show_all_reservation_for_table')->middleware('can:index-order');
+
+        Route::post('/check_in_reservation','check_in_reservation')->middleware('can:check-in-reservation');
+
+        Route::post('/create_reservation','create_reservation')->middleware('can:create-reservation');
+
+        Route::delete('/cancel_reservation','cancel_reservation')->middleware('can:delete-reservation');
+
+    });
+
+});
+
+
 Route::controller(RateController::class)->group(function()
 {
     Route::middleware(['auth:sanctum'])->group(function ()
@@ -323,5 +345,8 @@ Route::controller(RateController::class)->group(function()
     });
 
 });
+
+
+Route::get('stripe-test',[StripeController::class,'pay']);
 
 //.\ngrok http 8000

@@ -105,4 +105,6 @@ return [
     'Reservation_Conflict' => 'The table is already reserved during this time.',
     'Rate_Created' => 'Rating submitted successfully.',
     'blocked_reservation_until' => 'Your account is temporarily blocked from making new reservations until :date. Please try again after this date or contact support for assistance.',
+    'Reservation_Canceled' => 'Reservation has been canceled successfully.',
+    'Checked_In_Successful' => 'Customer has been successfully checked in to the restaurant.',
 ];

@@ -9,13 +9,43 @@ use Stripe\Charge;
 use Stripe\PaymentMethod;
 use Stripe\PaymentIntent;
 use Stripe\Exception\ApiErrorException;
+use Stripe\StripeClient;
 
 class StripeService
 {
+    public $stripe;
+
     public function __construct()
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
+        $this->stripe =  new StripeClient(config('services.stripe.secret'));
     }
+
+    public function pay()
+    {
+
+
+        $session = $this->stripe->checkout->sessions->create([
+            'mode' => 'payment',
+            'success_url' => 'http://example.com/success',
+            'cancel_url' => 'http://example.com/cancel',
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => 'usd',
+                        'product_data' => [
+                            'name' => 'Product Name',
+                        ],
+                        'unit_amount' => 2000, // 20.00 USD
+                    ],
+                    'quantity' => 10,
+                ]
+            ],
+        ]);
+
+        return redirect($session->url);
+    }
+
+
 
     public function createStripeCustomer(User $user)
     {

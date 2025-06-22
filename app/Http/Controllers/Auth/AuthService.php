@@ -115,17 +115,17 @@ class AuthService
         // Creating a token for the user and sending it as a response
         $token = $user->createToken("api_token")->plainTextToken;
 
-        $stripeService = new StripeService();
+        // //$stripeService = new StripeService();
 
-        $customer = $stripeService->createCustomer($user->name, $user->email);
-        $stripeService->attachPaymentMethodToCustomer($request['payment_method'], $customer->id);
+        // $customer = $stripeService->createCustomer($user->name, $user->email);
+        // $stripeService->attachPaymentMethodToCustomer($request['payment_method'], $customer->id);
 
-        // تخزين بيانات Stripe
-        UserStripeData::create([
-            'user_id' => $user->id,
-            'stripe_customer_id' => $customer->id,
-            'default_payment_method_id' => $request['payment_method'],
-        ]);
+        // // تخزين بيانات Stripe
+        // UserStripeData::create([
+        //     'user_id' => $user->id,
+        //     'stripe_customer_id' => $customer->id,
+        //     'default_payment_method_id' => $request['payment_method'],
+        // ]);
         $pendingUser->delete();
 
         // Send the token to the client and send it to the server with the authorization information in the response object and the user
@@ -175,9 +175,9 @@ class AuthService
         }
         else
         {
-            $lang = Auth::user()->preferred_language;
+
             $data = [];
-            $message  = __('message.Account_Not_Found',[],$lang);
+            $message  = __('message.Account_Not_Found',[],'en');
             $code = 404;
             return ['data' =>$data,'message'=>$message,'code'=>$code];
         }

@@ -27,23 +27,7 @@ class RolesPermissionsSeeder extends Seeder
         $visitor_role = Role::create(['name' => 'visitor','guard_name' => 'web']);
 
 
-        $resturant_manager_permissions =
-        [
-            'create-table','update-table','delete-table','show-table','index-table','update-theme','update-lan',
-            'delete-offer','show-offer','index-offer','index-rating','update-rating','send_message',
-            'create-chef','update-chef','delete-chef','show-chef','index-chef','index-chat','index-chat_message','send-message',
-            'create-customer','update-customer','delete-customer','show-customer','index-customer',
-            'create-reception','update-reception','delete-reception','index-reception','show-reception',
-            'delete-reservations','show-reservations','index-reservations','create-offer','update-offer',
-            'create-products','update-products','delete-products','show-products','index-products',
-            'create-categories','update-categories','delete-categories','show-categories','index-categories',
-            'show-order','index-order','behavior-monitoring','view-statistics','manage-profile','check-in-reservation',
-            'index-extra','create-extra','update-extra','delete-extra','show-extra','create-order','transfer-ownership',
-            'create-reservation','approve-reservation','reject-reservation','confirm-arrival','manage-profile',
-            'mark-order-complete','delete-reservation','show-reservation','index-reservation','filter','delete_extra_product',
-            'index-favorite','create-favorite','delete-favorite','create-rating','update-rating','create-cart','update-cart','index-cart',
-            'show-info','change-mobile','update-password','update-image-profile','delete-account','show_extra_product_details','store_extra_product'
-        ];
+
 
         foreach($resturant_manager_permissions as $permission)
         {
@@ -89,7 +73,7 @@ class RolesPermissionsSeeder extends Seeder
             'create-reservation','delete-reservation','show-reservation','index-reservation',
             'create-order','show-order','index-order','manage-profile','show-table','index-table',
             'show-info','change-mobile','update-password','update-image-profile','delete-account',
-            'index-chat','index-chat_message','send-message','update-theme','update-lan',
+            'index-chat','index-chat_message','send-message','update-theme','update-lan'
         ]);
 
 

@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Customer;
-use App\Models\Reservation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('user_stripe_data', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(Reservation::class)->nullable()->constrained()->nullOnDelete();
-            $table->decimal("total_amount", 8, 0);
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('stripe_customer_id');
+            $table->string('default_payment_method_id');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('user_stripe_data');
     }
 };

@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Chef;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\ResponseHelper\ResponseHelper;
 
-class FormRequestAuth extends FormRequest
+
+class FormRequestChef extends FormRequest
 {
     use ResponseHelper;
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -27,75 +27,52 @@ class FormRequestAuth extends FormRequest
     public function rules(): array
     {
         return match ($this->method()) {
+            'GET' => match ($this->route()->getActionMethod())
+            {
+                'show' => $this->show(),
+            },
             'POST' => match ($this->route()->getActionMethod()) {
-                'register_pendding_user' => $this->register_pendding_user(),
-                'login' => $this->login(),
-                'register' => $this->register(),
-                'send_varification_code_to_email' => $this->send_varification_code_to_email(),
-                'is_varification_code_right' => $this->is_varification_code_right(),
-                'reset_password' => $this->reset_password(),
-                'logout' => [],
+                'store' => $this->store(),
+                'transfer_ownership' => $this->transfer_ownership(),
                 default => []
+            },
+
+            'DELETE'=> match ($this->route()->getActionMethod())
+            {
+                'delete' => $this->delete(),
             },
             default => []
         };
     }
 
-
-
-    public function send_varification_code_to_email(): array
+    public function transfer_ownership(): array
     {
         return [
-            'email' =>'required|email'
+            'from_chef_id' => 'required|integer',
+            'to_chef_id'=> 'required|integer',
         ];
     }
 
-    public function is_varification_code_right(): array
+    public function store(): array
     {
         return [
-            'verfication_code' =>'required'
-        ];
-    }
-
-    public function reset_password(): array
-    {
-        return [
-            'email' =>'required|email',
-            'password' => 'required|min:6'
-        ];
-    }
-
-    public function register_pendding_user(): array
-    {
-        return
-        [
-            'preferred_language' =>'required|string',
-            'preferred_theme' =>'required|string',
+            'preferred_language' =>'nullable|string',
+            'preferred_theme' =>'nullable|string',
             'gendor' =>'required|string',
             'date_of_birth'=>'required|date_format:Y-m-d',
             'first_name' =>'required|string|max:50|min:2',
             'last_name' =>'required|string|max:50|min:2',
-            'mobile'=>'required|string|phone:US-SY,mobile,AUTO|unique:pending_users,mobile|unique:users,mobile',
-            'email' =>'required|email|unique:pending_users,email|unique:users,email',
+            'mobile'=>'required|string|phone:US-SY,mobile,AUTO',
+            'email' =>'required|email|unique:pending_users,email',
             'password' =>'required|min:6',
-        ];
-    }
-
-    public function register():array
-    {
-        return [
-            'verification_code' => 'required|string|regex:/^\d{6}$/',
-            //'payment_method' => 'required|string',
-            'fcm_Token' =>'string'
-        ];
-    }
-
-    public function login():array
-    {
-        return [
-            'email'=>'required|string|email',
-            'password' =>'required|min:6',
-            'fcm_Token' =>'string'
+            'speciality_en' => 'required|array',
+            'speciality_en.*' => 'required|string|regex:/^[a-zA-Z\s]+$/',
+            'speciality_ar' => 'required|array',
+            'speciality_ar.*' =>'required|string|regex:/^[\p{Arabic}\s]+$/u',
+            'years_of_experience'=> 'required|min:1|integer',
+            'bio' => 'nullable|string',
+            'certificates' => 'nullable|array',
+            'certificates.*' => 'required|string|max:255',
         ];
     }
 
@@ -103,7 +80,7 @@ class FormRequestAuth extends FormRequest
     {
 
         if ($this->method() === 'POST'
-        && $this->route()->getActionMethod() === 'register_pendding_user')
+        && $this->route()->getActionMethod() === 'store')
         {
             $this->merge([
             'first_name' => trim($this->first_name),
@@ -128,6 +105,19 @@ class FormRequestAuth extends FormRequest
         $fullPhone = '+963' . $cleanPhone;
 
         return $fullPhone;
+    }
+
+    public function delete(): array
+    {
+        return [
+            'chef_id' => 'required|integer'
+        ];
+    }
+    public function show(): array
+    {
+        return [
+            'chef_id' => 'required|integer'
+        ];
     }
 
     protected function failedValidation(Validator $validator)

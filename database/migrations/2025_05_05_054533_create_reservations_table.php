@@ -22,6 +22,7 @@ return new class extends Migration
             $table->dateTime("reservation_end_time");
             $table->boolean("is_checked_in")->default(false);
             $table->boolean('is_canceled')->default(false);
+            $table->enum('canceled_by', ['customer', 'system'])->nullable();
             $table->timestamps();
         });
 

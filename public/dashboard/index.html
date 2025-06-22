@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Restaurant Pro</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#" class="nav-link active" data-section="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-link" data-section="products">
+                    <i class="fas fa-utensils"></i>
+                    <span>Products</span>
+                </a>
+                <a href="#" class="nav-link" data-section="categories">
+                    <i class="fas fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+                <a href="#" class="nav-link" data-section="orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="#" class="nav-link" data-section="tables">
+                    <i class="fas fa-chair"></i>
+                    <span>Tables</span>
+                </a>
+                <a href="#" class="nav-link" data-section="chefs">
+                    <i class="fas fa-user-chef"></i>
+                    <span>Chefs</span>
+                </a>
+                <a href="#" class="nav-link" data-section="users">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+                <a href="#" class="nav-link" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="user-actions">
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=FFD700&color=fff&size=32" alt="Admin">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <i class="fas fa-shopping-cart"></i>
+                    <div class="stat-info">
+                        <h3>Total Orders Today</h3>
+                        <p>150</p>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>12% from yesterday</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-dollar-sign"></i>
+                    <div class="stat-info">
+                        <h3>Today's Revenue</h3>
+                        <p>$12,500</p>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>8% from yesterday</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <div class="stat-info">
+                        <h3>Total Reservations</h3>
+                        <p>25</p>
+                        <div class="stat-trend negative">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>3% from yesterday</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-chair"></i>
+                    <div class="stat-info">
+                        <h3>Tables Status</h3>
+                        <p>8/12</p>
+                        <div class="stat-trend">
+                            <span>4 Available</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <h2>Orders Overview</h2>
+                    <canvas id="ordersChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>Tables Status</h2>
+                    <canvas id="tablesChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>Revenue Trends</h2>
+                    <canvas id="revenueChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>Top Selling Products</h2>
+                    <canvas id="productsChart"></canvas>
+                </div>
+            </div>
+
+            
+
+            <!-- Popular Products -->
+            <div class="menu-section">
+                <div class="section-header">
+                    <h2>Popular Products</h2>
+                    <button class="btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Add Product
+                    </button>
+                </div>
+                <div class="menu-grid" id="popularProductsList">
+                    <!-- Products will be loaded dynamically -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/navigation.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html> 

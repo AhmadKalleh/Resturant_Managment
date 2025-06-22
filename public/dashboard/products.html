@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Management - Restaurant Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/products.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="https://ui-avatars.com/api/?name=Restaurant&background=FFD700&color=fff" alt="Logo">
+                <h2>Restaurant</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="#" class="nav-link" data-section="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-link active" data-section="products">
+                    <i class="fas fa-utensils"></i>
+                    <span>Products</span>
+                </a>
+                <a href="#" class="nav-link" data-section="categories">
+                    <i class="fas fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+                <a href="#" class="nav-link" data-section="orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="#" class="nav-link" data-section="tables">
+                    <i class="fas fa-chair"></i>
+                    <span>Tables</span>
+                </a>
+                <a href="#" class="nav-link" data-section="chefs">
+                    <i class="fas fa-user-chef"></i>
+                    <span>Chefs</span>
+                </a>
+                <a href="#" class="nav-link" data-section="users">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+                <a href="#" class="nav-link" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="user-actions">
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=FFD700&color=fff&size=32" alt="Admin">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <div class="products-section">
+                <div class="section-header">
+                    <h2>Products Management</h2>
+                    <button class="btn-primary" id="addProductBtn">
+                        <i class="fas fa-plus"></i>
+                        Add New Product
+                    </button>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search products...">
+                    </div>
+                    <div class="filters">
+                        <select id="categoryFilter" class="filter-select">
+                            <option value="">All Categories</option>
+                            <option value="appetizers">Appetizers</option>
+                            <option value="main-courses">Main Courses</option>
+                            <option value="desserts">Desserts</option>
+                            <option value="beverages">Beverages</option>
+                        </select>
+                        <select id="priceFilter" class="filter-select">
+                            <option value="">All Prices</option>
+                            <option value="low">Low ($0 - $10)</option>
+                            <option value="medium">Medium ($11 - $20)</option>
+                            <option value="high">High ($21+)</option>
+                        </select>
+                        <select id="caloriesFilter" class="filter-select">
+                            <option value="">All Calories</option>
+                            <option value="low">Low (0-300)</option>
+                            <option value="medium">Medium (301-600)</option>
+                            <option value="high">High (601+)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <div class="table-container">
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name (EN)</th>
+                                <th>Name (AR)</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Calories</th>
+                                <th>Rating</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                            <!-- Products will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Product</h3>
+                <button class="close-btn" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="productForm">
+                <div class="form-group">
+                    <label for="productCategory">Category</label>
+                    <select id="productCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="appetizers">Appetizers</option>
+                        <option value="main-courses">Main Courses</option>
+                        <option value="desserts">Desserts</option>
+                        <option value="beverages">Beverages</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productNameEn">Product Name (English)</label>
+                    <input type="text" id="productNameEn" required>
+                </div>
+                <div class="form-group">
+                    <label for="productNameAr">Product Name (Arabic)</label>
+                    <input type="text" id="productNameAr" required dir="rtl">
+                </div>
+                <div class="form-group">
+                    <label for="productDescEn">Description (English)</label>
+                    <textarea id="productDescEn" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="productDescAr">Description (Arabic)</label>
+                    <textarea id="productDescAr" required dir="rtl"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productPrice">Price ($)</label>
+                        <input type="number" id="productPrice" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productCalories">Calories</label>
+                        <input type="number" id="productCalories" min="0" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="productImage">Product Image</label>
+                    <input type="file" id="productImage" accept="image/*" required>
+                    <div class="image-preview" id="imagePreview"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/navigation.js"></script>
+    <script src="js/products.js"></script>
+</body>
+</html> 
