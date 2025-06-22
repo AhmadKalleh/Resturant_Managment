@@ -19,10 +19,6 @@ return new class extends Migration
             $table->foreignIdFor(Reservation::class)->nullable()->constrained()->nullOnDelete();
             $table->enum("status", ["pending", "confirmed", "cancelled"])->default("pending");
             $table->decimal("total_amount", 8, 0);
-            $table->string("guest_name")->nullable();
-            $table->string("guest_mobile")->nullable()->unique();
-            $table->boolean("is_guest")->default(false);
-
             $table->timestamps();
         });
     }

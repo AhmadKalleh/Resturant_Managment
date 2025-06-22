@@ -38,10 +38,11 @@ class Chef extends Model
         return $this->hasMany(Extra::class);
     }
 
-    public function offers():HasMany
+    public function offers()
     {
-        return $this->hasMany(Offer::class);
+        return $this->hasMany(Offer::class, 'created_by');
     }
+
 
     public function rating()
     {

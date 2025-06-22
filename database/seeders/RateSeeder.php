@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,14 +16,21 @@ class RateSeeder extends Seeder
     public function run(): void
     {
         $products = Product::all();
+        $customers = Customer::all();
 
-        foreach ($products as $product)
-        {
-            $rate = round(mt_rand(10, 50) / 10, 1);
+        foreach ($products as $product) {
+            foreach ($customers as $customer) {
+                $rate = mt_rand(1, 5); // قيمة عشوائية من 1.0 إلى 5.0
 
-            $product->rating()->create([
-                'rating' => $rate,
-            ]);
+                $product->ratings()->create([
+                    'customer_id' => $customer->id,
+                    'rating' => $rate,
+                ]);
+            }
+
+            // حساب المتوسط وتحديثه
+            $average = $product->ratings()->avg('rating');
+            $product->update(['average_rating' => round($average, 2)]);
         }
     }
 }

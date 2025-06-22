@@ -2,13 +2,16 @@
 
 namespace Database\Seeders;
 
+use App\Http\Controllers\STRIP_SERVICE\StripeService;
 use App\Models\Chef;
 use App\Models\User;
+
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Stripe\Customer;
 
 class RolesPermissionsSeeder extends Seeder
 {
@@ -26,7 +29,7 @@ class RolesPermissionsSeeder extends Seeder
 
         $resturant_manager_permissions =
         [
-            'create-table','update-table','delete-table','show-table','index-table',
+            'create-table','update-table','delete-table','show-table','index-table','update-theme','update-lan',
             'delete-offer','show-offer','index-offer','index-rating','update-rating','send_message',
             'create-chef','update-chef','delete-chef','show-chef','index-chef','index-chat','index-chat_message','send-message',
             'create-customer','update-customer','delete-customer','show-customer','index-customer',
@@ -34,12 +37,12 @@ class RolesPermissionsSeeder extends Seeder
             'delete-reservations','show-reservations','index-reservations','create-offer','update-offer',
             'create-products','update-products','delete-products','show-products','index-products',
             'create-categories','update-categories','delete-categories','show-categories','index-categories',
-            'show-order','index-order','behavior-monitoring','view-statistics','manage-profile',
-            'index-extra','create-extra','update-extra','delete-extra','show-extra','create-order',
+            'show-order','index-order','behavior-monitoring','view-statistics','manage-profile','check-in-reservation',
+            'index-extra','create-extra','update-extra','delete-extra','show-extra','create-order','transfer-ownership',
             'create-reservation','approve-reservation','reject-reservation','confirm-arrival','manage-profile',
-            'mark-order-complete','delete-reservation','show-reservation','index-reservation','filter',
+            'mark-order-complete','delete-reservation','show-reservation','index-reservation','filter','delete_extra_product',
             'index-favorite','create-favorite','delete-favorite','create-rating','update-rating','create-cart','update-cart','index-cart',
-            'show-info','change-mobile','update-password','update-image-profile','delete-account'
+            'show-info','change-mobile','update-password','update-image-profile','delete-account','show_extra_product_details','store_extra_product'
         ];
 
         foreach($resturant_manager_permissions as $permission)
@@ -56,10 +59,10 @@ class RolesPermissionsSeeder extends Seeder
         $resturant_manager_role->syncPermissions($resturant_manager_permissions);
 
         $chef_permissions = [
-            'create-products','update-products','delete-products','show-products','index-products',
-            'create-categories','update-categories','delete-categories','show-categories','index-categories',
-            'create-offer','update-offer','delete-offer','show-offer','index-offer','index-extra',
-            'create-extra','update-extra','delete-extra','show-extra','manage-profile',
+            'create-products','update-products','delete-products','show-products','index-products','update-theme','update-lan',
+            'create-categories','update-categories','delete-categories','show-categories','index-categories','store_extra_product',
+            'create-offer','update-offer','delete-offer','show-offer','index-offer','index-extra','delete_extra_product',
+            'create-extra','update-extra','delete-extra','show-extra','manage-profile','show_extra_product_details',
             'index-order','mark-order-complete','show-info','change-mobile','update-password','update-image-profile','delete-account'
         ];
 
@@ -71,10 +74,11 @@ class RolesPermissionsSeeder extends Seeder
         // add permissions  on top of old ones
         $reception_role->givePermissionTo(
             [
-                'create-table','update-table','delete-table','show-table','index-table',
-                'approve-reservation','reject-reservation','confirm-arrival','manage-profile',
+                'create-table','update-table','delete-table','show-table','index-table','update-theme','update-lan',
+                'approve-reservation','reject-reservation','confirm-arrival','manage-profile','check-in-reservation',
                 'create-reservation','delete-reservation','show-reservation','index-reservation',
-                'show-info','change-mobile','update-password','update-image-profile','delete-account'
+                'show-info','change-mobile','update-password','update-image-profile','delete-account',
+
             ]);
 
         $customer_role->givePermissionTo(
@@ -85,7 +89,7 @@ class RolesPermissionsSeeder extends Seeder
             'create-reservation','delete-reservation','show-reservation','index-reservation',
             'create-order','show-order','index-order','manage-profile','show-table','index-table',
             'show-info','change-mobile','update-password','update-image-profile','delete-account',
-            'index-chat','index-chat_message','send-message',
+            'index-chat','index-chat_message','send-message','update-theme','update-lan',
         ]);
 
 
@@ -336,6 +340,31 @@ $customer3 = User::query()->create([
             'person_height' =>'150',
             'person_weight' =>'45'
         ]);
+
+        // $stripe = new StripeService();
+
+        // // 1. إنشاء الحساب في Stripe وربطه مع المستخدم
+        // // إنشاء عميل Stripe
+        // $stripeCustomer = $stripe->createStripeCustomer($customer4);
+
+        // $paymentMethodId = 'pm_card_visa';
+
+        // try {
+        //     $stripe->attachPaymentMethodToCustomer($paymentMethodId, $stripeCustomer->id);
+
+        //     $customer4->stripeData()->create([
+        //         'stripe_customer_id' => $stripeCustomer->id,
+        //         'default_payment_method_id' => $paymentMethodId
+        //     ]);
+
+        //     dump('Customer and payment method attached successfully.');
+        // } catch (\Exception $e) {
+        //     dump('Failed to attach payment method: ' . $e->getMessage());
+        // }
+
+
+
+
 
         $customer4->assignRole($customer_role);
         $permissions = $customer_role->permissions()->pluck('name')->toArray();

@@ -5,13 +5,16 @@ use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Chat\ChatController;
 
 use App\Http\Controllers\Category\CategoryController;
-
+use App\Http\Controllers\Chef\ChefController;
 use App\Http\Controllers\Table\TableController;
 use App\Http\Controllers\Extra\ExtraControlle;
+use App\Http\Controllers\Extra_product\ExtraProductController;
 use App\Http\Controllers\Favorite\FavoriteController;
 use App\Http\Controllers\Offer\OfferController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Reception\ReceptionController;
+use App\Http\Controllers\Rate\RateController;
+use App\Http\Controllers\Reservation\ReservationController;
 use App\Http\Controllers\User\UserController;
 use App\Models\Reception;
 use Illuminate\Http\Request;
@@ -66,6 +69,10 @@ Route::controller(UserController::class)->group(function ()
         Route::post('/update_password','update_password')->middleware('can:update-password');
 
         Route::post('/update_image_profile','update_image_profile')->middleware('can:update-image-profile');
+
+        Route::post('/update_lan','update_lan')->middleware('can:update-lan');
+
+        Route::post('/update_theme','update_theme')->middleware('can:update-theme');
 
         Route::delete('/delete_account','destroy')->middleware('can:delete-account');
     });
@@ -223,6 +230,8 @@ Route::controller(CartController::class)->group(function()
 
         Route::post('/update_quantity','update_quantity')->middleware('can:update-cart');
 
+        Route::post('/update_cart_item','update_cart_item')->middleware('can:update-cart');
+
         Route::delete('/destroy_extra','destroy_extra')->middleware('can:update-cart');
 
         Route::delete('/destroy_cart','destroy')->middleware('can:update-cart');
@@ -246,5 +255,73 @@ Route::controller(ReceptionController::class)->group(function()
         Route::delete('/destroy_reception','destroy')->middleware('can:delete-reception');
 
     });
+    
+});
+
+Route::controller(ExtraProductController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+
+        Route::get('/show_extra_product_details','show_extra_product_details')->middleware('can:show_extra_product_details');
+
+        Route::post('/store_extra_product','store_extra_product')->middleware('can:store_extra_product');
+
+        Route::delete('/delete_extra_product','delete_extra_product')->middleware('can:delete_extra_product');
+
+    });
 
 });
+
+
+Route::controller(ChefController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+
+        Route::get('/index_chef','index')->middleware('can:index-chef');
+
+        Route::get('/show_chef','show')->middleware('can:show-chef');
+
+        Route::post('/store_chef','store')->middleware('can:show-chef');
+
+        Route::post('/transfer_ownership','transfer_ownership')->middleware('can:show-chef');
+
+        Route::delete('/delete_chef','delete')->middleware('can:delete-chef');
+
+    });
+
+});
+
+
+
+Route::controller(ReservationController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+
+        Route::get('/index_reservation','index')->middleware('can:index-reservation');
+
+        Route::get('/show_all_reservation_for_table','show_all_reservation_for_table')->middleware('can:index-reservation');
+
+        Route::post('/check_in_reservation','check_in_reservation')->middleware('can:check-in-reservation');
+
+        Route::post('/create_reservation','create_reservation')->middleware('can:create-reservation');
+
+        Route::delete('/cancel_reservation','cancel_reservation')->middleware('can:delete-reservation');
+
+    });
+
+});
+
+
+Route::controller(RateController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+        Route::post('/rate_product','rate_product')->middleware('can:create-rating');
+    });
+
+});
+
+//.\ngrok http 8000

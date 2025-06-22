@@ -36,6 +36,8 @@ class FormRequestUser extends FormRequest
                 'change_mobile' => $this->change_mobile(),
                 'update_password' => $this->update_password(),
                 'update_image_profile' => $this->update_image_profile(),
+                'update_lan' => $this->update_lan(),
+                'update_theme' => $this->update_theme(),
                 default => []
             },
 
@@ -71,6 +73,20 @@ class FormRequestUser extends FormRequest
         $fullPhone = '+963' . $cleanPhone;
 
         return $fullPhone;
+    }
+
+    public function update_lan():array
+    {
+        return [
+            'lan' => 'required|string|in:en,ar'
+        ];
+    }
+
+    public function update_theme():array
+    {
+        return [
+            'theme' => 'required|string|in:light,dark'
+        ];
     }
 
     public function change_mobile():array

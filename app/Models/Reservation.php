@@ -11,7 +11,7 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id','table_id','reservation_start_time','reservation_end_time','status','is_on_spot','guest_name','guest_mobile','reception_id'];
+    protected $fillable = ['customer_id','table_id','reservation_start_time','reservation_end_time','is_canceled','is_checked_in'];
 
     public function reception(): BelongsTo
     {

@@ -85,6 +85,35 @@ class UserController extends Controller
 
     }
 
+    public function update_lan(FormRequestUser $request):JsonResponse
+    {
+        $data=[];
+        try
+        {
+            $data = $this->_userService->update_lan($request->validated());
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+    public function update_theme(FormRequestUser $request):JsonResponse
+    {
+        $data=[];
+        try
+        {
+            $data = $this->_userService->update_theme($request->validated());
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
 
     public function update_password(FormRequestUser $request):JsonResponse
     {

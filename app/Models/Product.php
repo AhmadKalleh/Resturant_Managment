@@ -16,7 +16,7 @@ class Product extends Model
 
     public $translatable= ['name','description'];
 
-    protected $fillable = ['cateogory_id','chef_id','name','description','price','calories'];
+    protected $fillable = ['cateogory_id','chef_id','name','description','price','calories','average_rating'];
 
     public function extras(): BelongsToMany
     {
@@ -53,10 +53,11 @@ class Product extends Model
         return $this->morphOne(Image::class,'imageable');
     }
 
-    public function rating()
+    public function ratings()
     {
-        return $this->morphOne(Rating::class,'rateable');
+        return $this->morphMany(Rating::class, 'rateable');
     }
+
 
     public function chef():BelongsTo
     {

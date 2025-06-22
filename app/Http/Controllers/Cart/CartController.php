@@ -70,6 +70,23 @@ class CartController extends Controller
         }
     }
 
+    public function update_cart_item(FormRequestCart $request): JsonResponse
+    {
+
+        $data=[];
+
+        try
+        {
+            $data = $this->_cartService->update_cart_item($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
     public function destroy_extra(FormRequestCart $request): JsonResponse
     {
 

@@ -19,13 +19,13 @@ class ProductService
 
     public function top_ratings()
     {
-        $categories = Category::with(['products.rating'])->get();
+        $categories = Category::all();
         $lang = Auth::user()->preferred_language;
         $result = $categories->map(function ($category) use ( $lang)
         {
             $topProducts = $category->products->sortByDesc(function ($product)
             {
-                return optional($product->rating)->rating ?? 0;
+                return optional($product->average_rating) ?? 0;
             })->take(2);
 
             return [
@@ -43,7 +43,7 @@ class ProductService
                         'price' => $product->price_text,
                         'calories' => $product->calories_text,
                         'image_path' => url(Storage::url($image_path) ?? null),
-                        'rating' => optional($product->rating)->rating,
+                        'rating' => $product->average_rating,
                     ];
                 }),
             ];
@@ -65,55 +65,85 @@ class ProductService
 
 
     }
-    public function index($request):array
+
+
+    public function index($request): array
     {
-        $category = Category::query()->where('id',$request['category_id'])->first();
+        $category = Category::query()->where('id', $request['category_id'])->first();
         $lang = Auth::user()->preferred_language;
 
-        if (!is_null($category))
-        {
+        if (!is_null($category)) {
+
+            $customer = Auth::user()->customer;
+
+            // آخر سلة غير مشتراة
+            $exist_cart = $customer->carts()
+                ->where('is_checked_out', false)
+                ->latest()
+                ->first();
+
+            // منتجات المفضلة كلها
+            $favorite_products_ids = $customer->favorites()->pluck('product_id')->toArray();
+
             $products = $category->products()
-            ->with('rating') 
-            ->get()
-            ->sortByDesc(fn($product) => $product->rating->rating ?? 0) // الترتيب داخل collection
-            ->values()
-            ->map(function ($product) use ($lang) {
-                $image_path = $product->image->path ?? null;
-                $name = $product->getTranslation('name', $lang);
-                $description = $product->getTranslation('description', $lang);
-                return [
-                    'id' => $product->id,
-                    'name' => $name,
-                    'description' => $description,
-                    'price' => $product->price_text,
-                    'calories' => $product->calories_text,
-                    'image_path' => url(Storage::url($image_path)),
-                    'rating' => optional($product->rating)->rating,
-                ];
-            });
+                ->with('favorites')
+                ->get()
+                ->sortByDesc(fn($product) => $product->average_rating ?? 0)
+                ->values()
+                ->map(function ($product) use ($lang, $exist_cart, $favorite_products_ids) {
+
+                    $image_path = $product->image->path ?? null;
+                    $name = $product->getTranslation('name', $lang);
+                    $description = $product->getTranslation('description', $lang);
 
 
-            if ($products->isEmpty())
-            {
-                $message =__('message.No_Products_Available',[],$lang);
-            }
-            else
-            {
-                $message = __('message.Products_Retrieved',[],$lang);
-            }
+                    $in_cart = false;
+                    if ($exist_cart)
+                    {
+                        $in_cart = $exist_cart->cart_items()
+                            ->where('product_id', $product->id)
+                            ->exists();
+                    }
 
-            $code = 200;
-            return ['data' => $products, 'message' => $message, 'code' => $code];
+
+                    $in_favorite = in_array($product->id, $favorite_products_ids);
+
+                    return
+                    [
+                        'id' => $product->id,
+                        'name' => $name,
+                        'description' => $description,
+                        'price' => $product->price_text,
+                        'calories' => $product->calories_text,
+                        'image_path' => url(Storage::url($image_path)),
+                        'rating' => $product->average_rating,
+                        'exist_in_cart' => $in_cart,
+                        'exist_in_favorite' => $in_favorite,
+                    ];
+
+                });
+
+            $message = $products->isEmpty()
+                ? __('message.No_Products_Available', [], $lang)
+                : __('message.Products_Retrieved', [], $lang);
+
+            return [
+                'data' => $products,
+                'message' => $message,
+                'code' => 200
+            ];
+
         }
-
         else
         {
-            $message = __('message.Category_Not_Found',[],$lang);
-            $code = 404;
-            return ['data' => [], 'message' => $message, 'code' => $code];
+            return [
+                'data' => [],
+                'message' => __('message.Category_Not_Found', [], $lang),
+                'code' => 404
+            ];
         }
-
     }
+
 
     public function show($request):array
     {
@@ -132,6 +162,10 @@ class ProductService
             ->latest()
             ->first();
 
+            $exist_product_in_favorite = Auth::user()->customer->favorites()
+            ->where('product_id',$product->id)
+            ->first();
+
             if ($exist_cart)
             {
                 $cart_item = $exist_cart->cart_items()->where('product_id', $product->id)->with('extra_products')->first();
@@ -144,7 +178,9 @@ class ProductService
                 'description' => $description,
                 'price' => $product->price_text,
                 'calories' => $product->calories_text,
-                'rating' => optional($product->rating)->rating,
+                'rating' => ($product->average_rating),
+                'exist_in_cart' => ($cart_item) ? true:false,
+                'exist_in_favorite' =>($exist_product_in_favorite) ? true:false,
                 'image_path' => url(Storage::url($image_path) ?? null),
                 'extra_product' => $product->extra_products->map(function ($extraProduct) use ($lang,$cart_item)
                 {
@@ -361,7 +397,9 @@ class ProductService
                 'chef_id' => Auth::user()->chef->id,
                 'price' => $request['price'],
                 'calories' => $request['calories'],
+                'average_rating' => 0.0
             ]);
+
 
 
             $product->image()->create([

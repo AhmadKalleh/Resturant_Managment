@@ -20,12 +20,8 @@ return new class extends Migration
             $table->foreignIdFor(Table::class)->constrained()->cascadeOnDelete();
             $table->dateTime("reservation_start_time");
             $table->dateTime("reservation_end_time");
-            $table->enum("status", ["pending", "confirmed", "cancelled"]);
-            $table->boolean("is_on_spot")->default(false);
-            $table->string("guest_name")->nullable();
-            $table->string("guest_mobile")->nullable();
-            $table->foreignIdFor(Reception::class,'created_by')->nullable()->constrained('receptions')->nullOnDelete();
-
+            $table->boolean("is_checked_in")->default(false);
+            $table->boolean('is_canceled')->default(false);
             $table->timestamps();
         });
 

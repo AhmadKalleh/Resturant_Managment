@@ -12,7 +12,7 @@ class CartItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cart_id','product_id','price_at_order','total_price','quantity'];
+    protected $fillable = ['cart_id','product_id','price_at_order','total_price','quantity','offer_id'];
 
 
     protected static function boot()
@@ -38,6 +38,11 @@ class CartItem extends Model
     public function extra_products():BelongsToMany
     {
         return $this->belongsToMany(ExtraProduct::class,'extra_product_cart_items', );
+    }
+
+    public function offer()
+    {
+        return $this->belongsTo(Offer::class);
     }
 
     public function getTotalPriceTextAttribute()

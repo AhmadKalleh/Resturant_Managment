@@ -22,6 +22,7 @@ return new class extends Migration
             $table->json('description')->nullable();
             $table->decimal('price',8,0);
             $table->integer('calories');
+            $table->decimal('average_rating', 2, 1)->default(0.0);
             $table->timestamps();
         });
     }

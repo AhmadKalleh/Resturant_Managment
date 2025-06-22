@@ -17,6 +17,8 @@ class OfferService
     use ResponseHelper;
     use UplodeImageHelper;
     use TranslateHelper;
+
+
     public function index ()
     {
         $lang=Auth::user()->preferred_language;
@@ -53,7 +55,9 @@ class OfferService
 
         return ['data'=>$data,'message'=>$message,'code'=>200];
     }
-        public function special_offers ()
+
+
+    public function special_offers ()
     {
         $lang=Auth::user()->preferred_language;
         $offers = Offer::withoutGlobalScopes()->onlyTrashed()->with('products')->get();
@@ -141,6 +145,8 @@ class OfferService
             return ['data' =>$offer,'message'=>$message,'code'=>$code];
         }
     }
+
+
     public function store($request):array
     {
 
@@ -216,7 +222,7 @@ class OfferService
 
         ]);
 
-        $end = Carbon::parse($offer->end_date)->addDay();
+
         DeleteExpiredOffersJob::dispatch($offer->id);
 
         $data =[true];
@@ -280,24 +286,25 @@ class OfferService
 
                 return ['data' =>$data,'message'=>$message,'code'=>$code];
             }
-                 $old_offer->update([
-                'type' =>$request['type']??$this->translate('type',$offer['type']),
-                'title' => [
-                'en' => $request['title_en'] ?? $old_offer->getTranslation('title', 'en'),
-                'ar' => $request['title_ar'] ?? $old_offer->getTranslation('title', 'ar'),
-                          ],
-                'description' => [
-                'en' => $request['description_en'] ?? $old_offer->getTranslation('description', 'en'),
-                'ar' => $request['description_ar'] ?? $old_offer->getTranslation('description', 'ar'),
-                     ],
-                'total_price' => $request['products_ids'] ? Product::whereIn('id', $request['products_ids'])->sum('price') : $old_offer->total_price,
-                'discount_value' => $request['discount_value'] ?? $old_offer->discount_value,
-                'price_after_discount' => $request['products_ids'] ?
-                    Product::whereIn('id', $request['products_ids'])->sum('price') *
-                    (((float)str_replace('%', '', ($request['discount_value'] ?? $offer->discount_value)) / 100))
-                    : $old_offer->price_after_discount,
-                'start_date' => $request['start_date'] ?? $old_offer->start_date,
-                'end_date' => $request['end_date'] ?? $old_offer->end_date,
+            $old_offer->update([
+                    'title' =>
+                    [
+                        'en' => $request['title_en'] ?? $old_offer->getTranslation('title', 'en'),
+                        'ar' => $request['title_ar'] ?? $old_offer->getTranslation('title', 'ar'),
+                    ],
+                    'description' =>
+                    [
+                        'en' => $request['description_en'] ?? $old_offer->getTranslation('description', 'en'),
+                        'ar' => $request['description_ar'] ?? $old_offer->getTranslation('description', 'ar'),
+                    ],
+                    'total_price' => $request['products_ids'] ? Product::whereIn('id', $request['products_ids'])->sum('price') : $old_offer->total_price,
+                    'discount_value' => $request['discount_value'] ?? $old_offer->discount_value,
+                    'price_after_discount' => $request['products_ids'] ?
+                        Product::whereIn('id', $request['products_ids'])->sum('price') *
+                        (((float)str_replace('%', '', ($request['discount_value'] ?? $offer->discount_value)) / 100))
+                        : $old_offer->price_after_discount,
+                    'start_date' => $request['start_date'] ?? $old_offer->start_date,
+                    'end_date' => $request['end_date'] ?? $old_offer->end_date,
             ]);
 
 
@@ -305,7 +312,8 @@ class OfferService
             {
                 $old_offer->products()->sync($request['products_ids']);
             }
-            $end = Carbon::parse($old_offer->end_date)->addDay();
+
+
             DeleteExpiredOffersJob::dispatch($old_offer->id);
             $data = [true];
             $code= 200;
@@ -364,10 +372,5 @@ class OfferService
             return ['data' => [], 'message' => $message, 'code' => $code];
         }
     }
-
-
-
-
-
 
 }

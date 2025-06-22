@@ -30,6 +30,7 @@ class FormRequestCart extends FormRequest
             'POST' => match ($this->route()->getActionMethod()) {
                 'store' => $this->store(),
                 'update_quantity' => $this->update_quantity(),
+                'update_cart_item' => $this->update_cart_item(),
                 default => []
             },
 
@@ -40,6 +41,15 @@ class FormRequestCart extends FormRequest
             },
             default => []
         };
+    }
+
+    public function update_cart_item(): array
+    {
+        return [
+            'cart_item_id' => 'required|integer',
+            'extra_product_ids'   => 'sometimes|array',
+            'extra_product_ids.*' => 'integer|exists:extra_products,id',
+        ];
     }
 
     public function delete(): array
@@ -68,8 +78,11 @@ class FormRequestCart extends FormRequest
     public function store():array
     {
         return [
-            'product_id' =>'required|integer',
+            'product_id' => 'required_without:offer_id|nullable|integer',
+            'offer_id'   => 'required_without:product_id|nullable|integer',
+
             'quantity' => 'required|min:1|max:20|integer',
+
             'extra_product_ids'   => 'sometimes|array',
             'extra_product_ids.*' => 'integer|exists:extra_products,id',
         ];

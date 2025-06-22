@@ -104,6 +104,34 @@ class UserService
 
     }
 
+    public function update_lan($request):array
+    {
+        Auth::user()->update([
+            'preferred_language' => $request['lan']
+        ]);
+
+        $message = __('message.Password_Changed',[],$request['lan']);
+        $code = 200;
+        $data = [true];
+
+        return ['data' =>$data,'message'=>$message,'code'=>$code];
+    }
+
+
+    public function update_theme($request):array
+    {
+        $lang = Auth::user()->preferred_language;
+        Auth::user()->update([
+            'preferred_theme' => $request['theme']
+        ]);
+
+        $message = __('message.Theme_Changed',[],$lang);
+        $code = 200;
+        $data = [true];
+
+        return ['data' =>$data,'message'=>$message,'code'=>$code];
+    }
+
     public function check_password($request) :array
     {
         $lang = Auth::user()->preferred_language;

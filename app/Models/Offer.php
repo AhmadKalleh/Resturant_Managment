@@ -32,6 +32,11 @@ class Offer extends Model
         return $this->morphOne(Image::class,'imageable')->withTrashed();
     }
 
+    public function cart_items()
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'offer_products');

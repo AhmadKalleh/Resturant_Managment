@@ -71,15 +71,18 @@ return [
     'Offer_Created'=>'offer created successfully.',
     'Offer_Updated'=>'offer updated successfully',
     'Offer_Deleted'=>'Offer deleted successfully',
-
-
-
-
+    'Extra_Already_Exist' => 'This extra already exists. Please choose a different one from the available extras for this product, or add a new one if you prefer.',
+    'chef_Retrived' => 'Chef details retrieved successfully.',
+    'chefs_Retrived' => 'Chefs list retrieved successfully.',
+    'Chefs_Not_Found' => 'No chefs are available at the moment.',
+    'Chef_Not_Found' => 'The chef is not available at the moment.',
+    'Chef_Has_Relations' => 'This chef is associated with: :relations. You must transfer ownership first.',
     'Insert_New_Password' => 'Please enter a new password to continue.',
     'Cart_Empty' => 'Your cart is currently empty.',
     'Cart_Retrived' => 'Your cart has been retrieved successfully.',
     'Cart_Item_Added' => 'The item has been added to your cart successfully.',
     'Cart_Item_Updated_Quantity' => 'The item quantity has been updated successfully.',
+    'Cart_Item_Extra_Product_Updated' => 'The extras for the cart item have been updated successfully.',
     'Cart_Item_Deleted' => 'The item has been removed from your cart.',
     'Cart_Item_Not_Found' => 'Cart item not found.',
     'Top_Ratings_Retirived' => 'Top-rated products have been retrieved successfully.',
@@ -89,4 +92,17 @@ return [
     'Reception_Created' => 'Reception data created successfully.',
     'Reception_Deleted' => 'Reception data deleted successfully.',
 
+    'Chef_Deleted' => 'Chef deleted successfully.',
+    'Ownership_transfered' => 'Ownership has been transferred to :chef_name successfully.',
+    'Mobile_Or_Email_Already_Exist' => 'The entered phone number or email belongs to another user. Please choose a different number or email.',
+    'Chef_Info_Added' => 'Chef information has been added successfully.',
+    'Chef_Has_No_Relations' => 'This chef has no related records and can be safely deleted.',
+    'Language_Changed' => 'Language has been changed successfully.',
+    'Theme_Changed' => 'Theme has been changed successfully.',
+    'Reservation_Retrived' => 'Reservation retrieved successfully.',
+    'No_Reservation_For_This_Table' => 'There is no reservation for this table.',
+    'Reservation_Created' => 'Reservation created successfully.',
+    'Reservation_Conflict' => 'The table is already reserved during this time.',
+    'Rate_Created' => 'Rating submitted successfully.',
+    'blocked_reservation_until' => 'Your account is temporarily blocked from making new reservations until :date. Please try again after this date or contact support for assistance.',
 ];

@@ -87,10 +87,16 @@ class User extends Authenticatable
         return $this->morphOne(Image::class,'imageable');
     }
 
-    public function getFullNameAttribute(): string
+    public function getFullNameAttribute()
     {
-        return $this->firstname .' '. $this->lastname;
+        return $this->first_name . ' ' . $this->last_name;
     }
+
+    public function stripeData():HasOne
+    {
+        return $this->hasOne(UserStripeData::class);
+    }
+
 
     public function getMobileTextAttribute(): string
     {
@@ -98,6 +104,6 @@ class User extends Authenticatable
 
         $mobileFormatted = implode(' ', str_split($mobile, 3));
 
-        return '+963'. $mobileFormatted;
+        return '+'.$mobileFormatted;
     }
 }
