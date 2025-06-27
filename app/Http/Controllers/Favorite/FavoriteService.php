@@ -74,7 +74,7 @@ class FavoriteService
 
                     DeleteFavoriteHistoryJob::dispatch()->delay(now()->addMinute(10));
 
-                    $data =[true];
+                    $data =[];
                     $message = 'Added To favorite successfully';
                     $code = 201;
                 }

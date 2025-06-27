@@ -126,7 +126,7 @@ class ExtraService
             'calories' =>$request['calories']
         ]);
 
-        $data = [true];
+        $data = [];
 
         $message = __('message.Extra_Created',[],$lang);
         $code = 201;
@@ -193,7 +193,7 @@ class ExtraService
             'calories' =>$request['calories']
         ]);
 
-        $data = [true];
+        $data = [];
         $code= 200;
         $message = __('message.Extra_Updated',[],$lang);
 

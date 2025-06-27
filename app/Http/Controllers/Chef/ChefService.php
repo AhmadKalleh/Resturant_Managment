@@ -140,7 +140,7 @@ class ChefService
             ]);
 
 
-            $data = [true];
+            $data = [];
             $message = __('message.Chef_Info_Added',[],$lang);
             $code = 201;
         }
@@ -177,7 +177,7 @@ class ChefService
             $fromChef->offers()->update(['created_by'=> $toChef->id]);
         }
 
-        $data = [true];
+        $data = [];
         $message = __('message.Ownership_transfered',['chef_name' => $fromChef->user->full_name],$lang);
         $code = 200;
 

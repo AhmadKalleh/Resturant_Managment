@@ -34,7 +34,7 @@ class ProductSeeder extends Seeder
 
 
             $product = Product::query()->create([
-                'category_id' => 1,
+                'category_id' => 2,
                     'chef_id' => 1,
                     'name' => [
                         'en' => $Fast_Food[0]['name_en'],
@@ -50,7 +50,7 @@ class ProductSeeder extends Seeder
             $product->image()->create(['path' =>'products/Cheeseburger.png']);
 
             $product1 = Product::query()->create([
-                'category_id' => 1,
+                'category_id' => 2,
                     'chef_id' => 1,
                     'name' => [
                         'en' => $Fast_Food[1]['name_en'],
@@ -66,7 +66,7 @@ class ProductSeeder extends Seeder
             $product1->image()->create(['path' =>'products/Grilledveggieburger.png']);
 
             $product2 = Product::query()->create([
-                'category_id' => 1,
+                'category_id' => 2,
                     'chef_id' => 1,
                     'name' => [
                         'en' => $Fast_Food[2]['name_en'],
@@ -82,7 +82,7 @@ class ProductSeeder extends Seeder
             $product2->image()->create(['path' =>'products/Fried_Chicken.png']);
 
             $product3 = Product::query()->create([
-                'category_id' => 1,
+                'category_id' => 2,
                     'chef_id' => 1,
                     'name' => [
                         'en' => $Fast_Food[3]['name_en'],
@@ -98,7 +98,7 @@ class ProductSeeder extends Seeder
             $product3->image()->create(['path' =>'products/French_Fries.png']);
 
             $product4 = Product::query()->create([
-                'category_id' => 1,
+                'category_id' => 2,
                     'chef_id' => 1,
                     'name' => [
                         'en' => $Fast_Food[4]['name_en'],
@@ -114,7 +114,7 @@ class ProductSeeder extends Seeder
             $product4->image()->create(['path' =>'products/Hot_Dog.png']);
 
             $product5 = Product::query()->create([
-                'category_id' => 1,
+                'category_id' => 2,
                     'chef_id' => 1,
                     'name' => [
                         'en' => $Fast_Food[5]['name_en'],
@@ -130,7 +130,7 @@ class ProductSeeder extends Seeder
             $product5->image()->create(['path' =>'products/Chicken_Nuggets.png']);
 
             $product6 = Product::query()->create([
-                'category_id' => 1,
+                'category_id' => 2,
                     'chef_id' => 1,
                     'name' => [
                         'en' => $Fast_Food[6]['name_en'],
@@ -146,7 +146,7 @@ class ProductSeeder extends Seeder
             $product6->image()->create(['path' =>'products/Onion_Rings.png']);
 
             $product7 = Product::query()->create([
-                'category_id' => 1,
+                'category_id' => 2,
                     'chef_id' => 1,
                     'name' => [
                         'en' => $Fast_Food[7]['name_en'],
@@ -161,24 +161,24 @@ class ProductSeeder extends Seeder
             ]);
             $product7->image()->create(['path' =>'products/Pizza_Slice.png']);
 
-            $product8 = Product::query()->create([
-                'category_id' => 1,
-                    'chef_id' => 1,
-                    'name' => [
-                        'en' => $Fast_Food[8]['name_en'],
-                        'ar' => $Fast_Food[8]['name_ar'],
-                    ],
-                    'description' => [
-                        'en' => $Fast_Food[8]['desc_en'],
-                        'ar' => $Fast_Food[8]['desc_ar'],
-                    ],
-                    'price' => $Fast_Food[8]['price'],
-                    'calories' => $Fast_Food[8]['calories'],
-            ]);
-            $product8->image()->create(['path' =>'products/hicken_Wrap.png']);
+            // $product8 = Product::query()->create([
+            //     'category_id' => 2,
+            //         'chef_id' => 1,
+            //         'name' => [
+            //             'en' => $Fast_Food[8]['name_en'],
+            //             'ar' => $Fast_Food[8]['name_ar'],
+            //         ],
+            //         'description' => [
+            //             'en' => $Fast_Food[8]['desc_en'],
+            //             'ar' => $Fast_Food[8]['desc_ar'],
+            //         ],
+            //         'price' => $Fast_Food[8]['price'],
+            //         'calories' => $Fast_Food[8]['calories'],
+            // ]);
+            // $product8->image()->create(['path' =>'products/hicken_Wrap.png']);
 
             $product9 = Product::query()->create([
-                'category_id' => 1,
+                'category_id' => 2,
                     'chef_id' => 1,
                     'name' => [
                         'en' => $Fast_Food[9]['name_en'],
@@ -194,7 +194,7 @@ class ProductSeeder extends Seeder
             $product9->image()->create(['path' =>'products/Beef_Taco.png']);
 
             $product10 = Product::query()->create([
-                'category_id' => 1,
+                'category_id' => 2,
                     'chef_id' => 1,
                     'name' => [
                         'en' => $Fast_Food[10]['name_en'],
@@ -229,7 +229,7 @@ class ProductSeeder extends Seeder
 
 
             $product11 = Product::query()->create([
-                'category_id' => 2,
+                'category_id' => 3,
                     'chef_id' => 2,
                     'name' => [
                         'en' => $Drinks[0]['name_en'],
@@ -245,7 +245,7 @@ class ProductSeeder extends Seeder
             $product11->image()->create(['path' =>'products/Coca_Cola.png']);
 
             $product12 = Product::query()->create([
-                'category_id' => 2,
+                'category_id' => 3,
                     'chef_id' => 2,
                     'name' => [
                         'en' => $Drinks[1]['name_en'],
@@ -261,7 +261,7 @@ class ProductSeeder extends Seeder
             $product12->image()->create(['path' =>'products/Orange_Juice.png']);
 
             $product13 = Product::query()->create([
-                'category_id' => 2,
+                'category_id' => 3,
                     'chef_id' => 2,
                     'name' => [
                         'en' => $Drinks[2]['name_en'],
@@ -277,7 +277,7 @@ class ProductSeeder extends Seeder
             $product13->image()->create(['path' =>'products/Lemon_Mint.png']);
 
             $product14 = Product::query()->create([
-                'category_id' => 2,
+                'category_id' => 3,
                     'chef_id' => 2,
                     'name' => [
                         'en' => $Drinks[3]['name_en'],
@@ -293,7 +293,7 @@ class ProductSeeder extends Seeder
             $product14->image()->create(['path' =>'products/Iced_Coffee.png']);
 
             $product15 = Product::query()->create([
-                'category_id' => 2,
+                'category_id' => 3,
                     'chef_id' => 2,
                     'name' => [
                         'en' => $Drinks[4]['name_en'],
@@ -309,7 +309,7 @@ class ProductSeeder extends Seeder
             $product15->image()->create(['path' =>'products/Green_Tea.png']);
 
             $product16 = Product::query()->create([
-                'category_id' => 2,
+                'category_id' => 3,
                     'chef_id' => 2,
                     'name' => [
                         'en' => $Drinks[5]['name_en'],
@@ -325,7 +325,7 @@ class ProductSeeder extends Seeder
             $product16->image()->create(['path' =>'products/Milkshake.png']);
 
             $product17 = Product::query()->create([
-                'category_id' => 2,
+                'category_id' => 3,
                     'chef_id' => 2,
                     'name' => [
                         'en' => $Drinks[6]['name_en'],
@@ -340,24 +340,24 @@ class ProductSeeder extends Seeder
             ]);
             $product17->image()->create(['path' =>'products/Water.png']);
 
-            $product18 = Product::query()->create([
-                'category_id' => 2,
-                    'chef_id' => 2,
-                    'name' => [
-                        'en' => $Drinks[7]['name_en'],
-                        'ar' => $Drinks[7]['name_ar'],
-                    ],
-                    'description' => [
-                        'en' => $Drinks[7]['desc_en'],
-                        'ar' => $Drinks[7]['desc_ar'],
-                    ],
-                    'price' => $Drinks[7]['price'],
-                    'calories' => $Drinks[7]['calories'],
-            ]);
-            $product18->image()->create(['path' =>'products/trawberry_Juice.png']);
+            // $product18 = Product::query()->create([
+            //     'category_id' => 3,
+            //         'chef_id' => 2,
+            //         'name' => [
+            //             'en' => $Drinks[7]['name_en'],
+            //             'ar' => $Drinks[7]['name_ar'],
+            //         ],
+            //         'description' => [
+            //             'en' => $Drinks[7]['desc_en'],
+            //             'ar' => $Drinks[7]['desc_ar'],
+            //         ],
+            //         'price' => $Drinks[7]['price'],
+            //         'calories' => $Drinks[7]['calories'],
+            // ]);
+            // $product18->image()->create(['path' =>'products/trawberry_Juice.png']);
 
             $product19 = Product::query()->create([
-                'category_id' => 2,
+                'category_id' => 3,
                     'chef_id' => 2,
                     'name' => [
                         'en' => $Drinks[8]['name_en'],
@@ -373,7 +373,7 @@ class ProductSeeder extends Seeder
             $product19->image()->create(['path' =>'products/Peach_Iced_Tea.png']);
 
             $product20 = Product::query()->create([
-                'category_id' => 2,
+                'category_id' => 3,
                     'chef_id' => 2,
                     'name' => [
                         'en' => $Drinks[9]['name_en'],
@@ -404,7 +404,7 @@ class ProductSeeder extends Seeder
         ];
 
         $product21 = Product::query()->create([
-                'category_id' => 3,
+                'category_id' => 4,
                     'chef_id' => 3,
                     'name' => [
                         'en' => $Salads[0]['name_en'],
@@ -420,7 +420,7 @@ class ProductSeeder extends Seeder
         $product21->image()->create(['path' =>'products/Caesar_Salad.png']);
 
         $product22 = Product::query()->create([
-                'category_id' => 3,
+                'category_id' => 4,
                     'chef_id' => 3,
                     'name' => [
                         'en' => $Salads[1]['name_en'],
@@ -436,7 +436,7 @@ class ProductSeeder extends Seeder
         $product22->image()->create(['path' =>'products/Greek_Salad.png']);
 
         $product23 = Product::query()->create([
-                'category_id' => 3,
+                'category_id' => 4,
                     'chef_id' => 3,
                     'name' => [
                         'en' => $Salads[2]['name_en'],
@@ -452,7 +452,7 @@ class ProductSeeder extends Seeder
         $product23->image()->create(['path' =>'products/Tabbouleh.png']);
 
         $product24 = Product::query()->create([
-                'category_id' => 3,
+                'category_id' => 4,
                     'chef_id' => 3,
                     'name' => [
                         'en' => $Salads[3]['name_en'],
@@ -468,7 +468,7 @@ class ProductSeeder extends Seeder
         $product24->image()->create(['path' =>'products/Fattoush.png']);
 
         $product25 = Product::query()->create([
-                'category_id' => 3,
+                'category_id' => 4,
                     'chef_id' => 3,
                     'name' => [
                         'en' => $Salads[4]['name_en'],
@@ -484,7 +484,7 @@ class ProductSeeder extends Seeder
         $product25->image()->create(['path' =>'products/Chicken_Salad.png']);
 
         $product26 = Product::query()->create([
-                'category_id' => 3,
+                'category_id' => 4,
                     'chef_id' => 3,
                     'name' => [
                         'en' => $Salads[5]['name_en'],
@@ -500,7 +500,7 @@ class ProductSeeder extends Seeder
         $product26->image()->create(['path' =>'products/Avocado_Salad.png']);
 
         $product27 = Product::query()->create([
-                'category_id' => 3,
+                'category_id' => 4,
                     'chef_id' => 3,
                     'name' => [
                         'en' => $Salads[6]['name_en'],
@@ -516,7 +516,7 @@ class ProductSeeder extends Seeder
         $product27->image()->create(['path' =>'products/Quinoa_Salad.png']);
 
         $product28 = Product::query()->create([
-                'category_id' => 3,
+                'category_id' => 4,
                     'chef_id' => 3,
                     'name' => [
                         'en' => $Salads[7]['name_en'],
@@ -532,7 +532,7 @@ class ProductSeeder extends Seeder
         $product28->image()->create(['path' =>'products/Coleslaw.png']);
 
         $product29 = Product::query()->create([
-                'category_id' => 3,
+                'category_id' => 4,
                     'chef_id' => 3,
                     'name' => [
                         'en' => $Salads[8]['name_en'],
@@ -548,7 +548,7 @@ class ProductSeeder extends Seeder
         $product29->image()->create(['path' =>'products/Pasta.png']);
 
         $product30 = Product::query()->create([
-                'category_id' => 3,
+                'category_id' => 4,
                     'chef_id' => 3,
                     'name' => [
                         'en' => $Salads[9]['name_en'],

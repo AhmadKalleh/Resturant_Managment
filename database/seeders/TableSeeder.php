@@ -53,7 +53,6 @@ class TableSeeder extends Seeder
             'seats' => 2,
             'location' => ['en' =>$locations[$counter]['en'],'ar'=>$locations[$counter++]['ar']],
             'price' => 50.00,
-            'status' => 'available',
             'created_at' => now(),
             'updated_at' => now(),
             ])->image()->create([
@@ -72,7 +71,6 @@ class TableSeeder extends Seeder
             'seats' => 4,
             'location' => ['en' =>$locations[$counter]['en'],'ar'=>$locations[$counter++]['ar']],
             'price' => 100.00,
-            'status' => 'available',
             'created_at' => now(),
             'updated_at' => now(),
             ])->image()->create([
@@ -91,7 +89,6 @@ class TableSeeder extends Seeder
             'seats' => 5,
             'location' => ['en' =>$locations[$counter]['en'],'ar'=>$locations[$counter++]['ar']],
             'price' => 120.00,
-            'status' => 'available',
             'created_at' => now(),
             'updated_at' => now(),
             ])->image()->create([
@@ -110,7 +107,6 @@ class TableSeeder extends Seeder
             'seats' => 6,
             'location' => ['en' =>$locations[$counter]['en'],'ar'=>$locations[$counter++]['ar']],
             'price' => 140.00,
-            'status' => 'available',
             'created_at' => now(),
             'updated_at' => now(),
             ])->image()->create([
@@ -129,7 +125,6 @@ class TableSeeder extends Seeder
             'seats' => 13,
             'location' => ['en' =>$locations[$counter]['en'],'ar'=>$locations[$counter++]['ar']],
             'price' => 250.00,
-            'status' => 'available',
             'created_at' => now(),
             'updated_at' => now(),
             ])->image()->create([

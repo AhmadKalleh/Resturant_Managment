@@ -72,7 +72,7 @@ class ExtraProductService
                 $product->extra_products()->create([
                     'extra_id'=> $request['extra_id'],
                 ]);
-                $data = [true];
+                $data = [];
                 $message = __('message.Extra_Created',[],$lang);
                 $code = 201;
             }
@@ -90,7 +90,7 @@ class ExtraProductService
         if(!is_null($product))
         {
             $product->extra_products()->where('id','=', $request['extra_product_id'])->delete();
-            $data = [true];
+            $data = [];
             $message = __('message.Extra_Deleted',[],$lang);
             $code = 200;
         }

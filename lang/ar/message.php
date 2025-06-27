@@ -113,5 +113,18 @@ return [
     'blocked_reservation_until' => 'تم حظر حسابك مؤقتًا من إجراء حجوزات جديدة حتى تاريخ  :date يرجى المحاولة بعد هذا التاريخ أو التواصل مع الدعم للمساعدة.',
     'Reservation_Canceled' => 'تم إلغاء الحجز بنجاح.',
     'Checked_In_Successful' => 'تم تسجيل دخول الزبون إلى المطعم بنجاح.',
+    'Pre_Orders_Retrived' => 'تم جلب الطلبات المسبقة بنجاح.',
+    'There_Arenot_Pre_Orders' => 'لا توجد طلبات مسبقة حالياً.',
+    'Pre_Order_Retrieved' => 'تم استرجاع الطلب المسبق بنجاح.',
+    'There_Isnot_Pre_Order' => 'لا يوجد طلب مسبق.',
+    'Prepare_At_Must_After_Reservation_Start_Time' => 'يجب أن يكون وقت التحضير بعد وقت بدء الحجز.',
+    'Pre_Order_Created_And_Cart_Attached' => 'تم إنشاء الطلب المسبق بنجاح وإلحاق العناصر المختارة من السلة به.',
+    'Pre_Order_Items_Attached' => 'تم إلحاق العناصر المختارة من السلة بنجاح إلى الطلب المسبق.',
+    'Prepare_At_Must_Before_Reservation_End_Time' => 'يجب أن يكون وقت التحضير قبل وقت انتهاء الحجز.',
+    'Wallet_Not_Found' => 'لم يتم العثور على بطاقة ائتمان.',
+    'Table_Price_exceeds_Your_Wallet' => 'سعر الطاولة يتجاوز رصيد محفظتك.',
+
+
+
 
 ];

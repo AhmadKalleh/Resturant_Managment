@@ -27,6 +27,9 @@ class FormRequestCart extends FormRequest
     public function rules(): array
     {
         return match ($this->method()) {
+            'GET' => match ($this->route()->getActionMethod()) {
+                'show_own_extra_for_product' =>$this->show_own_extra_for_product()
+            },
             'POST' => match ($this->route()->getActionMethod()) {
                 'store' => $this->store(),
                 'update_quantity' => $this->update_quantity(),
@@ -41,6 +44,13 @@ class FormRequestCart extends FormRequest
             },
             default => []
         };
+    }
+
+    public function show_own_extra_for_product(): array
+    {
+        return [
+            'cart_item_id' =>'required|integer'
+        ];
     }
 
     public function update_cart_item(): array

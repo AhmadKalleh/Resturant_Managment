@@ -19,80 +19,32 @@ class ProductService
 
     public function top_ratings()
     {
-        $categories = Category::all();
+        $categories = Category::with('products.image')->get();
         $lang = Auth::user()->preferred_language;
-        $result = $categories->map(function ($category) use ( $lang)
-        {
-            $topProducts = $category->products->sortByDesc(function ($product)
-            {
+
+        // اجمع أعلى منتجين من كل فئة
+        $allTopProducts = $categories->flatMap(function ($category) {
+            return $category->products->sortByDesc(function ($product) {
                 return optional($product->average_rating) ?? 0;
             })->take(2);
+        })->unique('id') // إزالة المنتجات المكررة في حال تكررت عبر الفئات
+        ->sortByDesc(function ($product) {
+            return optional($product->average_rating) ?? 0;
+        })->values();
 
-            return [
-                'category_id' => $category->id,
-                'category_name' => $category->name,
-                'top_products' => $topProducts->map(function ($product) use ($lang)
-                {
-                    $image_path = $product->image->path;
-                    $name = $product->getTranslation('name', $lang);
-                    $description = $product->getTranslation('description', $lang);
-                    return [
-                        'id' => $product->id,
-                        'name' => $name,
-                        'description' => $description,
-                        'price' => $product->price_text,
-                        'calories' => $product->calories_text,
-                        'image_path' => url(Storage::url($image_path) ?? null),
-                        'rating' => $product->average_rating,
-                    ];
-                }),
-            ];
-        });
-
-        if(!is_null($result))
-        {
-            $message = __('message.Top_Ratings_Retirived',[],$lang);
-            $data = $result;
-        }
-        else
-        {
-            $message = __('message.No_Products_Available',[],$lang);
-            $data = [];
-        }
-
-        $code = 200;
-        return ['data' =>$data,'message'=>$message,'code'=>$code];
-
-
-    }
-
-
-    public function index($request): array
-    {
-        $category = Category::query()->where('id', $request['category_id'])->first();
-        $lang = Auth::user()->preferred_language;
-
-        if (!is_null($category)) {
-
-            $customer = Auth::user()->customer;
-
-            // آخر سلة غير مشتراة
-            $exist_cart = $customer->carts()
+        $customer = Auth::user()->customer;
+        $exist_cart = $customer->carts()
                 ->where('is_checked_out', false)
                 ->latest()
                 ->first();
 
             // منتجات المفضلة كلها
-            $favorite_products_ids = $customer->favorites()->pluck('product_id')->toArray();
+        $favorite_products_ids = $customer->favorites()->pluck('product_id')->toArray();
 
-            $products = $category->products()
-                ->with('favorites')
-                ->get()
-                ->sortByDesc(fn($product) => $product->average_rating ?? 0)
-                ->values()
-                ->map(function ($product) use ($lang, $exist_cart, $favorite_products_ids) {
 
-                    $image_path = $product->image->path ?? null;
+        // تنسيق المنتجات حسب اللغة
+        $formattedProducts = $allTopProducts->map(function ($product) use ($lang,$exist_cart, $favorite_products_ids) {
+            $image_path = $product->image->path ?? null;
                     $name = $product->getTranslation('name', $lang);
                     $description = $product->getTranslation('description', $lang);
 
@@ -120,8 +72,91 @@ class ProductService
                         'exist_in_cart' => $in_cart,
                         'exist_in_favorite' => $in_favorite,
                     ];
+        });
 
-                });
+        if ($formattedProducts->isNotEmpty()) {
+            $message = __('message.Top_Ratings_Retirived', [], $lang);
+            $data = $formattedProducts;
+        } else {
+            $message = __('message.No_Products_Available', [], $lang);
+            $data = [];
+        }
+
+        return [
+            'data' => $data,
+            'message' => $message,
+            'code' => 200,
+        ];
+    }
+
+
+
+
+
+    public function index($request): array
+    {
+        $category = Category::query()->where('id', $request['category_id'])->first();
+        $lang = Auth::user()->preferred_language;
+
+        if (!is_null($category)) {
+
+            $customer = Auth::user()->customer;
+
+            // آخر سلة غير مشتراة
+            $exist_cart = $customer->carts()
+                ->where('is_checked_out', false)
+                ->latest()
+                ->first();
+
+            // منتجات المفضلة كلها
+            $favorite_products_ids = $customer->favorites()->pluck('product_id')->toArray();
+
+            if($category->getTranslation('name', $lang) =='Top Ratings' || $category->getTranslation('name', $lang) =='الأعلى تقييما')
+            {
+                $pro_service = new ProductService();
+                $products = collect($pro_service->top_ratings()['data']);
+            }
+            else
+            {
+
+                $products = $category->products()
+                    ->with('favorites')
+                    ->get()
+                    ->sortByDesc(fn($product) => $product->average_rating ?? 0)
+                    ->values()
+                    ->map(function ($product) use ($lang, $exist_cart, $favorite_products_ids) {
+
+                        $image_path = $product->image->path ?? null;
+                        $name = $product->getTranslation('name', $lang);
+                        $description = $product->getTranslation('description', $lang);
+
+
+                        $in_cart = false;
+                        if ($exist_cart)
+                        {
+                            $in_cart = $exist_cart->cart_items()
+                                ->where('product_id', $product->id)
+                                ->exists();
+                        }
+
+
+                        $in_favorite = in_array($product->id, $favorite_products_ids);
+
+                        return
+                        [
+                            'id' => $product->id,
+                            'name' => $name,
+                            'description' => $description,
+                            'price' => $product->price_text,
+                            'calories' => $product->calories_text,
+                            'image_path' => url(Storage::url($image_path)),
+                            'rating' => $product->average_rating,
+                            'exist_in_cart' => $in_cart,
+                            'exist_in_favorite' => $in_favorite,
+                        ];
+
+                    });
+            }
 
             $message = $products->isEmpty()
                 ? __('message.No_Products_Available', [], $lang)
@@ -162,15 +197,17 @@ class ProductService
             ->latest()
             ->first();
 
+            $exist_product_in_favorite = null ;
             $exist_product_in_favorite = Auth::user()->customer->favorites()
             ->where('product_id',$product->id)
             ->first();
+
+            $cart_item =null;
 
             if ($exist_cart)
             {
                 $cart_item = $exist_cart->cart_items()->where('product_id', $product->id)->with('extra_products')->first();
             }
-
 
             $data = [
                 'id' => $product->id,
@@ -197,7 +234,7 @@ class ProductService
                         'is_reserved' => $is_reserved
                     ];
 
-            }),
+                }),
 
             ];
 
@@ -406,7 +443,7 @@ class ProductService
                 'path' => $this->uplodeImage($request->file('image_file'),'products')
             ]);
 
-            $data =[true];
+            $data =[];
             $code = 201;
             $message= __('message.Product_Created',[],$lang);
 
@@ -492,7 +529,7 @@ class ProductService
             'calories' =>$request['calories']
             ]);
 
-            $data = [true];
+            $data = [];
             $code= 200;
             $message = __('message.Product_Updated',[],$lang);
 

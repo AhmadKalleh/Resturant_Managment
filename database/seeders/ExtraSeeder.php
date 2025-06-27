@@ -95,7 +95,7 @@ class ExtraSeeder extends Seeder
             ]);
         }
 
-        $category = Category::with('products')->where('id', 1)->first();
+        $category = Category::with('products')->where('id', 2)->first();
         $fastFoddProducts = $category->products;
 
         $fastFoddProducts[0]->extras()->attach([1, 2, 3, 4, 5]);
@@ -107,10 +107,9 @@ class ExtraSeeder extends Seeder
         $fastFoddProducts[6]->extras()->attach([1, 3, 5, 7, 9]);
         $fastFoddProducts[7]->extras()->attach([5, 8, 9, 10]);
         $fastFoddProducts[8]->extras()->attach([1, 2, 3, 4]);
-        $fastFoddProducts[9]->extras()->attach([1, 2, 4, 8]);
 
 
-        $category = Category::with('products')->where('id', 2)->first();
+        $category = Category::with('products')->where('id', 3)->first();
         $drinks = $category->products;
 
 
@@ -123,10 +122,9 @@ class ExtraSeeder extends Seeder
         $drinks[6]->extras()->attach([1, 3, 5, 7, 9]);
         $drinks[7]->extras()->attach([5, 8, 9, 10]);
         $drinks[8]->extras()->attach([1, 2, 3, 4]);
-        $drinks[9]->extras()->attach([1, 2, 4, 8]);
 
 
-        $category = Category::with('products')->where('id', 3)->first();
+        $category = Category::with('products')->where('id', 4)->first();
         $salads = $category->products;
 
 

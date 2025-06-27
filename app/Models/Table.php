@@ -32,7 +32,7 @@ class Table extends Model
 
     public function getPriceTextAttribute():string
     {
-        return number_format($this->price, 0, ',', ',') . ' $';
+        return rtrim(rtrim(number_format($this->price, 2, '.', ','), '0'), '.') . ' $';
     }
 
 }

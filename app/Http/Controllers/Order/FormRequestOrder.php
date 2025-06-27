@@ -29,19 +29,36 @@ class FormRequestOrder extends FormRequest
         return match ($this->method())
         {
             'GET' => match ($this->route()->getActionMethod()) {
-                'show_all_reservation_for_table' => $this->show_all_reservation_for_table(),
+                'show_pre_order' => $this->show_pre_order(),
             },
             'POST' => match ($this->route()->getActionMethod()) {
-                'create_reservation' => $this->create_reservation(),
-                'check_in_reservation' => $this->cancel_reservation(),
+                'create_pre_order' => $this->create_pre_order(),
             },
 
             'DELETE'=> match ($this->route()->getActionMethod())
             {
-                'cancel_reservation' => $this->cancel_reservation(),
+                'cancel_pre_order' => $this->cancel_pre_order(),
             },
             default => []
         };
+    }
+
+    public function create_pre_order():array
+    {
+        return [
+            'prepare_at' => 'required|string',
+            'reservation_id' =>'required|integer',
+            'cart_id' =>'required|integer',
+            'cart_item_ids'=>'required|array',
+            'cart_item_ids.*' =>'required|integer'
+        ];
+    }
+
+    public function show_pre_order():array
+    {
+        return [
+            'cart_id'=>'required|integer'
+        ];
     }
 
 

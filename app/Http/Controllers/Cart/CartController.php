@@ -36,6 +36,23 @@ class CartController extends Controller
         }
     }
 
+    public function show_own_extra_for_product(FormRequestCart $request):JsonResponse
+    {
+
+        $data=[];
+
+        try
+        {
+            $data = $this->_cartService->show_own_extra_for_product($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
     public function store(FormRequestCart $request): JsonResponse
     {
 

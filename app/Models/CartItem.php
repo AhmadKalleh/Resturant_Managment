@@ -47,12 +47,12 @@ class CartItem extends Model
 
     public function getTotalPriceTextAttribute()
     {
-        return number_format($this->total_price, 0, ',', ',') . ' $';
+        return rtrim(rtrim(number_format($this->total_price, 2, '.', ','), '0'), '.') . ' $';
     }
 
     public function scopeTotalPriceForCart($query, $cartId)
     {
-        $cartItems = $query->with('extra_products')->where('cart_id', $cartId)->get();
+        $cartItems = $query->with('extra_products')->where('cart_id', $cartId)->where('is_selected_for_checkout',false)->get();
 
         $total = 0;
 
@@ -67,7 +67,7 @@ class CartItem extends Model
             $total += $itemTotal + $extraTotal;
         }
 
-        return $total;
+        return rtrim(rtrim(number_format($total, 2, '.', ','), '0'), '.');
     }
 
 }

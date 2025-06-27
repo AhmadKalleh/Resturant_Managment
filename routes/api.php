@@ -207,8 +207,6 @@ Route::controller(OfferController::class)->group(function()
     {
         Route::get('/show_offer','show')->middleware('can:show-offer');
 
-        Route::get('/special_offers','special_offers')->middleware('can:show-offer');
-
         Route::get('/index_offer','index')->middleware('can:index-offer');
 
         Route::post('/store_offer','store')->middleware('can:create-offer');
@@ -227,6 +225,8 @@ Route::controller(CartController::class)->group(function()
     {
 
         Route::get('/index_cart','index')->middleware('can:index-cart');
+
+        Route::get('/show_own_extra_for_product','show_own_extra_for_product')->middleware('can:show_own_extra_for_product');
 
         Route::post('/store_cart','store')->middleware('can:create-cart');
 
@@ -324,13 +324,13 @@ Route::controller(OrderController::class)->group(function()
 
         Route::get('/index_pre_orders','index_pre_orders')->middleware('can:index-order');
 
-        Route::get('/show_all_reservation_for_table','show_all_reservation_for_table')->middleware('can:index-order');
+        Route::get('/show_pre_order','show_pre_order')->middleware('can:show-order');
 
-        Route::post('/check_in_reservation','check_in_reservation')->middleware('can:check-in-reservation');
+        Route::post('/create_pre_order','create_pre_order')->middleware('can:create-order');
 
-        Route::post('/create_reservation','create_reservation')->middleware('can:create-reservation');
+        // Route::post('/create_reservation','create_reservation')->middleware('can:create-reservation');
 
-        Route::delete('/cancel_reservation','cancel_reservation')->middleware('can:delete-reservation');
+        // Route::delete('/cancel_reservation','cancel_reservation')->middleware('can:delete-reservation');
 
     });
 

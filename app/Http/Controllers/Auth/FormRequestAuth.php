@@ -72,7 +72,15 @@ class FormRequestAuth extends FormRequest
             'preferred_language' =>'required|string',
             'preferred_theme' =>'required|string',
             'gendor' =>'required|string',
-            'date_of_birth'=>'required|date_format:Y-m-d',
+            'date_of_birth' => [
+            'required',
+                function ($attribute, $value, $fail) {
+                    $timestamp = strtotime($value);
+                    if (!$timestamp) {
+                        return $fail("The $attribute is not a valid date.");
+                    }
+                }
+            ],
             'first_name' =>'required|string|max:50|min:2',
             'last_name' =>'required|string|max:50|min:2',
             'mobile'=>'required|string|phone:US-SY,mobile,AUTO|unique:pending_users,mobile|unique:users,mobile',
@@ -94,7 +102,7 @@ class FormRequestAuth extends FormRequest
     {
         return [
             'email'=>'required|string|email',
-            'password' =>'required|min:6',
+            'password' =>'required',
             'fcm_Token' =>'string'
         ];
     }
@@ -130,23 +138,27 @@ class FormRequestAuth extends FormRequest
         return $fullPhone;
     }
 
+
     protected function failedValidation(Validator $validator)
     {
-        // الحصول على اللغة الحالية
         $language = app()->getLocale();
 
-        // تحميل الرسائل بناءً على اللغة
         $messages = $validator->errors()->toArray();
 
-        // تحويل الرسائل إلى اللغة المطلوبة
         $translatedMessages = [];
+
         foreach ($messages as $field => $messageArray) {
             foreach ($messageArray as $message) {
-                $translatedMessages[$field][] = __($message, [], $language);
+                // إذا كانت الرسالة مفتاح ترجمة (مثلاً validation.phone)
+                if (is_string($message) && str_starts_with($message, 'validation.')) {
+                    $translatedMessages[$field][] = trans($message, [], $language);
+                } else {
+                    $translatedMessages[$field][] = $message;
+                }
             }
         }
 
-        // إرجاع الاستجابة مع الرسائل المترجمة
         throw new ValidationException($validator, $this->Validation([], $translatedMessages));
     }
+
 }

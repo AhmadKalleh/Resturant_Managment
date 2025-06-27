@@ -29,6 +29,23 @@ class RolesPermissionsSeeder extends Seeder
 
 
 
+        $resturant_manager_permissions =
+        [
+            'create-table','update-table','delete-table','show-table','index-table','update-theme','update-lan',
+            'delete-offer','show-offer','index-offer','index-rating','update-rating','send_message',
+            'create-chef','update-chef','delete-chef','show-chef','index-chef','index-chat','index-chat_message','send-message',
+            'create-customer','update-customer','delete-customer','show-customer','index-customer','show_own_extra_for_product',
+            'create-reception','update-reception','delete-reception','index-reception','show-reception',
+            'delete-reservations','show-reservations','index-reservations','create-offer','update-offer',
+            'create-products','update-products','delete-products','show-products','index-products',
+            'create-categories','update-categories','delete-categories','show-categories','index-categories',
+            'show-order','index-order','behavior-monitoring','view-statistics','manage-profile','check-in-reservation',
+            'index-extra','create-extra','update-extra','delete-extra','show-extra','create-order','transfer-ownership',
+            'create-reservation','approve-reservation','reject-reservation','confirm-arrival','manage-profile',
+            'mark-order-complete','delete-reservation','show-reservation','index-reservation','filter','delete_extra_product',
+            'index-favorite','create-favorite','delete-favorite','create-rating','update-rating','create-cart','update-cart','index-cart',
+            'show-info','change-mobile','update-password','update-image-profile','delete-account','show_extra_product_details','store_extra_product'
+        ];
         foreach($resturant_manager_permissions as $permission)
         {
             Permission::findOrCreate($permission,'web');
@@ -69,7 +86,7 @@ class RolesPermissionsSeeder extends Seeder
         [
             'show-categories','index-categories','show-products','index-products','filter',
             'show-offer','index-offer','index-favorite','create-favorite','delete-favorite',
-            'create-rating','update-rating','create-cart','update-cart','index-cart',
+            'create-rating','update-rating','create-cart','update-cart','index-cart','show_own_extra_for_product',
             'create-reservation','delete-reservation','show-reservation','index-reservation',
             'create-order','show-order','index-order','manage-profile','show-table','index-table',
             'show-info','change-mobile','update-password','update-image-profile','delete-account',
@@ -323,6 +340,14 @@ $customer3 = User::query()->create([
         $customer4->customer()->create([
             'person_height' =>'150',
             'person_weight' =>'45'
+        ]);
+
+        $customer4->customer->mywalllet()->create([
+            'amount' => 5000,
+            'card_number' => '4242424242424242',
+            'cvc' => '1234',
+            'email' =>'saraebrahimf2004@example.com'
+
         ]);
 
         // $stripe = new StripeService();

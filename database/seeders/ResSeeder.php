@@ -35,8 +35,8 @@ class ResSeeder extends Seeder
         Reservation::create([
             'customer_id' => 4,
             'table_id' => 2,
-            'reservation_start_time' => Carbon::now('Asia/Damascus'),
-            'reservation_end_time' => Carbon::now('Asia/Damascus')->addMinutes(50),
+            'reservation_start_time' => Carbon::now('Asia/Damascus')->addHour(),
+            'reservation_end_time' => Carbon::now('Asia/Damascus')->addHours(3),
             'is_checked_in' => false,
         ]);
     }

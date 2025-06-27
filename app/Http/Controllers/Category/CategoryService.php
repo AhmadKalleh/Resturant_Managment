@@ -2,42 +2,59 @@
 
 namespace App\Http\Controllers\Category;
 
+use App\Http\Controllers\Product\ProductService;
 use App\Http\Controllers\TranslateHelper\TranslateHelper;
 use App\Http\Controllers\Upload\UplodeImageHelper;
 use App\Models\Category;
 use Auth;
 use Storage;
 
-class CategoryService{
-use UplodeImageHelper;
+class CategoryService
+{
 
+    use UplodeImageHelper;
     use TranslateHelper;
+
+
     public function index():array
     {
         $categories = Category::query()->with('image','chef')->get();
         $lang = Auth::user()->preferred_language;
         $data = [];
+
+        $pro_service = new ProductService();
         if($categories)
         {
-            foreach ($categories as $category)
-            {
-                $data[] =
-                    [
-                        "id"=>$category->id,
-                        "name"=>$category->getTranslation('name', $lang),
-                        "description"=>$category->getTranslation('description', $lang),
-                        "image_path"=>url('storage/' . $category->image->path),
-                        "chef"=>
-                        [
-                            'id' =>$category->chef->id,
+            foreach ($categories as $category) {
+
+                if($category->getTranslation('name', $lang) =='Top Ratings' || $category->getTranslation('name', $lang) =='الأعلى تقييما')
+                {
+                        $data[] = [
+                        "id" => $category->id,
+                        "name" => $category->getTranslation('name', $lang),
+                        "image_path" => url('storage/' . $category->image->path),
+                        "top_product" => $pro_service->top_ratings()['data'],
+                    ];
+                }
+                else
+                {
+                        $data[] = [
+                        "id" => $category->id,
+                        "name" => $category->getTranslation('name', $lang),
+                        "description" => $category->getTranslation('description', $lang),
+                        "image_path" => url('storage/' . $category->image->path),
+                        "chef" => [
+                            'id' => $category->chef->id,
                             'speciality' => $category->chef->getTranslation('speciality', $lang),
-                            'years_of_experience'=> $category->chef->years_of_experience,
+                            'years_of_experience' => $category->chef->years_of_experience,
                             'bio' => $category->chef->bio,
-                            'certificates' =>json_decode($category['chef']['certificates'], true),
+                            'certificates' => json_decode($category->chef->certificates, true),
                         ]
                     ];
+                }
 
             }
+
 
             $message = __('message.All_category_Retrived',[],$lang);
             $code = 200;
@@ -61,20 +78,34 @@ use UplodeImageHelper;
         if($category)
         {
 
-            $data = [
-                'id' => $category->id,
-                'name' => $category->getTranslation('name', $lang),
-                "description"=>$category->getTranslation('description', $lang),
-                "image_path"=>url('storage/' . $category->image->path),
-                    'chef' => [
-                        'id' =>$category['chef']['id'],
-                        'speciality' => $category['chef']->getTranslation('speciality', $lang),
-                        'years_of_experience'=> $category['chef']['years_of_experience'],
-                        'bio' => $category['chef']['bio'],
-                        'certificates' =>json_decode($category['chef']['certificates'], true),
-                    ],
+            if($category->getTranslation('name', $lang) =='Top Ratings' || $category->getTranslation('name', $lang) =='الأعلى تقييما')
+            {
+                        $pro_service = new ProductService();
+                        $data[] = [
+                        "id" => $category->id,
+                        "name" => $category->getTranslation('name', $lang),
+                        "image_path" => url('storage/' . $category->image->path),
+                        "top_product" => $pro_service->top_ratings()['data'],
+                    ];
+            }
+            else
+            {
 
-            ];
+                $data = [
+                    'id' => $category->id,
+                    'name' => $category->getTranslation('name', $lang),
+                    "description"=>$category->getTranslation('description', $lang),
+                    "image_path"=>url('storage/' . $category->image->path),
+                        'chef' => [
+                            'id' =>$category['chef']['id'],
+                            'speciality' => $category['chef']->getTranslation('speciality', $lang),
+                            'years_of_experience'=> $category['chef']['years_of_experience'],
+                            'bio' => $category['chef']['bio'],
+                            'certificates' =>json_decode($category['chef']['certificates'], true),
+                        ],
+
+                ];
+            }
             $code = 200;
 
             $message = __('message.Category_Retrived',[],$lang);
@@ -152,7 +183,7 @@ use UplodeImageHelper;
         ]);
 
 
-        $data = [true];
+        $data = [];
 
         $message = __('message.Category_Created',[],$lang);
         $code = 201;
@@ -237,7 +268,7 @@ use UplodeImageHelper;
         }
 
 
-        $data = [true];
+        $data = [];
         $code= 200;
         $message = __('message.Category_Updated',[],$lang);
 
@@ -259,7 +290,7 @@ use UplodeImageHelper;
             }
 
             $category->delete();
-            $data = [true];
+            $data = [];
             $code= 200;
             $message = __('message.Category_Deleted',[],$lang);
         }

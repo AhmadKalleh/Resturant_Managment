@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Reservation::class)->nullable()->constrained()->nullOnDelete();
-            $table->decimal("total_amount", 8, 0);
+            $table->decimal("total_amount", 8, 2);
             $table->timestamps();
         });
     }

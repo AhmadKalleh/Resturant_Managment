@@ -98,7 +98,7 @@ class TableService
         $table->image()->create([
             'path' => $this->uplodeImage($request->file('table_Image'),"tables"),
         ]);
-        $data = [true];
+        $data = [];
 
 
         $message = __('message.Table_Created_Successfully',[],$lang);
@@ -145,7 +145,7 @@ class TableService
         }
 
         return [
-            'data' => [true],
+            'data' => [],
             'message' => __('message.Table_Updated_Successfully', [], $lang),
             'code' => 200,
         ];
@@ -178,7 +178,7 @@ class TableService
 
 
         return [
-            'data' => [true],
+            'data' => [],
             'message' => __('message.Table_Delete_Successfully', [], $lang),
             'code' => 200,
         ];

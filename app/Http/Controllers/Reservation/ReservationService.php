@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Reservation;
 
 use App\Jobs\AutoCancelExpiredReservations;
+use App\Models\Order;
 use App\Models\Reservation;
+use App\Models\Table;
 use Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -47,10 +49,9 @@ class ReservationService
             ->get()
             ->map(function ($reservation) use ($lang) {
                 $now = now()->addHours(3); // هذه لأجل الحساب فقط إن كنت تعمل بتوقيت آخر
-                $start_time = Carbon::parse($reservation->reservation_start_time);
-                $start_time2 = $start_time->copy()->addMinutes(31);
+                $start_time = Carbon::parse($reservation->reservation_start_time)->addMinutes(31);
 
-                $is_cancelable = ($now >= $start_time && $now <= $start_time2);
+                $is_cancelable = ($now <= $start_time);
 
                 return [
                     'reservation_id' => $reservation->id,
@@ -63,12 +64,6 @@ class ReservationService
                     'is_cancelable' => $is_cancelable,
                 ];
             });
-
-
-
-
-
-
 
         $data = [
             'next_res' => $next_reservations,
@@ -125,6 +120,33 @@ class ReservationService
     {
         $lang = Auth::user()->preferred_language;
 
+        $customer = Auth::user()->customer;
+
+
+        if (!$customer->myWalllet)
+        {
+            $data = [];
+            $message = __('message.Wallet_Not_Found', [], $lang); // استخدم مفتاح حقيقي هنا مثل Wallet_Not_Found
+            $code = 400;
+
+            return ['data' => $data, 'message' => $message, 'code' => $code];
+        }
+
+        $table_price = (int) Table::query()
+            ->where('id', $request['table_id'])
+            ->pluck('price')
+            ->first() ;
+
+        if($customer->myWalllet->amount < $table_price)
+        {
+            $data = [];
+            $message = __('message.Table_Price_exceeds_Your_Wallet', [], $lang); // استخدم مفتاح حقيقي هنا مثل Wallet_Not_Found
+            $code = 400;
+
+            return ['data' => $data, 'message' => $message, 'code' => $code];
+        }
+
+
         if (Auth::user()->customer->block_reservation)
         {
             $blockedUntil = Auth::user()->customer->blocked_until;
@@ -160,9 +182,15 @@ class ReservationService
                 'is_checked_in' => false
             ]);
 
+            $table_price = $new_reservation->table->price;
+
+            $old_amount = $customer->myWalllet->amount;
+            $customer->myWalllet()->update([
+                'amount' => $old_amount - ($table_price / 2)
+            ]);
 
 
-            $data = [true];
+            $data = [];
             $message = __('message.Reservation_Created',[],$lang);
             $code = 201;
         }
@@ -189,7 +217,14 @@ class ReservationService
                 'canceled_by' => 'customer'
             ]);
 
-            $data = [true];
+            $order = Order::query()->where('reservation_id','=',$reservation->id)->first();
+
+            if($order)
+            {
+                $order->delete();
+            }
+
+            $data = [];
             $message = __('message.Reservation_Canceled', [], $lang);
             $code = 200;
         }
@@ -202,6 +237,7 @@ class ReservationService
         $lang = Auth::user()->preferred_language;
 
         $reservation = Reservation::query()->where('id','=',$request['reservation_id'])->first();
+        $customer = $reservation->customer;
 
         if($reservation)
         {
@@ -209,7 +245,14 @@ class ReservationService
                 'is_checked_in' => true,
             ]);
 
-            $data = [true];
+            $table_price = $reservation->table->price;
+
+            $old_amount = $customer->myWalllet->amount;
+            $customer->myWalllet()->update([
+                'amount' => $old_amount - ($table_price / 2)
+            ]);
+
+            $data = [];
             $message = __('message.Checked_In_Successful', [], $lang);
             $code = 200;
         }

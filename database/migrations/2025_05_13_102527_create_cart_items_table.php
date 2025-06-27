@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignIdFor(Cart::class)->constrained()->cascadeOnDelete();
             $table->foreignId('product_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('offer_id')->nullable()->constrained()->nullOnDelete();
-            $table->decimal('price_at_order',8,0);
-            $table->decimal('total_price',8,0);
+            $table->decimal('price_at_order',8,2);
+            $table->decimal('total_price',8,2);
             $table->integer("quantity");
             $table->boolean('is_selected_for_checkout')->default(false);
             $table->boolean('is_pre_order')->default(false); // هل هذا المنتج لطلب مسبق؟

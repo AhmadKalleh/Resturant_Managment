@@ -58,7 +58,7 @@ class AuthService
         DeletePendingUsersJob::dispatch()->delay(now()->addMinutes(10));
         Mail::to($pendingUser->email)->send(new SendVerificationCodeMail($verificationCode));
 
-        $data = [true];
+        $data = ['success_register' => true];
 
         $message = __('message.Verification_code',[],$lang);
         $code = 200;
@@ -115,21 +115,13 @@ class AuthService
         // Creating a token for the user and sending it as a response
         $token = $user->createToken("api_token")->plainTextToken;
 
-        // //$stripeService = new StripeService();
-
-        // $customer = $stripeService->createCustomer($user->name, $user->email);
-        // $stripeService->attachPaymentMethodToCustomer($request['payment_method'], $customer->id);
-
-        // // تخزين بيانات Stripe
-        // UserStripeData::create([
-        //     'user_id' => $user->id,
-        //     'stripe_customer_id' => $customer->id,
-        //     'default_payment_method_id' => $request['payment_method'],
-        // ]);
+        
         $pendingUser->delete();
 
         // Send the token to the client and send it to the server with the authorization information in the response object and the user
         $data = [
+            'lan' => $user->preferred_language,
+            'theme' => $user->preferred_theme,
             'id' => $user->customer->id,
             'token'=>$token
         ];

@@ -19,17 +19,17 @@ class OfferService
     use TranslateHelper;
 
 
-    public function index ()
+public function index ()
     {
         $lang=Auth::user()->preferred_language;
         $offers = Offer::with('products')->get();
-        $data=[];
-
-        if ($offers->isNotEmpty())
+        $special_offers = Offer::withoutGlobalScopes()->onlyTrashed()->with('products')->get();
+        if ($offers->isNotEmpty()||$special_offers->isNotEmpty())
         {
+        $active_offer=[];
             foreach ($offers as $offer)
             {
-            $data[]=
+            $active_offer[]=
             [
                 'id'=>$offer->id,
                 'type'=>$this->translate('type',$offer['type']),
@@ -45,54 +45,49 @@ class OfferService
 
         }
 
-        $message=__('message.All_Offer_Retrived',[],$lang);
-        }
-
-        else
-        {
-            $message=__('message.Offers_Not_Found',[],$lang);
-        }
-
-        return ['data'=>$data,'message'=>$message,'code'=>200];
-    }
 
 
-    public function special_offers ()
-    {
-        $lang=Auth::user()->preferred_language;
-        $offers = Offer::withoutGlobalScopes()->onlyTrashed()->with('products')->get();
-        $data=[];
 
-        if ($offers->isNotEmpty())
-        {
-            foreach ($offers as $offer)
+        $Offers_rchive=[];
+            foreach ($special_offers as $special_offer)
             {
-            $data[]=
-            [
-                'id'=>$offer->id,
-                'type'=>$this->translate('type',$offer['type']),
-                'title'=>$offer->getTranslation('title', $lang),
-                'total_price'=>$offer->total_price_text,
-                'price_after_discount'=>$offer->price_after_discount_text,
-                'discount_value'=>$offer->discount_value,
-                'start_date'=>$offer->start_date,
-                'end_date'=>$offer->end_date,
-                'image'=> $offer->image ? url('storage/' . $offer->image->path) : null,
-                'calories' => $offer->total_calories_text,
-            ];
+            $Offers_rchive[] = [
+                'id'=>$special_offer->id,
+                'type'=>$this->translate('type',$special_offer['type']),
+                'title'=>$special_offer->getTranslation('title', $lang),
+                'total_price'=>$special_offer->total_price_text,
+                'price_after_discount'=>$special_offer->price_after_discount_text,
+                'discount_value'=>$special_offer->discount_value,
+                'start_date'=>$special_offer->start_date,
+                'end_date'=>$special_offer->end_date,
+                'image'=> $special_offer->image ? url('storage/' . $special_offer->image->path) : null,
+                'calories' => $special_offer->total_calories_text,
+
+        ];
 
         }
-
         $message=__('message.All_Offer_Retrived',[],$lang);
-        }
+    }
+
+
 
         else
         {
             $message=__('message.Offers_Not_Found',[],$lang);
         }
 
-        return ['data'=>$data,'message'=>$message,'code'=>200];
+            return [
+        'data' => [
+            'offers_active' => $active_offer,
+            'offers_archive' => $Offers_rchive,
+        ],
+        'message' => $message,
+        'code' => 200
+    ];
     }
+
+
+
 
     public function show($request):array
     {
@@ -225,7 +220,7 @@ class OfferService
 
         DeleteExpiredOffersJob::dispatch($offer->id);
 
-        $data =[true];
+        $data =[];
         $code = 201;
         $message= __('message.Offer_Created',[],$lang);
 
@@ -315,7 +310,7 @@ class OfferService
 
 
             DeleteExpiredOffersJob::dispatch($old_offer->id);
-            $data = [true];
+            $data = [];
             $code= 200;
             $message = __('message.Offer_Updated',[],$lang);
 

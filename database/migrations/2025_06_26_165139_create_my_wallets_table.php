@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Customer;
-use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('my_wallets', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Order::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
-            $table->boolean('is_checked_out')->default(false);
+            $table->string('card_number', 16)->unique();  // رقم البطاقة فريد
+            $table->string('cvc', 4);                     // غير فريد، لكن يمكن استخدامه مع بطاقة
+            $table->string('email');                      // غير فريد إلا إذا أردت عكس ذلك
+            $table->decimal('amount', 10, 2);
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('my_wallets');
     }
 };

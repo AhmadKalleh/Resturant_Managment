@@ -17,6 +17,17 @@ class CategorySeeder extends Seeder
             [
                 'chef_id' => 1,
                 'name' => [
+                    'en' => 'Top Ratings',
+                    'ar' => 'الأعلى تقييما',
+                ],
+                'description' => [
+                    'en' => 'All categories combined.',
+                    'ar' => 'كل الفئات مجتمعة.',
+                ],
+            ],
+            [
+                'chef_id' => 1,
+                'name' => [
                     'en' => 'Fast Food',
                     'ar' => 'مأكولات سريعة',
                 ],
@@ -46,17 +57,23 @@ class CategorySeeder extends Seeder
                     'en' => 'Healthy salads made from fresh ingredients.',
                     'ar' => 'سلطات صحية مصنوعة من مكونات طازجة.',
                 ],
-            ],
-        ];
+            ]
+        ];//Fast_Food.jpg
+        //Salads.jpg
+        //Beverages.webp
+        //All.png
 
-        $category = Category::create($categories[0]);
-        $category->image()->create(['path' => 'categories/Fast_Food.jpg']);
+        $category = Category::create($categories[0]);//categories/All.png
+        $category->image()->create(['path' => 'categories/All.png']);
 
         $category2 = Category::create($categories[1]);
-        $category2->image()->create(['path' => 'categories/Beverages.webp']);
+        $category2->image()->create(['path' => 'categories/Fast_Food.jpg']);
 
         $category3 = Category::create($categories[2]);
-        $category3->image()->create(['path' => 'categories/Salads.jpg']);
+        $category3->image()->create(['path' => 'categories/Beverages.webp']);
+
+        $category4 = Category::create($categories[3]);
+        $category4->image()->create(['path' => 'categories/Salads.jpg']);
 
     }
 }

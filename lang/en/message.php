@@ -107,4 +107,18 @@ return [
     'blocked_reservation_until' => 'Your account is temporarily blocked from making new reservations until :date. Please try again after this date or contact support for assistance.',
     'Reservation_Canceled' => 'Reservation has been canceled successfully.',
     'Checked_In_Successful' => 'Customer has been successfully checked in to the restaurant.',
+    'Pre_Orders_Retrived' => 'Pre-orders retrieved successfully.',
+    'There_Arenot_Pre_Orders' => 'There are no pre-orders available at the moment.',
+    'Pre_Order_Retrieved' => 'Pre-order retrieved successfully.',
+    'There_Isnot_Pre_Order' => 'There is no pre-order available.',
+    'Prepare_At_Must_After_Reservation_Start_Time' => 'The preparation time must be after the reservation start time.',
+    'Pre_Order_Created_And_Cart_Attached' => 'Pre-order created successfully and selected cart items attached.',
+    'Pre_Order_Items_Attached' => 'Selected items from the cart have been successfully attached to the pre-order.',
+    'Prepare_At_Must_Before_Reservation_End_Time' => 'The preparation time must be before the reservation\'s end time.',
+    'Wallet_Not_Found' => 'Credit card not found.',
+    'Table_Price_exceeds_Your_Wallet' => 'The table price exceeds your wallet balance.',
+
+
+
+
 ];

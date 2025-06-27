@@ -34,4 +34,36 @@ class OrderController extends Controller
             return $this->Error($data,$message);
         }
     }
+
+    public function show_pre_order(FormRequestOrder $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_orderService->show_pre_order($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+    public function create_pre_order(FormRequestOrder $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_orderService->create_pre_order($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
 }

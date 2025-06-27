@@ -19,8 +19,8 @@ return new class extends Migration
             $table->enum('type',['normal_day','special_day']);
             $table->json('title');
             $table->json('description')->nullable();
-            $table->decimal('total_price',8,0);
-            $table->decimal('price_after_discount',8,0);
+            $table->decimal('total_price',8,2);
+            $table->decimal('price_after_discount',8,2);
             $table->string('discount_value');
             $table->date('start_date');
             $table->date('end_date');

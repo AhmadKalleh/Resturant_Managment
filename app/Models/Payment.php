@@ -19,7 +19,6 @@ class Payment extends Model
 
     public function getAmountTextAttribute():string
     {
-        $amount = number_format($this->amount,3,'.','') .'SYP';
-        return $amount;
+        return rtrim(rtrim(number_format($this->amount, 2, '.', ','), '0'), '.') . ' $';
     }
 }

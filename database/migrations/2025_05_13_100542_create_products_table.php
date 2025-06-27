@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Chef::class)->constrained()->cascadeOnDelete();
             $table->json('name');
             $table->json('description')->nullable();
-            $table->decimal('price',8,0);
+            $table->decimal('price',8,2);
             $table->integer('calories');
             $table->decimal('average_rating', 2, 1)->default(0.0);
             $table->timestamps();

@@ -71,8 +71,8 @@ class FormRequestOffer extends FormRequest
                 'regex:/^[\p{Arabic}0-9\s\p{P}]+$/u'
             ],
             'discount_value' => 'required|string|regex:/^\d+%$/',
-            'start_date' => 'sometimes|date|after_or_equal:'. Carbon::now()->toDateString(),
-            'end_date' => 'sometimes|date|after_or_equal:start_date',
+            'start_date' => 'required|date|after_or_equal:'. Carbon::now()->toDateString(),
+            'end_date' => 'required|date|after_or_equal:start_date',
             'products_ids' => 'required|array|min:1',
             'products_ids.*' => 'integer|exists:products,id',
             'image_file' => 'required|file|mimes:jpeg,png,jpg,gif,svg,ico',

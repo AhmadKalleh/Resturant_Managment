@@ -33,4 +33,9 @@ class Order extends Model
     {
         return $this->hasMany(Cart::class);
     }
+
+    public function getTotalAmountTextAttribute()
+    {
+        return rtrim(rtrim(number_format($this->total_amount, 2, '.', ','), '0'), '.') . ' $';
+    }
 }
