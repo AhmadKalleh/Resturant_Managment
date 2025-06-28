@@ -90,12 +90,21 @@ class CartService
                                 'total_product_price' => ($product->price * $item->quantity) + $item->extra_products->sum(function ($extraProduct) {
                                     return $extraProduct->extra?->price ?? 0;
                                 }). ' $',
-                                'extras' => $item->extra_products->map(function ($extraProduct) use ($lang) {
+                                'extras' => $product->extra_products->map(function ($extraProduct) use ($lang,$item)
+                                {
+                                    $is_reserved = false;
+
+                                    if ($item && $item->extra_products->contains($extraProduct->id)) {
+                                        $is_reserved = true;
+                                    }
+
                                     return [
                                         'extra_product_id' => $extraProduct->id,
                                         'extra_name' => $extraProduct->extra?->getTranslation('name', $lang),
-                                        'extra_price' => $extraProduct->extra?->price_text
+                                        'extra_price' => $extraProduct->extra->price_text,
+                                        'is_reserved' => $is_reserved
                                     ];
+
                                 })
                         ];
 
@@ -194,8 +203,8 @@ class CartService
     {
         $lang = Auth::user()->preferred_language;
 
-        $isProduct = $request['product_id'];
-        $isOffer = $request['offer_id'];
+        $isProduct = !empty($request['product_id']);
+        $isOffer   = !empty($request['offer_id']);
 
         $itemModel = $isProduct
             ? Product::find($request['product_id'])
@@ -211,96 +220,101 @@ class CartService
             ];
         }
 
-        // Check for existing cart
+        // احصل على السلة الحالية أو أنشئ واحدة جديدة
         $exist_cart = Auth::user()->customer->carts()
             ->where('is_checked_out', false)
             ->latest()
             ->first();
 
-        if (is_null($exist_cart))
-        {
+        if (is_null($exist_cart)) {
             $exist_cart = Auth::user()->customer->carts()->create([
                 'order_id' => null,
                 'is_checked_out' => false
             ]);
         }
 
-        // Check for existing item in cart (product or offer)
+        // Default price
+        $price = $isProduct ? $itemModel->price : $itemModel->price_after_discount;
 
-        $extraProductIds = collect($request['extra_product_ids'] ?? [])
-        ->map(fn($id) => (int) $id)
-        ->sort()
-        ->values()
-        ->toArray();
-
-
-        $cart_item_query = $exist_cart->cart_items();
-        $existing_items = $isProduct
-        ? $cart_item_query->where('product_id', $request['product_id'])->get()
-        : $cart_item_query->where('offer_id', $request['offer_id'])->get();
-
-
-        $cart_item = null;
-
-        foreach ($existing_items as $item)
+        // الحالة: إذا كان المنتج
+        if ($isProduct)
         {
-            $existing_extra_ids = $item->extra_products()->pluck('extra_product_id')->sort()->values()->toArray();
+            $extraProductIds = collect($request['extra_product_ids'] ?? [])
+                ->map(fn($id) => (int)$id)
+                ->sort()
+                ->values()
+                ->toArray();
 
-            $isSameExtras = $extraProductIds === $existing_extra_ids;
+            $existing_items = $exist_cart->cart_items()
+                ->where('product_id', $request['product_id'])
+                ->get();
 
+            $cart_item = null;
 
-            $isBothEmpty = empty($extraProductIds) && empty($existing_extra_ids);
+            foreach ($existing_items as $item) {
+                $existing_extra_ids = $item->extra_products()->pluck('extra_product_id')->sort()->values()->toArray();
 
-            if ($isSameExtras || $isBothEmpty) {
-                $cart_item = $item;
-                break;
+                $isSameExtras = $extraProductIds === $existing_extra_ids;
+                $isBothEmpty = empty($extraProductIds) && empty($existing_extra_ids);
+
+                if ($isSameExtras || $isBothEmpty) {
+                    $cart_item = $item;
+                    break;
+                }
             }
-        }
 
+            if ($cart_item) {
+                // إذا كان موجود مسبقًا، فقط نزيد الكمية
+                $cart_item->update([
+                    'quantity' => $cart_item->quantity + $request['quantity']
+                ]);
+            } else {
+                // غير موجود → إنشاء عنصر جديد في السلة
+                $cart_item = $exist_cart->cart_items()->create([
+                    'product_id' => $request['product_id'],
+                    'price_at_order' => $price,
+                    'total_price' => $price * $request['quantity'],
+                    'quantity' => $request['quantity']
+                ]);
 
-        if ($cart_item) {
-            // Update quantity if already exists
-            $cart_item->update([
-                'quantity' => $cart_item->quantity + $request['quantity']
-            ]);
-
-            // Attach extras if it's a product
-            // if ($isProduct && count($request['extra_product_ids'] ?? []) > 0) {
-            //     $cart_item->extra_products()->sync($request['extra_product_ids']);
-            // }
-        } else {
-
-            $price = $isProduct ? $itemModel->price : $itemModel->price_after_discount;
-            // Create new cart item
-            $cart_item = $exist_cart->cart_items()->create([
-                'product_id' => $isProduct ??  null,
-                'offer_id' => $isOffer ??  null,
-                'price_at_order' => $price,
-                'total_price' => $price * $request['quantity'],
-                'quantity' => $request['quantity']
-            ]);
-
-            if ($isProduct && count($request['extra_product_ids'] ?? []) > 0) {
-                $cart_item->extra_products()->sync($request['extra_product_ids']);
+                if (count($extraProductIds) > 0) {
+                    $cart_item->extra_products()->sync($extraProductIds);
+                }
             }
+
+            // حساب السعر الكامل مع الإضافات
+            $total_extras_price = $cart_item->extra_products->sum(fn($extraProduct) => $extraProduct->extra->price ?? 0);
+            $total_price = rtrim(rtrim(number_format($cart_item->total_price + $total_extras_price, 2, '.', ','), '0'), '.') . ' $';
+
         }
+        else
+        {
+            $exist_cart_item = CartItem::query()->where('offer_id','=',$request['offer_id'])->first();
 
-        // Calculate total price
-        $total_extras_price = $isProduct
-            ? $cart_item->extra_products->sum(fn($extraProduct) => $extraProduct->extra->price ?? 0)
-            : 0;
+            if($exist_cart_item)
+            {
+                $exist_cart_item->update([
+                    'quantity' => $exist_cart_item->quantity + $request['quantity']
+                ]);
+            }
+            else
+            {
+                $cart_item = $exist_cart->cart_items()->create([
+                    'offer_id' => $request['offer_id'],
+                    'price_at_order' => $price,
+                    'total_price' => $price * $request['quantity'],
+                    'quantity' => $request['quantity']
+                ]);
+            }
 
 
-        $total_price = rtrim(rtrim(number_format($cart_item->total_price + $total_extras_price, 2, '.', ','), '0'), '.'). ' $';
+        }
 
         return [
-            'data' => ['total_price' => $total_price],
+            'data' => [],
             'message' => __('message.Cart_Item_Added', [], $lang),
             'code' => 201
         ];
-
-
-        return ['data' =>$data,'message'=>$message,'code'=>$code];
     }
 
     public function update_quantity($request):array
@@ -338,11 +352,24 @@ class CartService
             }
 
             $total_price = CartItem::TotalPriceForCart($exist_cart->id);
+            if($cart_item->product_id)
+            {
+                $total_price_cart_item = $cart_item->total_price + $cart_item->extra_products->sum(function ($extraProduct) {
+                                    return $extraProduct->extra?->price ?? 0;
+                }). ' $';
+
+            }
+            else
+            {
+                $total_price_cart_item = $cart_item->total_price .' $';
+            }
+
+            $data = [
+                'total_price_cart' => $total_price . ' $',
+                'total_price_cart_item' => $total_price_cart_item
+            ];
             $message = __('message.Cart_Item_Updated_Quantity',[],$lang);
             $code = 200;
-            $data = [
-                'total_price' => $total_price . ' $'
-            ];
 
         }
         else
@@ -364,10 +391,20 @@ class CartService
         {
             $cart_item->extra_products()->sync($request['extra_product_ids']);
 
-            $total_extras_price = $cart_item->extra_products->sum(fn($extraProduct) => $extraProduct->extra->price ?? 0);
-            $total_price = rtrim(rtrim(number_format($cart_item->total_price + $total_extras_price, 2, '.', ','), '0'), '.'). ' $';
+            $exist_cart = $cart_item->cart()
+            ->where('is_checked_out', false)
+            ->first();
 
-            $data = ['total_price' => $total_price];
+            $total_price = CartItem::TotalPriceForCart($exist_cart->id);
+            $total_price_cart_item = $cart_item->total_price + $cart_item->extra_products->sum(function ($extraProduct) {
+                        return $extraProduct->extra?->price ?? 0;
+                }). ' $';
+
+
+            $data = [
+                'total_price_cart' => $total_price . ' $',
+                'total_price_cart_item' => $total_price_cart_item
+            ];
             $message = __('message.Cart_Item_Extra_Product_Updated',[],$lang);
             $code = 200;
         }

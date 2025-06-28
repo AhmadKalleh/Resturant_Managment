@@ -51,12 +51,12 @@ class Offer extends Model
     }
     public function getTotalPriceTextAttribute(): string
     {
-        return number_format($this->total_price, 0, ',', ',') . ' $';
+        return rtrim(rtrim(number_format($this->total_price, 2, '.', ','), '0'), '.') . ' $';
     }
 
     public function getPriceAfterDiscountTextAttribute(): string
     {
-        return number_format($this->price_after_discount, 0, ',', ',') . ' $';
+        return rtrim(rtrim(number_format($this->price_after_discount, 2, '.', ','), '0'), '.') . ' $';
     }
     public function getDiscountRateAttribute(): float
     {
