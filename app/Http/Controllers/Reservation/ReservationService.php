@@ -196,7 +196,7 @@ class ReservationService
         }
         else
         {
-            $data = [false];
+            $data = [];
             $message = __('message.Reservation_Conflict', [], $lang); // تأكد من وجود هذا النص في ملف الترجمة
             $code = 409; // Conflict
         }

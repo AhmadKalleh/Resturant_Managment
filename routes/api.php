@@ -18,6 +18,7 @@ use App\Http\Controllers\Rate\RateController;
 use App\Http\Controllers\Reservation\ReservationController;
 use App\Http\Controllers\STRIP_SERVICE\StripeController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Wallet\WalletController;
 use App\Models\Reception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -350,3 +351,14 @@ Route::controller(RateController::class)->group(function()
 Route::get('stripe-test',[StripeController::class,'pay']);
 
 //.\ngrok http 8000
+
+
+
+Route::controller(WalletController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+        Route::post('/store_wallet','store')->middleware('can:store_wallet');
+    });
+
+});

@@ -115,7 +115,7 @@ class AuthService
         // Creating a token for the user and sending it as a response
         $token = $user->createToken("api_token")->plainTextToken;
 
-        
+
         $pendingUser->delete();
 
         // Send the token to the client and send it to the server with the authorization information in the response object and the user

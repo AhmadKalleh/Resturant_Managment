@@ -123,6 +123,7 @@ return [
     'Prepare_At_Must_Before_Reservation_End_Time' => 'يجب أن يكون وقت التحضير قبل وقت انتهاء الحجز.',
     'Wallet_Not_Found' => 'لم يتم العثور على بطاقة ائتمان.',
     'Table_Price_exceeds_Your_Wallet' => 'سعر الطاولة يتجاوز رصيد محفظتك.',
+    'My_Wallet_Created'=>'تم اتشاء المحفظة بنجاح.'
 
 
 
