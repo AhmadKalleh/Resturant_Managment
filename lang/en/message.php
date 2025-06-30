@@ -117,8 +117,7 @@ return [
     'Prepare_At_Must_Before_Reservation_End_Time' => 'The preparation time must be before the reservation\'s end time.',
     'Wallet_Not_Found' => 'Credit card not found.',
     'Table_Price_exceeds_Your_Wallet' => 'The table price exceeds your wallet balance.',
-    'My_Wallet_Created'=>'my wallet created successfully'
-
-
+    'My_Wallet_Charged'=>'my wallet Charged successfully',
+    'Wallet_information'=>'Wallet information is displayed'
 
 ];

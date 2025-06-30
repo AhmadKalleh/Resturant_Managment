@@ -23,7 +23,9 @@ class FormRequestWallet extends FormRequest
     {
         return match ($this->method()) {
             'POST' => match ($this->route()->getActionMethod()) {
-                'store' => $this->store(),
+                'ChargeMywallet' => $this->ChargeMywallet(),
+                'show_my_wallet' => $this->show_my_wallet(),
+
                  default => []
             },
             default => []
@@ -32,7 +34,7 @@ class FormRequestWallet extends FormRequest
 
 
 
-        public function store(): array
+        public function ChargeMywallet(): array
     {
         return
         [
@@ -48,4 +50,13 @@ class FormRequestWallet extends FormRequest
 
         ];
     }
+
+
+            public function show_my_wallet(): array
+    {
+        return[
+       'password' => 'required|min:6'
+        ];
+    }
 }
+

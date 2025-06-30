@@ -101,7 +101,9 @@ class AuthService
             'person_height' => 0,
             'person_weight' => 0,
         ]);
-
+        $user->customer->mywallet()->create([
+        'customer_id' =>$user->customer->id
+        ]);
 
         // Assigning the client role to the user and giving the user all permissions of the client role
 
@@ -110,6 +112,10 @@ class AuthService
 
         $permissions = $customerRole->permissions()->pluck('name')->toArray();
         $user->givePermissionTo($permissions);
+
+
+
+
 
 
         // Creating a token for the user and sending it as a response

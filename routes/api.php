@@ -358,7 +358,11 @@ Route::controller(WalletController::class)->group(function()
 {
     Route::middleware(['auth:sanctum'])->group(function ()
     {
-        Route::post('/store_wallet','store')->middleware('can:store_wallet');
+        Route::post('/ChargeMywallet','ChargeMywallet')->middleware('can:ChargeMywallet');
+
+        Route::post('/show_my_wallet','show_my_wallet')->middleware('can:show_my_wallet');
+
+
     });
 
 });

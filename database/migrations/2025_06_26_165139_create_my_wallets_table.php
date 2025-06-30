@@ -15,10 +15,7 @@ return new class extends Migration
         Schema::create('my_wallets', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
-            $table->string('card_number', 16)->unique();  // رقم البطاقة فريد
-            $table->string('cvc', 4);                     // غير فريد، لكن يمكن استخدامه مع بطاقة
-            $table->string('email');                      // غير فريد إلا إذا أردت عكس ذلك
-            $table->decimal('amount', 10, 2);
+            $table->decimal('amount', 10, 2)->default(0);
             $table->timestamps();
         });
     }
