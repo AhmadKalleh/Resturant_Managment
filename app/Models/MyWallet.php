@@ -10,7 +10,7 @@ class MyWallet extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['card_number','cvc','email','amount','customer_id'];
+    protected $fillable = ['amount','customer_id'];
 
 
     public function customer():BelongsTo

@@ -28,13 +28,17 @@ class FormRequestReservation extends FormRequest
     {
         return match ($this->method())
         {
-            'GET' => match ($this->route()->getActionMethod()) {
+            'GET' => match ($this->route()->getActionMethod())
+            {
                 'show_all_reservation_for_table' => $this->show_all_reservation_for_table(),
+                'get_nearest_reservation_info' => $this->get_nearest_reservation_info(),
             },
-            'POST' => match ($this->route()->getActionMethod()) {
+            'POST' => match ($this->route()->getActionMethod())
+            {
                 'create_reservation' => $this->create_reservation(),
                 'check_in_reservation' => $this->cancel_reservation(),
                 'extend_resservation_delay_time' => $this->extend_resservation_delay_time(),
+                'extend_resservation' => $this->extend_resservation(),
             },
 
             'DELETE'=> match ($this->route()->getActionMethod())
@@ -49,6 +53,41 @@ class FormRequestReservation extends FormRequest
     {
         return [
             'reservation_id' => 'required|integer'
+        ];
+    }
+
+    public function get_nearest_reservation_info():array
+    {
+        return [
+            'reservation_id' => 'required|integer'
+        ];
+    }
+
+    public function extend_resservation():array
+    {
+        return [
+            'reservation_id' => ['required', 'integer', 'exists:reservations,id'],
+            'extended_until' => [
+                'required',
+                'date_format:Y-m-d H:i:s',
+                function ($attribute, $value, $fail) {
+                    $reservationId = request('reservation_id');
+
+                    // تأكد أن الرقم صحيح و الحجز موجود
+                    $reservation = \App\Models\Reservation::find($reservationId);
+
+                    if (!$reservation) {
+                        return $fail('The reservation does not exist.');
+                    }
+
+                    // تحقق أن extended_until أكبر من وقت نهاية الحجز
+                    $endTime = $reservation->reservation_end_time;
+
+                    if (strtotime($value) <= strtotime($endTime)) {
+                        return $fail('The extended time must be after the original reservation end time: ' . $endTime);
+                    }
+                },
+            ],
         ];
     }
 

@@ -18,6 +18,8 @@ class WalletController extends Controller
     {
         $this->_walletService = $walletService;
     }
+
+
     public function ChargeMywallet (FormRequestWallet $request):JsonResponse
     {
         $data=[];
@@ -32,9 +34,7 @@ class WalletController extends Controller
             $message = $e->getMessage();
             return $this->Error($data,$message);
         }
-
-
-}
+    }
 
     public function show_my_wallet (FormRequestWallet $request):JsonResponse
     {

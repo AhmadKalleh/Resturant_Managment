@@ -18,6 +18,11 @@ class Product extends Model
 
     protected $fillable = ['cateogory_id','chef_id','name','description','price','calories','average_rating'];
 
+    public function ingredients():BelongsToMany
+    {
+        return $this->belongsToMany(Ingredient::class,'product__ingredients');
+    }
+
     public function extras(): BelongsToMany
     {
         return $this->belongsToMany(Extra::class, 'extra_products');

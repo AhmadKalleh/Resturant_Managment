@@ -22,11 +22,11 @@ class FormRequestWallet extends FormRequest
     public function rules(): array
     {
         return match ($this->method()) {
-            'POST' => match ($this->route()->getActionMethod()) {
+            'POST' => match ($this->route()->getActionMethod())
+            {
                 'ChargeMywallet' => $this->ChargeMywallet(),
                 'show_my_wallet' => $this->show_my_wallet(),
-
-                 default => []
+                default => []
             },
             default => []
         };
@@ -34,28 +34,24 @@ class FormRequestWallet extends FormRequest
 
 
 
-        public function ChargeMywallet(): array
+    public function ChargeMywallet(): array
     {
         return
         [
-        'cvc' => 'required|digits:3',
-        'card_number' => 'required|digits_between:13,19',
-        'amount' => [
-            'sometimes',
-            'numeric',
-            'min:0.1',
-            'regex:/^\d+(\.\d{1,2})?$/'
-        ],
-        'email' => 'required|email',
-
+            'amount' => [
+                'sometimes',
+                'numeric',
+                'min:0.1',
+                'regex:/^\d+(\.\d{1,2})?$/'
+            ],
         ];
     }
 
 
-            public function show_my_wallet(): array
+    public function show_my_wallet(): array
     {
         return[
-       'password' => 'required|min:6'
+            'password' => 'required|min:6'
         ];
     }
 }

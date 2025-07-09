@@ -281,8 +281,8 @@ $chef->assignRole($chef_role);
             'person_height' =>'178',
             'person_weight' =>'70'
         ]);
-        $cutomer->customer->mywallet()->create([
-            'amount' => 5000,
+        $cutomer->customer->my_wallet()->create([
+            'amount' => 50000,
         ]);
 
 
@@ -306,8 +306,8 @@ $chef->assignRole($chef_role);
             'person_height' =>'160',
             'person_weight' =>'65'
         ]);
-        $customer2->customer->mywallet()->create([
-            'amount' => 5000,
+        $customer2->customer->my_wallet()->create([
+            'amount' => 50000,
         ]);
 
         $customer2->assignRole($customer_role);
@@ -329,8 +329,8 @@ $customer3 = User::query()->create([
             'person_height' =>'180',
             'person_weight' =>'80'
         ]);
-        $customer3->customer->mywallet()->create([
-            'amount' => 5000,
+        $customer3->customer->my_wallet()->create([
+            'amount' => 50000,
         ]);
 
         $customer3->assignRole($customer_role);
@@ -353,8 +353,8 @@ $customer3 = User::query()->create([
             'person_weight' =>'45'
         ]);
 
-        $customer4->customer->mywallet()->create([
-            'amount' => 5000,
+        $customer4->customer->my_wallet()->create([
+            'amount' => 50000,
         ]);
 
         // $stripe = new StripeService();
@@ -402,8 +402,8 @@ $customer3 = User::query()->create([
             'person_height' =>'152',
             'person_weight' =>'48'
         ]);
-        $customer5->customer->mywallet()->create([
-            'amount' => 5000,
+        $customer5->customer->my_wallet()->create([
+            'amount' => 50000,
         ]);
 
         $customer5->assignRole($customer_role);

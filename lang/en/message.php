@@ -119,9 +119,16 @@ return [
     'Table_Price_exceeds_Your_Wallet' => 'The table price exceeds your wallet balance.',
     'My_Wallet_Charged'=>'my wallet Charged successfully',
     'Wallet_information'=>'Wallet information is displayed',
-    'Extended_Reservation' => 'You have already extended the reservation',
-    'Extended_Reservation' => 'Reservation extended for 15 more minutes.',
-    'Extend_Price_exceeds_Your_Wallet' =>' The extension fee is $3, but your wallet balance is insufficient',
-
+    'Already_Extended_Reservation' => 'You have already extended the reservation',
+    'Delay_Extended_Reservation' => 'Reservation extended for 15 more minutes.',
+    'Extend_Delay_Price_Exceeds_Your_Wallet' =>' The extension fee is $3, but your wallet balance is insufficient',
+    'Free_Extend' => 'You can freely extend your session; there are no reservations after yours',
+    'extend_session' => 'You can extend your session until the start of the next reservation after :time.',
+    'days' => '{0} 0 days|{1} 1 day|[2,*] :count days',
+    'hours' => '{0} 0 hours|{1} 1 hour|[2,*] :count hours',
+    'minutes' => '{0} 0 minutes|{1} 1 minute|[2,*] :count minutes',
+    'cannot_extend' => 'You cannot extend the session because there are sessions scheduled after your reservation.',
+    'Extend_Price_exceeds_Your_Wallet' => 'The extension price is :price, which exceeds your wallet balance.',
+    'Extend_Resrvation_Successfully' => 'Reservation extended successfully.',
 
 ];

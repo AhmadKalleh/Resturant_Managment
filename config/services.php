@@ -36,5 +36,10 @@ return [
     'key' => env('STRIPE_PUBLIC_KEY'),
     ],
 
+    'openrouter' => [
+    'api_key' => env('OPENROUTER_API_KEY'),
+],
+
+
 
 ];

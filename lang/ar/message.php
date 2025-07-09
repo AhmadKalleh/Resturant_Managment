@@ -123,8 +123,19 @@ return [
     'Prepare_At_Must_Before_Reservation_End_Time' => 'يجب أن يكون وقت التحضير قبل وقت انتهاء الحجز.',
     'Wallet_Not_Found' => 'لم يتم العثور على بطاقة ائتمان.',
     'Table_Price_exceeds_Your_Wallet' => 'سعر الطاولة يتجاوز رصيد محفظتك.',
-
-
+    'My_Wallet_Charged' => 'تم خصم المبلغ من محفظتي بنجاح.',
+    'Wallet_Information' => 'تم عرض معلومات المحفظة.',
+    'Already_Extended_Reservation' => 'لقد قمت بتمديد الحجز مسبقاً.',
+    'Delay_Extended_Reservation' => 'تم تمديد الحجز لمدة 15 دقيقة إضافية.',
+    'Extend_Delay_Price_Exceeds_Your_Wallet' => 'رسوم التمديد هي 3 دولارات، لكن رصيد محفظتك غير كافٍ.',
+    'Free_Extend' => 'يمكنك تمديد جلستك بحرية، لا يوجد حجوزات بعد حجزك',
+    'extend_session' => 'يمكنك تمديد جلستك حتى بداية الحجز التالي بعد :time.',
+    'days' => '{0} 0 يوم|{1} يوم واحد|[2,*] :count أيام',
+    'hours' => '{0} 0 ساعة|{1} ساعة واحدة|[2,*] :count ساعات',
+    'minutes' => '{0} 0 دقيقة|{1} دقيقة واحدة|[2,*] :count دقائق',
+    'cannot_extend' => 'لا يمكنك تمديد الجلسة لأنه يوجد جلسات بعد حجزك.',
+    'Extend_Price_exceeds_Your_Wallet' => 'سعر التمديد هو :price، وهو يتجاوز رصيد محفظتك.',
+    'Extend_Resrvation_Successfully' => 'تم تمديد الحجز بنجاح.',
 
 
 ];

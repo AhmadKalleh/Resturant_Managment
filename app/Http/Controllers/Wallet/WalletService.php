@@ -10,7 +10,7 @@ class WalletService
     public function ChargeMywallet($request):array
     {
         $lang = Auth::user()->preferred_language;
-        $wallet = Auth::user()->customer->myWallet;
+        $wallet = Auth::user()->customer->my_wallet;
         $incomingAmount = $request->has('amount') ? $request->amount : 100000;
         $newAmount = ($wallet->amount ?? 0) + $incomingAmount;
         $wallet->update(['amount' => $newAmount]);
@@ -22,7 +22,7 @@ class WalletService
     }
 
 
-        public function show_my_wallet($request):array
+    public function show_my_wallet($request):array
     {
         $lang = Auth::user()->preferred_language;
         $user=Auth::user();
@@ -34,7 +34,7 @@ class WalletService
                 return ['data' =>$data,'message'=>$message,'code'=>$code];
             }
 
-        $data = ["amount"=>$user->customer->myWallet->amount];
+        $data = ["amount"=>$user->customer->my_wallet->amount];
         $message = __('message.Wallet_information',[],$lang);
         $code = 200;
         return ['data' =>$data,'message'=>$message,'code'=>$code];

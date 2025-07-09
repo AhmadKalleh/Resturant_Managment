@@ -34,6 +34,38 @@ class ReservationController extends Controller
         }
     }
 
+    public function get_upcoming_and_current_reservations():JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_reservationService->get_upcoming_and_current_reservations();
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+    public function get_nearest_reservation_info(FormRequestReservation $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_reservationService->get_nearest_reservation_info($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
     public function show_all_reservation_for_table(FormRequestReservation $request):JsonResponse
     {
         $data=[];
@@ -89,6 +121,22 @@ class ReservationController extends Controller
         try
         {
             $data = $this->_reservationService->extend_resservation_delay_time($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+    public function extend_resservation(FormRequestReservation $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_reservationService->extend_resservation($request);
             return $this->Success($data['data'],$data['message'],$data['code']);
         }
         catch(Throwable $e)
