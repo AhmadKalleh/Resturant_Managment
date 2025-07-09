@@ -26,7 +26,7 @@ class WalletService
     {
         $lang = Auth::user()->preferred_language;
         $user=Auth::user();
-        $data = ["amount"=>$user->customer->myWallet->amount];
+        $data = ["amount"=>$user->customer->my_wallet->amount];
         $message = __('message.Wallet_information',[],$lang);
         $code = 200;
         return ['data' =>$data,'message'=>$message,'code'=>$code];
