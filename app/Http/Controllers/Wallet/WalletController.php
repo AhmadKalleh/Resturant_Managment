@@ -36,13 +36,30 @@ class WalletController extends Controller
 
 }
 
-    public function show_my_wallet (FormRequestWallet $request):JsonResponse
+    public function show_my_wallet ():JsonResponse
     {
         $data=[];
 
         try
         {
-            $data = $this->_walletService->show_my_wallet($request);
+            $data = $this->_walletService->show_my_wallet();
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+
+    }
+
+    public function check_password (FormRequestWallet $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_walletService->check_password($request);
             return $this->Success($data['data'],$data['message'],$data['code']);
         }
         catch(Throwable $e)

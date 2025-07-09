@@ -44,7 +44,7 @@ class RolesPermissionsSeeder extends Seeder
             'create-reservation','approve-reservation','reject-reservation','confirm-arrival','manage-profile',
             'mark-order-complete','delete-reservation','show-reservation','index-reservation','filter','delete_extra_product',
             'index-favorite','create-favorite','delete-favorite','create-rating','update-rating','create-cart','update-cart','index-cart',
-            'show-info','change-mobile','update-password','update-image-profile','delete-account','show_extra_product_details','store_extra_product','ChargeMywallet','show_my_wallet'
+            'show-info','change-mobile','update-password','update-image-profile','delete-account','show_extra_product_details','store_extra_product','ChargeMywallet','show_my_wallet','check_password'
         ];
         foreach($resturant_manager_permissions as $permission)
         {
@@ -87,7 +87,7 @@ class RolesPermissionsSeeder extends Seeder
             'show-categories','index-categories','show-products','index-products','filter',
             'show-offer','index-offer','index-favorite','create-favorite','delete-favorite',
             'create-rating','update-rating','create-cart','update-cart','index-cart','show_own_extra_for_product',
-            'create-reservation','delete-reservation','show-reservation','index-reservation','ChargeMywallet','show_my_wallet',
+            'create-reservation','delete-reservation','show-reservation','index-reservation','ChargeMywallet','show_my_wallet','check_password',
             'create-order','show-order','index-order','manage-profile','show-table','index-table',
             'show-info','change-mobile','update-password','update-image-profile','delete-account',
             'index-chat','index-chat_message','send-message','update-theme','update-lan',

@@ -22,7 +22,19 @@ class WalletService
     }
 
 
-        public function show_my_wallet($request):array
+        public function show_my_wallet():array
+    {
+        $lang = Auth::user()->preferred_language;
+        $user=Auth::user();
+        $data = ["amount"=>$user->customer->myWallet->amount];
+        $message = __('message.Wallet_information',[],$lang);
+        $code = 200;
+        return ['data' =>$data,'message'=>$message,'code'=>$code];
+
+    }
+
+
+        public function check_password($request):array
     {
         $lang = Auth::user()->preferred_language;
         $user=Auth::user();
@@ -34,13 +46,11 @@ class WalletService
                 return ['data' =>$data,'message'=>$message,'code'=>$code];
             }
 
-        $data = ["amount"=>$user->customer->myWallet->amount];
-        $message = __('message.Wallet_information',[],$lang);
+        $data = [];
+        $message = __('message.correct_password',[],$lang);
         $code = 200;
         return ['data' =>$data,'message'=>$message,'code'=>$code];
 
     }
-
-
 
 }

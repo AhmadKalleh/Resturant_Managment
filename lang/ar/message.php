@@ -124,7 +124,7 @@ return [
     'Wallet_Not_Found' => 'لم يتم العثور على بطاقة ائتمان.',
     'Table_Price_exceeds_Your_Wallet' => 'سعر الطاولة يتجاوز رصيد محفظتك.',
     'My_Wallet_Charged'=>'تم شحن المحفظة بنجاح',
-    'Wallet_information'=>'تم جلب معلومات المحفظة '
-
+    'Wallet_information'=>'تم جلب معلومات المحفظة ',
+    'correct_password'=>'كلمة السر صحيحة '
 
 ];

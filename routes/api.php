@@ -360,8 +360,9 @@ Route::controller(WalletController::class)->group(function()
     {
         Route::post('/ChargeMywallet','ChargeMywallet')->middleware('can:ChargeMywallet');
 
-        Route::post('/show_my_wallet','show_my_wallet')->middleware('can:show_my_wallet');
+        Route::get('/show_my_wallet','show_my_wallet')->middleware('can:show_my_wallet');
 
+        Route::post('/check_password','check_password')->middleware('can:check_password');
 
     });
 

@@ -118,6 +118,6 @@ return [
     'Wallet_Not_Found' => 'Credit card not found.',
     'Table_Price_exceeds_Your_Wallet' => 'The table price exceeds your wallet balance.',
     'My_Wallet_Charged'=>'my wallet Charged successfully',
-    'Wallet_information'=>'Wallet information is displayed'
-
+    'Wallet_information'=>'Wallet information is displayed',
+    'correct_password'=>'correct_password'
 ];
