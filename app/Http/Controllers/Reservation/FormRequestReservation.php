@@ -34,6 +34,7 @@ class FormRequestReservation extends FormRequest
             'POST' => match ($this->route()->getActionMethod()) {
                 'create_reservation' => $this->create_reservation(),
                 'check_in_reservation' => $this->cancel_reservation(),
+                'extend_resservation_delay_time' => $this->extend_resservation_delay_time(),
             },
 
             'DELETE'=> match ($this->route()->getActionMethod())
@@ -43,6 +44,14 @@ class FormRequestReservation extends FormRequest
             default => []
         };
     }
+
+    public function extend_resservation_delay_time():array
+    {
+        return [
+            'reservation_id' => 'required|integer'
+        ];
+    }
+
 
     public function show_all_reservation_for_table():array
     {

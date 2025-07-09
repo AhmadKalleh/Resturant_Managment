@@ -118,6 +118,10 @@ return [
     'Wallet_Not_Found' => 'Credit card not found.',
     'Table_Price_exceeds_Your_Wallet' => 'The table price exceeds your wallet balance.',
     'My_Wallet_Charged'=>'my wallet Charged successfully',
-    'Wallet_information'=>'Wallet information is displayed'
+    'Wallet_information'=>'Wallet information is displayed',
+    'Extended_Reservation' => 'You have already extended the reservation',
+    'Extended_Reservation' => 'Reservation extended for 15 more minutes.',
+    'Extend_Price_exceeds_Your_Wallet' =>' The extension fee is $3, but your wallet balance is insufficient',
+
 
 ];

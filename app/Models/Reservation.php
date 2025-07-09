@@ -11,7 +11,12 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id','table_id','reservation_start_time','reservation_end_time','is_canceled','is_checked_in','canceled_by'];
+    protected $fillable = ['customer_id','table_id','reservation_start_time','reservation_end_time','is_canceled','is_checked_in','canceled_by','is_extended'];
+
+    public function extensions(): HasMany
+    {
+        return $this->hasMany(ReservationExtension::class);
+    }
 
     public function reception(): BelongsTo
     {

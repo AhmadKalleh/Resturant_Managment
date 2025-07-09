@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean("is_checked_in")->default(false);
             $table->boolean('is_canceled')->default(false);
             $table->enum('canceled_by', ['customer', 'system'])->nullable();
+            $table->boolean('is_extended_delay')->default(false);
             $table->timestamps();
         });
 

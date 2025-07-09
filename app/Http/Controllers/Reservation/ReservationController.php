@@ -82,6 +82,22 @@ class ReservationController extends Controller
         }
     }
 
+    public function extend_resservation_delay_time(FormRequestReservation $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_reservationService->extend_resservation_delay_time($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
 
     public function check_in_reservation(FormRequestReservation $request):JsonResponse
     {

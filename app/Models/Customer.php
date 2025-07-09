@@ -63,7 +63,7 @@ class Customer extends Model
         return $this->hasMany(Favorite::class);
     }
 
-    public function behaviorloges(): HasMany
+    public function behaviorLogs(): HasMany
     {
         return $this->hasMany(BehaviorLog::class);
     }

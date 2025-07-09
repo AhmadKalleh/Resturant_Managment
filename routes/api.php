@@ -309,6 +309,10 @@ Route::controller(ReservationController::class)->group(function()
 
         Route::post('/check_in_reservation','check_in_reservation')->middleware('can:check-in-reservation');
 
+        Route::post('/extend_resservation_delay_time','extend_resservation_delay_time')->middleware('can:extend_resservation_delay_time');
+
+        Route::post('/extend_resservation','extend_resservation')->middleware('can:extend_resservation');
+
         Route::post('/create_reservation','create_reservation')->middleware('can:create-reservation');
 
         Route::delete('/cancel_reservation','cancel_reservation')->middleware('can:delete-reservation');

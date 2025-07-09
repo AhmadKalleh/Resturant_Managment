@@ -49,10 +49,17 @@ class ReservationService
             ->get()
             ->map(function ($reservation) use ($lang) {
                 $now = now()->addHours(3); // هذه لأجل الحساب فقط إن كنت تعمل بتوقيت آخر
-                $start_time = Carbon::parse($reservation->reservation_start_time)->addMinutes(31);
+                $start_time = Carbon::parse($reservation->reservation_start_time)->addMinutes(30);
 
                 $is_cancelable = ($now <= $start_time);
-
+                if(!$reservation->is_extended)
+                {
+                    $is_extendalbe = ($now >= $reservation->reservation_start_time && $now <= $start_time);
+                }
+                else
+                {
+                    $is_extendalbe = false;
+                }
                 return [
                     'reservation_id' => $reservation->id,
                     'table_id' => $reservation->table_id,
@@ -62,6 +69,7 @@ class ReservationService
                     'reservation_end_time' => $reservation->reservation_end_time,
                     'is_checked_in' => $reservation->is_checked_in,
                     'is_cancelable' => $is_cancelable,
+                    'is_extendalbe' => $is_extendalbe
                 ];
             });
 
@@ -230,6 +238,48 @@ class ReservationService
         }
 
         return ['data' =>$data,'message'=>$message,'code'=>$code];
+    }
+
+    public function extend_resservation_delay_time($request):array
+    {
+        $lang = Auth::user()->preferred_language;
+        $reservation = Reservation::query()->where('id','=',$request['reservation_id'])->first();
+
+        $customer = Auth::user()->customer;
+
+        if($customer->myWalllet->amount < 3)
+        {
+            $data = [];
+            $message = __('message.Extend_Price_exceeds_Your_Wallet ', [], $lang); // استخدم مفتاح حقيقي هنا مثل Wallet_Not_Found
+            $code = 400;
+
+            return ['data' => $data, 'message' => $message, 'code' => $code];
+        }
+
+        if(!is_null($reservation))
+        {
+            $data =[];
+
+            if($reservation->is_extended)
+            {
+                $message = __('message.Reservation_Already_Extended', [], $lang);
+                $code = 400;
+            }
+            else
+            {
+                $reservation->update([
+                    'is_extended' => true
+                ]);
+
+
+                $message = __('message.Extended_Reservation', [], $lang);
+                $code = 200;
+            }
+        }
+
+        return ['data' =>$data,'message'=>$message,'code'=>$code];
+
+
     }
 
     public function check_in_reservation($request):array
