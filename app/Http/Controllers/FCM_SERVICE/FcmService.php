@@ -12,7 +12,7 @@ class FcmService
     public function __construct()
     {
         $firebase = (new Factory)
-            ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')));
+    ->withServiceAccount(storage_path('app/firebase/foodapp-ba9b3-firebase-adminsdk-fbsvc-bd3c2357d7.json'));
 
         $this->messaging = $firebase->createMessaging();
     }

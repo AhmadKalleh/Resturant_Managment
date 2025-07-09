@@ -56,7 +56,7 @@ class ChatController extends Controller
         $data=[];
         try
         {
-            $data = $this->_chatService->send_message($request);
+            $data = $this->_chatService->send_message2($request);
             return $this->Success($data['data'],$data['message'],$data['code']);
         }
         catch(Throwable $e)

@@ -10,6 +10,7 @@ use App\Http\Controllers\Table\TableController;
 use App\Http\Controllers\Extra\ExtraControlle;
 use App\Http\Controllers\Extra_product\ExtraProductController;
 use App\Http\Controllers\Favorite\FavoriteController;
+use App\Http\Controllers\FCM_SERVICE\FcmService;
 use App\Http\Controllers\Offer\OfferController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Product\ProductController;
@@ -305,9 +306,17 @@ Route::controller(ReservationController::class)->group(function()
 
         Route::get('/index_reservation','index')->middleware('can:index-reservation');
 
+        Route::get('/get_upcoming_and_current_reservations','get_upcoming_and_current_reservations')->middleware('can:index-reservation');
+
+        Route::get('/get_nearest_reservation_info','get_nearest_reservation_info')->middleware('can:index-reservation');
+
         Route::get('/show_all_reservation_for_table','show_all_reservation_for_table')->middleware('can:index-reservation');
 
         Route::post('/check_in_reservation','check_in_reservation')->middleware('can:check-in-reservation');
+
+        Route::post('/extend_resservation_delay_time','extend_resservation_delay_time')->middleware('can:extend_resservation_delay_time');
+
+        Route::post('/extend_resservation','extend_resservation')->middleware('can:extend_resservation');
 
         Route::post('/create_reservation','create_reservation')->middleware('can:create-reservation');
 
@@ -362,8 +371,42 @@ Route::controller(WalletController::class)->group(function()
 
         Route::get('/show_my_wallet','show_my_wallet')->middleware('can:show_my_wallet');
 
+
         Route::post('/check_password','check_password')->middleware('can:check_password');
+
 
     });
 
 });
+
+
+// Route::get('test-noti', function ()
+// {
+
+//     // $raw = storage_path('app/firebase/foodapp-ba9b3-firebase-adminsdk-fbsvc-bd3c2357d7.json');
+//     // return response()->json([
+//     //    'raw_env' => $raw,
+//     //     'file_exists' => file_exists($raw),
+//     //     'is_readable' => is_readable($raw),
+//     // ]);
+
+//     $fcm = new FcmService();
+//     return response()->json([
+//     'data' => $fcm->sendNotification(
+//         'f5QPr1a8SUutGdBiz4vbBK:APA91bG3NEIzWpjHPbOO29AB9L7ggazb9ZxYdNVqWtqxyJfOfEeUmJ1YiowX3XWcLDzWORX72zngngM1QwEP3dX1YLCggyRIZm-0mwng5itXoJyzOWdpG_Q',
+//         'test',
+//         'hiiii',
+//         ['name' => 'ahmad']
+//     )
+// ]);
+
+
+// Route::get('check-env', function () {
+//     return response()->json([
+//         'raw_env' => env('FIREBASE_CREDENTIALS'),
+//         'full_path' => base_path(env('FIREBASE_CREDENTIALS')),
+//     ]);
+// });
+
+
+// });

@@ -22,7 +22,7 @@ class Customer extends Model
         return $this->hasMany(Reservation::class);
     }
 
-    public function myWallet():HasOne
+    public function my_wallet():HasOne
     {
         return $this->hasOne(MyWallet::class);
     }
@@ -63,7 +63,7 @@ class Customer extends Model
         return $this->hasMany(Favorite::class);
     }
 
-    public function behaviorloges(): HasMany
+    public function behaviorLogs(): HasMany
     {
         return $this->hasMany(BehaviorLog::class);
     }

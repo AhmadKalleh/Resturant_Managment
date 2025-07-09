@@ -35,8 +35,8 @@ class RolesPermissionsSeeder extends Seeder
             'delete-offer','show-offer','index-offer','index-rating','update-rating','send_message',
             'create-chef','update-chef','delete-chef','show-chef','index-chef','index-chat','index-chat_message','send-message',
             'create-customer','update-customer','delete-customer','show-customer','index-customer','show_own_extra_for_product',
-            'create-reception','update-reception','delete-reception','index-reception','show-reception',
-            'delete-reservations','show-reservations','index-reservations','create-offer','update-offer',
+            'create-reception','update-reception','delete-reception','index-reception','show-reception','extend_resservation_delay_time',
+            'delete-reservations','show-reservations','index-reservations','create-offer','update-offer','extend_resservation',
             'create-products','update-products','delete-products','show-products','index-products',
             'create-categories','update-categories','delete-categories','show-categories','index-categories',
             'show-order','index-order','behavior-monitoring','view-statistics','manage-profile','check-in-reservation',
@@ -89,6 +89,8 @@ class RolesPermissionsSeeder extends Seeder
             'create-rating','update-rating','create-cart','update-cart','index-cart','show_own_extra_for_product',
             'create-reservation','delete-reservation','show-reservation','index-reservation','ChargeMywallet','show_my_wallet','check_password',
             'create-order','show-order','index-order','manage-profile','show-table','index-table',
+            'create-reservation','delete-reservation','show-reservation','index-reservation','extend_resservation_delay_time',
+            'create-order','show-order','index-order','manage-profile','show-table','index-table','extend_resservation',
             'show-info','change-mobile','update-password','update-image-profile','delete-account',
             'index-chat','index-chat_message','send-message','update-theme','update-lan',
         ]);
@@ -279,8 +281,8 @@ $chef->assignRole($chef_role);
             'person_height' =>'178',
             'person_weight' =>'70'
         ]);
-        $cutomer->customer->mywallet()->create([
-            'amount' => 5000,
+        $cutomer->customer->my_wallet()->create([
+            'amount' => 50000,
         ]);
 
 
@@ -304,8 +306,8 @@ $chef->assignRole($chef_role);
             'person_height' =>'160',
             'person_weight' =>'65'
         ]);
-        $customer2->customer->mywallet()->create([
-            'amount' => 5000,
+        $customer2->customer->my_wallet()->create([
+            'amount' => 50000,
         ]);
 
         $customer2->assignRole($customer_role);
@@ -327,8 +329,8 @@ $customer3 = User::query()->create([
             'person_height' =>'180',
             'person_weight' =>'80'
         ]);
-        $customer3->customer->mywallet()->create([
-            'amount' => 5000,
+        $customer3->customer->my_wallet()->create([
+            'amount' => 50000,
         ]);
 
         $customer3->assignRole($customer_role);
@@ -351,8 +353,8 @@ $customer3 = User::query()->create([
             'person_weight' =>'45'
         ]);
 
-        $customer4->customer->mywallet()->create([
-            'amount' => 5000,
+        $customer4->customer->my_wallet()->create([
+            'amount' => 50000,
         ]);
 
         // $stripe = new StripeService();
@@ -400,8 +402,8 @@ $customer3 = User::query()->create([
             'person_height' =>'152',
             'person_weight' =>'48'
         ]);
-        $customer5->customer->mywallet()->create([
-            'amount' => 5000,
+        $customer5->customer->my_wallet()->create([
+            'amount' => 50000,
         ]);
 
         $customer5->assignRole($customer_role);

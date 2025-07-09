@@ -45,16 +45,16 @@ class ExtraSeeder extends Seeder
 
         // ✅ إضافات سلطات
         $saladExtras = [
-        ['en' => 'Feta Cheese', 'ar' => 'جبنة فيتا', 'price' => 2.0, 'calories' => 75],
-        ['en' => 'Olives', 'ar' => 'زيتون', 'price' => 1.5, 'calories' => 45],
-        ['en' => 'Croutons', 'ar' => 'خبز محمص', 'price' => 1.0, 'calories' => 80],
-        ['en' => 'Boiled Egg', 'ar' => 'بيض مسلوق', 'price' => 2.0, 'calories' => 70],
-        ['en' => 'Tuna', 'ar' => 'تونة', 'price' => 3.0, 'calories' => 90],
-        ['en' => 'Chicken Strips', 'ar' => 'شرائح دجاج', 'price' => 3.5, 'calories' => 120],
-        ['en' => 'Avocado Slices', 'ar' => 'شرائح أفوكادو', 'price' => 3.0, 'calories' => 80],
-        ['en' => 'Corn', 'ar' => 'ذرة', 'price' => 1.0, 'calories' => 60],
-        ['en' => 'Balsamic Dressing', 'ar' => 'صلصة بلسميك', 'price' => 1.5, 'calories' => 40],
-        ['en' => 'Yogurt Sauce', 'ar' => 'صلصة الزبادي', 'price' => 1.0, 'calories' => 35],
+        ['en' => 'Feta Cheese', 'ar' => 'جبنة فيتا', 'price' => 2.0, 'calories' => 75],//21
+        ['en' => 'Olives', 'ar' => 'زيتون', 'price' => 1.5, 'calories' => 45],//22
+        ['en' => 'Croutons', 'ar' => 'خبز محمص', 'price' => 1.0, 'calories' => 80],//23
+        ['en' => 'Boiled Egg', 'ar' => 'بيض مسلوق', 'price' => 2.0, 'calories' => 70],//24
+        ['en' => 'Tuna', 'ar' => 'تونة', 'price' => 3.0, 'calories' => 90],//25
+        ['en' => 'Chicken Strips', 'ar' => 'شرائح دجاج', 'price' => 3.5, 'calories' => 120],//26
+        ['en' => 'Avocado Slices', 'ar' => 'شرائح أفوكادو', 'price' => 3.0, 'calories' => 80],//27
+        ['en' => 'Corn', 'ar' => 'ذرة', 'price' => 1.0, 'calories' => 60],//28
+        ['en' => 'Balsamic Dressing', 'ar' => 'صلصة بلسميك', 'price' => 1.5, 'calories' => 40],//29
+        ['en' => 'Yogurt Sauce', 'ar' => 'صلصة الزبادي', 'price' => 1.0, 'calories' => 35],//30
     ];
 
 
@@ -113,30 +113,30 @@ class ExtraSeeder extends Seeder
         $drinks = $category->products;
 
 
-        $drinks[0]->extras()->attach([1, 2, 3, 4, 5]);
-        $drinks[1]->extras()->attach([1, 3, 5, 6, 8]);
-        $drinks[2]->extras()->attach([2, 3, 4, 9, 10]);
-        $drinks[3]->extras()->attach([5, 7, 9, 10]);
-        $drinks[4]->extras()->attach([1, 2, 3]);
-        $drinks[5]->extras()->attach([4, 8, 9, 10]);
-        $drinks[6]->extras()->attach([1, 3, 5, 7, 9]);
-        $drinks[7]->extras()->attach([5, 8, 9, 10]);
-        $drinks[8]->extras()->attach([1, 2, 3, 4]);
-
+        $drinks[0]->extras()->attach([11, 15]);                  // Coca Cola
+        $drinks[1]->extras()->attach([11, 12, 15]);              // Orange Juice
+        $drinks[2]->extras()->attach([11, 12, 13, 15]);          // Lemon Mint
+        $drinks[3]->extras()->attach([11, 16, 17, 18, 20]);      // Iced Coffee
+        $drinks[4]->extras()->attach([11, 13, 15]);              // Green Tea
+        $drinks[5]->extras()->attach([17, 18, 19]);              // Milkshake
+        $drinks[6]->extras()->attach([11]);                      // Water
+        // $drinks[7]->extras()->attach([11, 14, 13]);              // Strawberry Juice
+        $drinks[7]->extras()->attach([11, 16, 17, 15]);          // Peach Iced Tea
+        $drinks[8]->extras()->attach([11, 15]);                  // Energy Drink
 
         $category = Category::with('products')->where('id', 4)->first();
         $salads = $category->products;
 
 
-        $salads[0]->extras()->attach([1, 2, 3, 4, 5]);
-        $salads[1]->extras()->attach([1, 3, 5, 6, 8]);
-        $salads[2]->extras()->attach([2, 3, 4, 9, 10]);
-        $salads[3]->extras()->attach([5, 7, 9, 10]);
-        $salads[4]->extras()->attach([1, 2, 3]);
-        $salads[5]->extras()->attach([4, 8, 9, 10]);
-        $salads[6]->extras()->attach([1, 3, 5, 7, 9]);
-        $salads[7]->extras()->attach([5, 8, 9, 10]);
-        $salads[8]->extras()->attach([1, 2, 3, 4]);
-        $salads[9]->extras()->attach([1, 2, 4, 8]);
+        $salads[0]->extras()->attach([23, 24, 26, 29]);
+        $salads[1]->extras()->attach([21, 22, 27, 29]);       // Greek Salad
+        $salads[2]->extras()->attach([24, 28, 29, 30]);       // Tabbouleh
+        $salads[3]->extras()->attach([23, 28, 29, 30]);       // Fattoush
+        $salads[4]->extras()->attach([26, 27, 29, 30]);       // Chicken Salad
+        $salads[5]->extras()->attach([22, 27, 29, 30]);       // Avocado Salad
+        $salads[6]->extras()->attach([21, 27, 28, 29, 30]);   // Quinoa Salad
+        $salads[7]->extras()->attach([24, 28, 29, 30]);       // Coleslaw
+        $salads[8]->extras()->attach([21, 22, 23, 28]);       // Pasta Salad
+        $salads[9]->extras()->attach([21, 22, 24, 28]);       // Tuna Salad
     }
 }
