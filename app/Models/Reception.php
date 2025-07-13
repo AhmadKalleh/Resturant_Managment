@@ -15,6 +15,12 @@ class Reception extends Model
 
 
     protected $guard_name = 'web';
+
+    public function leaves()
+    {
+        return $this->morphMany(Leave::class, 'leaveable');
+    }
+
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);

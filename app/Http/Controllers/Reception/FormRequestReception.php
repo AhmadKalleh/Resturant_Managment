@@ -30,7 +30,7 @@ class FormRequestReception extends FormRequest
             'POST' => match ($this->route()->getActionMethod()) {
                 'show' => $this->show(),
                 'store' => $this->store(),
-                 default => []
+                default => []
             },
             'DELETE' => match ($this->route()->getActionMethod()) {
                 'destroy' => $this->destroy(),

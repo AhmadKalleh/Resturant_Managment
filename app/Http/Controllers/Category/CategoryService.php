@@ -18,8 +18,21 @@ class CategoryService
 
     public function index():array
     {
-        $categories = Category::query()->with('image','chef')->get();
+
+
         $lang = Auth::user()->preferred_language;
+        $categories = Category::with('image', 'chef')
+            ->get()
+            ->filter(function ($category) use ($lang) {
+                $namesToExclude = ['Top Ratings', 'الأعلى تقييما'];
+
+                if (Auth::user()->hasRole('resturant_manager')|| Auth::user()->hasRole('chef')) {
+                    return !in_array($category->getTranslation('name', $lang), $namesToExclude);
+                }
+
+                return true;
+            })
+            ->values();
         $data = [];
 
         $pro_service = new ProductService();

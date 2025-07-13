@@ -42,6 +42,11 @@ class Customer extends Model
         return $this->hasOne(Chat::class); // تأكد من هذا
     }
 
+    public function complaints(): HasMany
+    {
+        return $this->hasMany(Complaints::class);
+    }
+
 
     public function chat_messages(): HasMany
     {

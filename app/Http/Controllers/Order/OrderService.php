@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Order;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Reservation;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -216,11 +217,7 @@ class OrderService
                 ->where('cart_id', $request['cart_id'])
                 ->where('is_selected_for_checkout', false)
                 ->doesntExist();
-                // return [
-                //     'data' => $are_all_cart_items_taked,
-                //     'message'=>'fsdfs',
-                //     'code'=>200
-                // ];
+
 
             if(is_null($exist_order))
             {
@@ -228,6 +225,11 @@ class OrderService
                 $new_pre_order = Auth::user()->customer->orders()->create([
                     'reservation_id' => $request['reservation_id'],
                     'total_amount' => $new_total_price,
+                ]);
+
+                $new_payment = Payment::query()->create([
+                    'order_id' => $new_pre_order->id,
+                    'amount' => $new_pre_order->total_amount + $exist_reservation->table->price
                 ]);
 
                 Cart::query()
@@ -248,6 +250,10 @@ class OrderService
 
                 $exist_order->update([
                     'total_amount' => $exist_total_price
+                ]);
+
+                $exist_order->payment->update([
+                    'amount' => $exist_order->total_amount + $exist_reservation->table->price
                 ]);
 
                 Cart::query()

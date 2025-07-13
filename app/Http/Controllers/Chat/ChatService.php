@@ -95,7 +95,7 @@ class ChatService
     }
 
 
-    public function send_message2($request): array
+    public function send_message($request): array
     {
         $response = null;
 
@@ -323,78 +323,5 @@ class ChatService
 
     }
 
-    public function send_message($request):array
-    {
 
-
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . config('services.openrouter.api_key'),
-            'HTTP-Referer' => url('/'),
-            'Accept-Language' => 'en', // موقعك
-            'X-Title' => 'Laravel Chat', // اسم التطبيق الخاص بك
-        ])->post('https://openrouter.ai/api/v1/chat/completions', [
-            'model' => 'anthropic/claude-3-haiku', // يمكنك تغييره لأي موديل مدعوم
-            'messages' => [
-                [
-                    'role' => 'user',
-                    'content' => $request['message'],
-                ],
-            ],
-        ]);
-
-        //return ['data' => ['hh' => config('services.openrouter.api_key'),'data' => $response->body()], 'message' => 'تم التحقق', 'code' => 200];
-
-        if ($response->successful())
-        {
-
-            $content = $response->json()['choices'][0]['message']['content'];
-            $user = Auth::user();
-            $customer = $user->customer;
-            $chat = $customer->chat; // بدون () لأنه علاقة hasOne أو belongsTo
-
-            if ($chat)
-            {
-                $chat->chat_messages()->createMany([
-                    [
-                        'reciver_id' => 1,
-                        'message' => $request['message'],
-                        'customer_id' => $customer->id,
-                        'sender_type' =>'customer'
-                    ],
-                    [
-                        'reciver_id' => 1,
-                        'message' => $content,
-                        'customer_id' => $customer->id,
-                        'sender_type' =>'ai'
-                    ]
-                ]);
-            }
-            else
-            {
-                $chat = $customer->chat()->create([
-                    'name' => 'chat with ai',
-                ]);
-
-                $chat->chat_messages()->createMany([
-                    [
-                        'reciver_id' => 1,
-                        'message' => $request['message'],
-                        'customer_id' => $customer->id,
-                        'sender_type' =>'customer'
-                    ],
-                    [
-                        'reciver_id' => 1,
-                        'message' => $content,
-                        'customer_id' => $customer->id,
-                        'sender_type' =>'ai'
-                    ]
-                ]);
-            }
-
-
-            return ['data' => $content, 'message' => '', 'code' => 200];
-        } else {
-            return ['data' => [], 'message' => 'حدث خطأ أثناء الاتصال بالسيرفر.', 'code' => 500];
-        }
-    }
 }

@@ -18,6 +18,10 @@ return [
         'cancelled' => 'Cancelled',
         'available' => 'Available',
         'reserved' => 'Reserved',
+        'resolved' =>'Resolved',
+        'dismissed' => 'Dismissed',
+        'approved' => 'approved',
+        'rejected' => 'Rejected'
     ],
 
     'payment_method' => [
@@ -40,4 +44,11 @@ return [
         'normal_day' => 'Normal Day',
         'special_day' => 'Special Day',
     ],
+
+    'type_leaves' =>[
+        'annual' => 'Annual Leave',
+        'sick' => 'Sick Leave',
+        'emergency' => 'Emergency Leave',
+        'unpaid' => 'Unpaid Leave',
+    ]
 ];

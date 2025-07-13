@@ -15,7 +15,7 @@ class ReceptionService
     use UplodeImageHelper;
     use TranslateHelper;
 
-        public function index():array
+    public function index():array
     {
         $lang = Auth::user()->preferred_language;
         $receptions= Reception::with('image')->with('user')->get();
@@ -39,8 +39,9 @@ class ReceptionService
                 'user_id' => $reception['user_id'],
                 'first_name'=>$reception->user['first_name'],
                 'last_name'=>$reception->user['last_name'],
+                'full_name' => $reception->user->full_name,
                 'email'=>$reception->user['email'],
-                'mobile'=>$reception->user['mobile'],
+                'mobile'=>$reception->user->mobile_text,
                 'gendor'=>$this->translate('gendor',$reception->user['gendor']),
                 'date_of_birth'=>$reception->user['date_of_birth'],
 
@@ -78,8 +79,9 @@ class ReceptionService
                 'user_id' => $reception['user_id'],
                 'first_name'=>$reception->user['first_name'],
                 'last_name'=>$reception->user['last_name'],
+                'full_name' => $reception->user->full_name,
                 'email'=>$reception->user['email'],
-                'mobile'=>$reception->user['mobile'],
+                'mobile'=>$reception->user->mobile_text,
                 'gendor'=>$this->translate('gendor',$reception->user['gendor']),
                 'date_of_birth'=>$reception->user['date_of_birth'],
         ];
@@ -115,7 +117,7 @@ class ReceptionService
         $permissions = $reception_role->permissions()->pluck('name')->toArray();
         $reception->givePermissionTo($permissions);
 
-        $data = [true];
+        $data = [];
         $message = __('message.Reception_Created',[],$lang);
         $code = 200;
         return ['data' =>$data,'message'=>$message,'code'=>$code];
@@ -146,7 +148,7 @@ class ReceptionService
 
         $reception->user->delete();
         return [
-            'data' => [true],
+            'data' => [],
             'message' => __('message.Reception_Deleted', [], $lang),
             'code' => 200,
         ];

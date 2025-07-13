@@ -18,6 +18,11 @@ return [
         'cancelled' => 'ملغي',
         'available' => 'متاح',
         'reserved' => 'محجوز',
+        'resolved' => 'تم الحل',
+        'dismissed' => 'مرفوض نهائيًا',
+        'approved' => 'مقبول',
+        'rejected' => 'مرفوض',
+
     ],
 
     'payment_method' => [
@@ -40,5 +45,12 @@ return [
         'normal_day' => 'يوم عادي ',
         'special_day' => 'يوم مميز',
     ],
+
+    'type_leaves' =>[
+        'annual' => 'إجازة سنوية',
+        'sick' => 'إجازة مرضية',
+        'emergency' => 'إجازة طارئة',
+        'unpaid' => 'إجازة بدون راتب',
+    ]
 
 ];

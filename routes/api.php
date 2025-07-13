@@ -6,17 +6,21 @@ use App\Http\Controllers\Chat\ChatController;
 
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Chef\ChefController;
+use App\Http\Controllers\Complaint\ComplaintController;
 use App\Http\Controllers\Table\TableController;
 use App\Http\Controllers\Extra\ExtraControlle;
 use App\Http\Controllers\Extra_product\ExtraProductController;
 use App\Http\Controllers\Favorite\FavoriteController;
 use App\Http\Controllers\FCM_SERVICE\FcmService;
+use App\Http\Controllers\Leave\LeaveController;
 use App\Http\Controllers\Offer\OfferController;
 use App\Http\Controllers\Order\OrderController;
+use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Reception\ReceptionController;
 use App\Http\Controllers\Rate\RateController;
 use App\Http\Controllers\Reservation\ReservationController;
+use App\Http\Controllers\Statistics\StatisticsController;
 use App\Http\Controllers\STRIP_SERVICE\StripeController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Wallet\WalletController;
@@ -250,7 +254,7 @@ Route::controller(ReceptionController::class)->group(function()
 {
     Route::middleware(['auth:sanctum'])->group(function ()
     {
-        Route::post('/show_reception','show')->middleware('can:show-reception');
+        Route::get('/show_reception','show')->middleware('can:show-reception');
 
         Route::get('/index_reception','index')->middleware('can:index-reception');
 
@@ -357,12 +361,6 @@ Route::controller(RateController::class)->group(function()
 });
 
 
-Route::get('stripe-test',[StripeController::class,'pay']);
-
-//.\ngrok http 8000
-
-
-
 Route::controller(WalletController::class)->group(function()
 {
     Route::middleware(['auth:sanctum'])->group(function ()
@@ -371,9 +369,66 @@ Route::controller(WalletController::class)->group(function()
 
         Route::get('/show_my_wallet','show_my_wallet')->middleware('can:show_my_wallet');
 
-
         Route::post('/check_password','check_password')->middleware('can:check_password');
 
+    });
+
+});
+
+Route::controller(PaymentController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+        Route::get('/get_payments','get_payments')->middleware('can:index-payments');
+    });
+
+});
+
+
+
+Route::controller(StatisticsController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+        Route::get('/get_statistics','get_statistics')->middleware('can:get_statistics');
+    });
+
+});
+
+
+Route::controller(LeaveController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+
+        Route::get('/index_leaves','index_leaves')->middleware('can:index-leave');
+
+        Route::get('/get_my_leaves','get_my_leaves')->middleware('can:get-my-leaves');
+
+        Route::post('/approve_leave','approve_leave')->middleware('can:approve-leave');
+
+        Route::post('/reject_leave','reject_leave')->middleware('can:reject-leave');
+
+        Route::post('/create_leave','create_leave')->middleware('can:create-leave');
+
+    });
+
+});
+
+
+
+Route::controller(ComplaintController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
+
+        Route::get('/index_complaints','index_complaints')->middleware('can:index-complaint');
+
+        Route::post('/resolve_complaint','resolve_complaint')->middleware('can:resolve-complaint');
+
+        Route::post('/dismiss_complaint','dismiss_complaint')->middleware('can:dismiss-complaint');
+
+        Route::post('/create_complaint','create_complaint')->middleware('can:create-complaint');
 
     });
 

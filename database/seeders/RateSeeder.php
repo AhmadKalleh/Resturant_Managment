@@ -16,7 +16,7 @@ class RateSeeder extends Seeder
     public function run(): void
     {
         $products = Product::all();
-        $customers = Customer::all();
+        $customers = Customer::limit(10)->get();
 
         foreach ($products as $product) {
             foreach ($customers as $customer) {

@@ -18,6 +18,12 @@ class Chef extends Model
     protected $guard_name = 'web';
     public $translatable= ['speciality'];
 
+
+    public function leaves()
+    {
+        return $this->morphMany(Leave::class, 'leaveable');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
