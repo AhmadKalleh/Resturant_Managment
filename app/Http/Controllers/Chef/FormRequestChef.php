@@ -71,7 +71,7 @@ class FormRequestChef extends FormRequest
             'speciality_ar.*' =>'required|string|regex:/^[\p{Arabic}\s]+$/u',
             'years_of_experience'=> 'required|min:1|integer',
             'bio' => 'nullable|string',
-            'certificates' => 'nullable|array',
+            'certificates' => 'required|array',
             'certificates.*' => 'required|string|max:255',
         ];
     }

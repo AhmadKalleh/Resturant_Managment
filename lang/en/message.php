@@ -153,7 +153,7 @@ return [
     'Complaint_Resolved' => 'Complaint has been resolved successfully.',
     'Complaint_Created' => 'Complaint submitted successfully.',
     'Complaints_Retrived' => 'Complaints retrieved successfully.',
-
+    'Notifications_Retrived' => 'Notifications retrieved successfully',
 
 ];
 

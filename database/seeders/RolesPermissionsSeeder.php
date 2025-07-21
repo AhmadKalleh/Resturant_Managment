@@ -39,10 +39,10 @@ class RolesPermissionsSeeder extends Seeder
             'delete-reservations','show-reservations','index-reservations','create-offer','update-offer','extend_resservation','get-my-leaves',
             'create-products','update-products','delete-products','show-products','index-products','index-payments','create-leave',
             'create-categories','update-categories','delete-categories','show-categories','index-categories','index-leave','approve-leave','reject-leave',
-            'show-order','index-order','behavior-monitoring','view-statistics','manage-profile','check-in-reservation',
+            'show-order','index-order','behavior-monitoring','view-statistics','manage-profile','check-in-reservation','get-notification-counts',
             'index-extra','create-extra','update-extra','delete-extra','show-extra','create-order','transfer-ownership','resolve-complaint','dismiss-complaint',
             'create-reservation','approve-reservation','reject-reservation','confirm-arrival','manage-profile','create-complaint','index-complaint',
-            'mark-order-complete','delete-reservation','show-reservation','index-reservation','filter','delete_extra_product',
+            'mark-order-complete','delete-reservation','show-reservation','index-reservation','filter','delete_extra_product','index-own-notifivations','mark-all-read',
             'index-favorite','create-favorite','delete-favorite','create-rating','update-rating','create-cart','update-cart','index-cart',
             'show-info','change-mobile','update-password','update-image-profile','delete-account','show_extra_product_details','store_extra_product','ChargeMywallet','show_my_wallet','check_password'
         ];
@@ -61,9 +61,9 @@ class RolesPermissionsSeeder extends Seeder
 
         $chef_permissions = [
             'create-products','update-products','delete-products','show-products','index-products','update-theme','update-lan',
-            'create-categories','update-categories','delete-categories','show-categories','index-categories','store_extra_product',
+            'create-categories','update-categories','delete-categories','show-categories','index-categories','store_extra_product','index-own-notifivations','mark-all-read',
             'create-offer','update-offer','delete-offer','show-offer','index-offer','index-extra','delete_extra_product','get-my-leaves',
-            'create-extra','update-extra','delete-extra','show-extra','manage-profile','show_extra_product_details','create-leave',
+            'create-extra','update-extra','delete-extra','show-extra','manage-profile','show_extra_product_details','create-leave','get-notification-counts',
             'index-order','mark-order-complete','show-info','change-mobile','update-password','update-image-profile','delete-account'
         ];
 
@@ -76,8 +76,8 @@ class RolesPermissionsSeeder extends Seeder
         $reception_role->givePermissionTo(
             [
                 'create-table','update-table','delete-table','show-table','index-table','update-theme','update-lan',
-                'approve-reservation','reject-reservation','confirm-arrival','manage-profile','check-in-reservation',
-                'create-reservation','delete-reservation','show-reservation','index-reservation','create-leave',
+                'approve-reservation','reject-reservation','confirm-arrival','manage-profile','check-in-reservation','get-notification-counts',
+                'create-reservation','delete-reservation','show-reservation','index-reservation','create-leave','index-own-notifivations','mark-all-read',
                 'show-info','change-mobile','update-password','update-image-profile','delete-account','get-my-leaves'
 
             ]);
@@ -88,10 +88,10 @@ class RolesPermissionsSeeder extends Seeder
             'show-offer','index-offer','index-favorite','create-favorite','delete-favorite','index-payments',
             'create-rating','update-rating','create-cart','update-cart','index-cart','show_own_extra_for_product',
             'create-reservation','delete-reservation','show-reservation','index-reservation','ChargeMywallet','show_my_wallet','check_password',
-            'create-order','show-order','index-order','manage-profile','show-table','index-table','create-complaint',
+            'create-order','show-order','index-order','manage-profile','show-table','index-table','create-complaint','get-notification-counts',
             'create-reservation','delete-reservation','show-reservation','index-reservation','extend_resservation_delay_time',
             'create-order','show-order','index-order','manage-profile','show-table','index-table','extend_resservation',
-            'show-info','change-mobile','update-password','update-image-profile','delete-account',
+            'show-info','change-mobile','update-password','update-image-profile','delete-account','index-own-notifivations','mark-all-read',
             'index-chat','index-chat_message','send-message','update-theme','update-lan',
         ]);
 

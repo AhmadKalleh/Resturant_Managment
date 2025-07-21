@@ -161,5 +161,6 @@ return [
     'Complaint_Resolved' => 'تم حل الشكوى بنجاح.',
     'Complaint_Created' => 'تم تقديم الشكوى بنجاح.',
     'Complaints_Retrived' => 'تم جلب الشكاوى بنجاح.',
+    'Notifications_Retrived' => 'تم جلب الإشعارات بنجاح',
 
 ];

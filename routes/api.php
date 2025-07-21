@@ -13,6 +13,8 @@ use App\Http\Controllers\Extra_product\ExtraProductController;
 use App\Http\Controllers\Favorite\FavoriteController;
 use App\Http\Controllers\FCM_SERVICE\FcmService;
 use App\Http\Controllers\Leave\LeaveController;
+use App\Http\Controllers\Notification\NotificationController;
+use App\Http\Controllers\Notification\NotificationService;
 use App\Http\Controllers\Offer\OfferController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Payment\PaymentController;
@@ -435,33 +437,39 @@ Route::controller(ComplaintController::class)->group(function()
 });
 
 
-// Route::get('test-noti', function ()
-// {
+Route::controller(NotificationController::class)->group(function()
+{
+    Route::middleware(['auth:sanctum'])->group(function ()
+    {
 
-//     // $raw = storage_path('app/firebase/foodapp-ba9b3-firebase-adminsdk-fbsvc-bd3c2357d7.json');
-//     // return response()->json([
-//     //    'raw_env' => $raw,
-//     //     'file_exists' => file_exists($raw),
-//     //     'is_readable' => is_readable($raw),
-//     // ]);
+        Route::get('/index_own_notifivations','index_own_notifivations')->middleware('can:index-own-notifivations');
 
-//     $fcm = new FcmService();
-//     return response()->json([
-//     'data' => $fcm->sendNotification(
-//         'f5QPr1a8SUutGdBiz4vbBK:APA91bG3NEIzWpjHPbOO29AB9L7ggazb9ZxYdNVqWtqxyJfOfEeUmJ1YiowX3XWcLDzWORX72zngngM1QwEP3dX1YLCggyRIZm-0mwng5itXoJyzOWdpG_Q',
-//         'test',
-//         'hiiii',
-//         ['name' => 'ahmad']
-//     )
-// ]);
+        Route::post('/mark_all_as_read','mark_all_as_read')->middleware('can:mark-all-read');
+
+        Route::get('/get_un_read_notification_counts','get_un_read_notification_counts')->middleware('can:get-notification-counts');
+
+    });
+
+});
+
+use Illuminate\Support\Facades\Response;
+Route::post('/test-complaint', function() {
 
 
-// Route::get('check-env', function () {
-//     return response()->json([
-//         'raw_env' => env('FIREBASE_CREDENTIALS'),
-//         'full_path' => base_path(env('FIREBASE_CREDENTIALS')),
-//     ]);
-// });
 
+    $notification_service = new NotificationService();
+    $notification_service->send_private_notification([
+    'receiverId' => 11,
+            'title' => [
+                        'en' => 'Complaint Resolved',
+                        'ar' => 'تم حل الشكوى'
+                    ],
+                    'body' => [
+                        'en' => 'Your complaint titled:'.'Ahmad'.'has been resolved. Response:'.'Resolved',
+                        'ar' => "تم حل الشكوى بعنوان «{'Ahmad'}».\nالرد: {'Resolved'}"
+                    ]
+        ]);
 
-// });
+    return Response::json(['data' => 'success']);
+})->middleware(['auth:sanctum']);
+

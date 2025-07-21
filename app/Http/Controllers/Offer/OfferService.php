@@ -5,6 +5,7 @@ use App\Jobs\DeleteExpiredOffersJob;
 use App\Http\Controllers\ResponseHelper\ResponseHelper;
 use App\Http\Controllers\TranslateHelper\TranslateHelper;
 use App\Http\Controllers\Upload\UplodeImageHelper;
+use App\Http\Controllers\Notification\NotificationService;
 use App\Models\Offer;
 use App\Models\Product;
 use Auth;
@@ -19,7 +20,7 @@ class OfferService
     use TranslateHelper;
 
 
-public function index ()
+    public function index ()
     {
         $lang=Auth::user()->preferred_language;
         $offers = Offer::with('products')->get();
@@ -50,24 +51,24 @@ public function index ()
 
         $Offers_rchive=[];
             foreach ($special_offers as $special_offer)
-            {
-            $Offers_rchive[] = [
-                'id'=>$special_offer->id,
-                'type'=>$this->translate('type',$special_offer['type']),
-                'title'=>$special_offer->getTranslation('title', $lang),
-                'total_price'=>$special_offer->total_price_text,
-                'price_after_discount'=>$special_offer->price_after_discount_text,
-                'discount_value'=>$special_offer->discount_value,
-                'start_date'=>$special_offer->start_date,
-                'end_date'=>$special_offer->end_date,
-                'image'=> $special_offer->image ? url('storage/' . $special_offer->image->path) : null,
-                'calories' => $special_offer->total_calories_text,
+                {
+                $Offers_rchive[] = [
+                    'id'=>$special_offer->id,
+                    'type'=>$this->translate('type',$special_offer['type']),
+                    'title'=>$special_offer->getTranslation('title', $lang),
+                    'total_price'=>$special_offer->total_price_text,
+                    'price_after_discount'=>$special_offer->price_after_discount_text,
+                    'discount_value'=>$special_offer->discount_value,
+                    'start_date'=>$special_offer->start_date,
+                    'end_date'=>$special_offer->end_date,
+                    'image'=> $special_offer->image ? url('storage/' . $special_offer->image->path) : null,
+                    'calories' => $special_offer->total_calories_text,
 
-        ];
+            ];
 
+            }
+            $message=__('message.All_Offer_Retrived',[],$lang);
         }
-        $message=__('message.All_Offer_Retrived',[],$lang);
-    }
 
 
 
@@ -208,6 +209,19 @@ public function index ()
             'start_date'=>$request['start_date'],
             'end_date'=>$request['end_date'],
             'created_by'=>Auth::user()->id,
+        ]);
+
+        $notification_service = new NotificationService();
+        $notification_service->send_global_notification([
+            'title' => [
+                'en' => 'New Offer!',
+                'ar' => 'عرض جديد!',
+            ],
+            'body' => [
+                'en' => $nameEn.':'.$descriptionEn,
+                'ar' => $nameAr.':'.$descriptionAr,
+            ],
+            'exclude_roles' => ['resturant_manager', 'chef', 'reception'],
         ]);
 
 

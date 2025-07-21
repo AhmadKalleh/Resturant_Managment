@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Complaint;
 
 use App\Http\Controllers\FCM_SERVICE\FcmService;
+use App\Http\Controllers\Notification\NotificationService;
 use App\Models\Complaints;
 use App\Models\Leave;
 use Illuminate\Support\Facades\Auth;
@@ -78,7 +79,7 @@ class ComplaintService
                     'description' => $request['description'],
                     'status' =>'pending'
                 ]);
-                
+
             $admin = \App\Models\User::whereHas('roles', fn($q) => $q->where('name', 'resturant_manager'))->first();
 
             if ($admin && $admin->fcm_token)
@@ -145,6 +146,19 @@ class ComplaintService
                     'type' => 'complaint_resolved',
                     'complaint_id' => $complaint->id,
                 ]);
+
+                $notification_service = new NotificationService();
+                $notification_service->send_private_notification([
+                    'receiverId' => $complaint->customer->user->id,
+                    'title' => [
+                        'en' => 'Complaint Resolved',
+                        'ar' => 'تم حل الشكوى'
+                    ],
+                    'body' => [
+                        'en' => 'Your complaint titled:'.$complaint->subject.'has been resolved. Response:'.$request['response'],
+                        'ar' => 'تم حل الشكوى بعنوان :'.$complaint->subject.'الرد :'.$request['response']
+                    ]
+                ]);
             }
             $data = [];
             $message = __('message.Complaint_Resolved',[],$lang);
@@ -189,6 +203,19 @@ class ComplaintService
                 $fcmService->sendNotification($customerUser->fcm_token, $title, $body, [
                     'type' => 'complaint_dismissed',
                     'complaint_id' => $complaint->id,
+                ]);
+
+                $notification_service = new NotificationService();
+                $notification_service->send_private_notification([
+                    'receiverId' => $complaint->customer->user->id,
+                    'title' => [
+                        'en' => 'Complaint Dismissed',
+                        'ar' => 'تم رفض الشكوى'
+                    ],
+                    'body' => [
+                        'en' => 'Your complaint titled:'.$complaint->subject.'has been dismissed. Response:'.$request['response'],
+                        'ar' => 'تم رفض الشكوى بعنوان :'.$complaint->subject.'الرد :'.$request['response']
+                    ]
                 ]);
             }
 

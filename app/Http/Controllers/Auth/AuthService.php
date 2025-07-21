@@ -128,7 +128,7 @@ class AuthService
         $data = [
             'lan' => $user->preferred_language,
             'theme' => $user->preferred_theme,
-            'id' => $user->customer->id,
+            'id' => $user->customer->user->id,
             'token'=>$token
         ];
 
