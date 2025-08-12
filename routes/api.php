@@ -154,6 +154,8 @@ Route::controller(CategoryController::class)->group(function()
 
         Route::get('/index_category','index')->middleware('can:index-categories');
 
+        Route::get('/index_category_by_chef','index_category_by_chef')->middleware('can:index-category-by-chef');
+
         Route::post('/store_category','store')->middleware('can:create-categories');
 
         Route::post('/update_category','update')->middleware('can:update-categories');
@@ -177,6 +179,8 @@ Route::controller(ProductController::class)->group(function ()
         Route::post('/store_product','store')->middleware('can:create-products');
 
         Route::get('/show_product','show')->middleware('can:show-products');
+
+        Route::get('/show_product_by_chef','show_product_by_chef')->middleware('can:show-product-by-chef');
 
         Route::get('/searchByCategory','searchByCategory')->middleware('can:show-products');
 
@@ -216,6 +220,8 @@ Route::controller(OfferController::class)->group(function()
         Route::get('/show_offer','show')->middleware('can:show-offer');
 
         Route::get('/index_offer','index')->middleware('can:index-offer');
+
+        Route::get('/index_by_chef','index_by_chef')->middleware('can:index-offer-by-chef');
 
         Route::post('/store_offer','store')->middleware('can:create-offer');
 
@@ -312,6 +318,8 @@ Route::controller(ReservationController::class)->group(function()
 
         Route::get('/index_reservation','index')->middleware('can:index-reservation');
 
+        Route::get('/index_next_reservation','index_next_reservation')->middleware('can:index-next-reservation');
+
         Route::get('/get_upcoming_and_current_reservations','get_upcoming_and_current_reservations')->middleware('can:index-reservation');
 
         Route::get('/get_nearest_reservation_info','get_nearest_reservation_info')->middleware('can:index-reservation');
@@ -343,6 +351,8 @@ Route::controller(OrderController::class)->group(function()
         Route::get('/show_pre_order','show_pre_order')->middleware('can:show-order');
 
         Route::post('/create_pre_order','create_pre_order')->middleware('can:create-order');
+
+        Route::post('/create_order_now','create_order_now')->middleware('can:create-order');
 
         // Route::post('/create_reservation','create_reservation')->middleware('can:create-reservation');
 

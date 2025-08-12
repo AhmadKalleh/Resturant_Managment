@@ -29,7 +29,7 @@ class AutoCancelExpiredReservations implements ShouldQueue
     public function handle(): void
     {
 
-        $now = now()->addHours(3);
+        $now = now();
 
         $expiredReservations = Reservation::where('is_checked_in', false)
             ->where('is_canceled', false)

@@ -7,6 +7,7 @@ use App\Http\Controllers\Notification\NotificationService;
 use App\Models\Complaints;
 use App\Models\Leave;
 use Illuminate\Support\Facades\Auth;
+use Notification;
 
 class ComplaintService
 {
@@ -93,11 +94,14 @@ class ComplaintService
                     'subject' => $new_complaint->subject,
                 ].$adminLang);
 
-                $fcmService = new FcmService();
-                $fcmService->sendNotification($admin->fcm_token, $title, $body, [
-                    'complaint_id' => $new_complaint->id,
-                    'type' => 'new_complaint',
-                ]);
+                if($admin->fcm_token)
+                {
+                    $fcmService = new FcmService();
+                    $fcmService->sendNotification($admin->fcm_token, $title, $body, [
+                        'type' => 'complaint_resolved',
+                        'complaint_id' => $admin->id,
+                    ]);
+                }
 
             }
             $data = [];
@@ -130,7 +134,7 @@ class ComplaintService
                 'responded_at' => now()
             ]);
 
-            if ($complaint->customer && $complaint->customer->user && $complaint->customer->user->fcm_token)
+            if ($complaint->customer && $complaint->customer->user )
             {
                 $customerUser = $complaint->customer->user;
                 $customerLang = $customerUser->preferred_language ?? 'ar';
@@ -141,11 +145,17 @@ class ComplaintService
                     'response' => $request['response'],
                 ],$customerLang);
 
-                $fcmService = new FcmService();
-                $fcmService->sendNotification($customerUser->fcm_token, $title, $body, [
-                    'type' => 'complaint_resolved',
-                    'complaint_id' => $complaint->id,
-                ]);
+                if($complaint->customer->user->fcm_token)
+                {
+                    $fcmService = new FcmService();
+                    $fcmService->sendNotification($customerUser->fcm_token, $title, $body, [
+                        'type' => 'complaint_resolved',
+                        'complaint_id' => $complaint->id,
+                    ]);
+                }
+
+                //return ['data' =>'dsasad','message'=>'dsada','code'=>200];
+
 
                 $notification_service = new NotificationService();
                 $notification_service->send_private_notification([
@@ -188,7 +198,7 @@ class ComplaintService
                 'responded_at' => now()
             ]);
 
-            if ($complaint->customer && $complaint->customer->user && $complaint->customer->user->fcm_token)
+            if ($complaint->customer && $complaint->customer->user)
             {
                 $customerUser = $complaint->customer->user;
                 $customerLang = $customerUser->preferred_language ?? 'ar';
@@ -199,11 +209,14 @@ class ComplaintService
                     'response' => $request['response'],
                 ],$customerLang);
 
-                $fcmService = new FcmService();
-                $fcmService->sendNotification($customerUser->fcm_token, $title, $body, [
-                    'type' => 'complaint_dismissed',
-                    'complaint_id' => $complaint->id,
-                ]);
+                if($complaint->customer->user->fcm_token)
+                {
+                    $fcmService = new FcmService();
+                    $fcmService->sendNotification($customerUser->fcm_token, $title, $body, [
+                        'type' => 'complaint_resolved',
+                        'complaint_id' => $complaint->id,
+                    ]);
+                }
 
                 $notification_service = new NotificationService();
                 $notification_service->send_private_notification([

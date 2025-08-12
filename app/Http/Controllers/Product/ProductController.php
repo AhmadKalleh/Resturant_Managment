@@ -133,6 +133,22 @@ class ProductController extends Controller
         }
     }
 
+    public function show_product_by_chef(FormRequestProduct $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_productService->show_product_by_chef($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      */

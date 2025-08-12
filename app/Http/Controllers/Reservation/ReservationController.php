@@ -34,6 +34,22 @@ class ReservationController extends Controller
         }
     }
 
+    public function index_next_reservation():JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_reservationService->index_next_reservation();
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
     public function get_upcoming_and_current_reservations():JsonResponse
     {
         $data=[];

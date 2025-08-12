@@ -62,7 +62,9 @@ class FormRequestExtraProduct extends FormRequest
     {
         return [
             'product_id' => 'required|integer',
-            'extra_id' =>'required|integer'
+            'extra_ids' =>'required|array',
+            'extra_ids.*' =>'required|integer',
+
         ];
     }
 

@@ -31,9 +31,9 @@ class RolesPermissionsSeeder extends Seeder
 
         $resturant_manager_permissions =
         [
-            'create-table','update-table','delete-table','show-table','index-table','update-theme','update-lan',
-            'delete-offer','show-offer','index-offer','index-rating','update-rating','send_message','get_statistics',
-            'create-chef','update-chef','delete-chef','show-chef','index-chef','index-chat','index-chat_message','send-message',
+            'create-table','update-table','delete-table','show-table','index-table','update-theme','update-lan','index-next-reservation',
+            'delete-offer','show-offer','index-offer','index-rating','update-rating','send_message','get_statistics','index-offer-by-chef','index-category-by-chef',
+            'create-chef','update-chef','delete-chef','show-chef','index-chef','index-chat','index-chat_message','send-message','show-product-by-chef',
             'create-customer','update-customer','delete-customer','show-customer','index-customer','show_own_extra_for_product',
             'create-reception','update-reception','delete-reception','index-reception','show-reception','extend_resservation_delay_time',
             'delete-reservations','show-reservations','index-reservations','create-offer','update-offer','extend_resservation','get-my-leaves',
@@ -60,11 +60,11 @@ class RolesPermissionsSeeder extends Seeder
         $resturant_manager_role->syncPermissions($resturant_manager_permissions);
 
         $chef_permissions = [
-            'create-products','update-products','delete-products','show-products','index-products','update-theme','update-lan',
+            'create-products','update-products','delete-products','show-products','index-products','update-theme','update-lan','index-offer-by-chef',
             'create-categories','update-categories','delete-categories','show-categories','index-categories','store_extra_product','index-own-notifivations','mark-all-read',
-            'create-offer','update-offer','delete-offer','show-offer','index-offer','index-extra','delete_extra_product','get-my-leaves',
+            'create-offer','update-offer','delete-offer','show-offer','index-offer','index-extra','delete_extra_product','get-my-leaves','index-category-by-chef',
             'create-extra','update-extra','delete-extra','show-extra','manage-profile','show_extra_product_details','create-leave','get-notification-counts',
-            'index-order','mark-order-complete','show-info','change-mobile','update-password','update-image-profile','delete-account'
+            'index-order','mark-order-complete','show-info','change-mobile','update-password','update-image-profile','delete-account','show-product-by-chef'
         ];
 
         $chef_role->syncPermissions($chef_permissions);
@@ -77,7 +77,7 @@ class RolesPermissionsSeeder extends Seeder
             [
                 'create-table','update-table','delete-table','show-table','index-table','update-theme','update-lan',
                 'approve-reservation','reject-reservation','confirm-arrival','manage-profile','check-in-reservation','get-notification-counts',
-                'create-reservation','delete-reservation','show-reservation','index-reservation','create-leave','index-own-notifivations','mark-all-read',
+                'create-reservation','delete-reservation','show-reservation','index-next-reservation','create-leave','index-own-notifivations','mark-all-read',
                 'show-info','change-mobile','update-password','update-image-profile','delete-account','get-my-leaves'
 
             ]);

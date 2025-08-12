@@ -114,9 +114,12 @@ return [
     'Prepare_At_Must_After_Reservation_Start_Time' => 'The preparation time must be after the reservation start time.',
     'Pre_Order_Created_And_Cart_Attached' => 'Pre-order created successfully and selected cart items attached.',
     'Pre_Order_Items_Attached' => 'Selected items from the cart have been successfully attached to the pre-order.',
+    'Order_Now_Created_And_Cart_Attached' => 'current-order created successfully and selected cart items attached.',
+    'Order_Now_Items_Attached' => 'Selected items from the cart have been successfully attached to the current-order.',
     'Prepare_At_Must_Before_Reservation_End_Time' => 'The preparation time must be before the reservation\'s end time.',
     'Wallet_Not_Found' => 'Credit card not found.',
     'Table_Price_exceeds_Your_Wallet' => 'The table price exceeds your wallet balance.',
+    'Order_Price_exceeds_Your_Wallet' => 'The Order price exceeds your wallet balance.',
     'My_Wallet_Charged'=>'my wallet Charged successfully',
     'Wallet_information'=>'Wallet information is displayed',
     'correct_password'=>'correct_password',
@@ -154,6 +157,7 @@ return [
     'Complaint_Created' => 'Complaint submitted successfully.',
     'Complaints_Retrived' => 'Complaints retrieved successfully.',
     'Notifications_Retrived' => 'Notifications retrieved successfully',
-
+    'Some_Extras_Already_Exist' => 'Some extras are already linked to this product',
+    'Extras_Attached_Successfully' => 'These extras have been successfully attached to the product',
 ];
 

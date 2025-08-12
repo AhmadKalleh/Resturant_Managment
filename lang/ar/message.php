@@ -120,9 +120,12 @@ return [
     'Prepare_At_Must_After_Reservation_Start_Time' => 'يجب أن يكون وقت التحضير بعد وقت بدء الحجز.',
     'Pre_Order_Created_And_Cart_Attached' => 'تم إنشاء الطلب المسبق بنجاح وإلحاق العناصر المختارة من السلة به.',
     'Pre_Order_Items_Attached' => 'تم إلحاق العناصر المختارة من السلة بنجاح إلى الطلب المسبق.',
+    'Order_Now_Created_And_Cart_Attached' => 'تم إنشاء الطلب الحالي بنجاح وإلحاق العناصر المختارة من السلة به.',
+    'Order_Now_Items_Attached' => 'تم إلحاق العناصر المختارة من السلة بنجاح إلى الطلب الحالي.',
     'Prepare_At_Must_Before_Reservation_End_Time' => 'يجب أن يكون وقت التحضير قبل وقت انتهاء الحجز.',
     'Wallet_Not_Found' => 'لم يتم العثور على بطاقة ائتمان.',
     'Table_Price_exceeds_Your_Wallet' => 'سعر الطاولة يتجاوز رصيد محفظتك.',
+    'Order_Price_exceeds_Your_Wallet' =>'سعر الطلب يتجاوز رصيد محفظتك.',
     'My_Wallet_Charged'=>'تم شحن المحفظة بنجاح',
     'Wallet_information'=>'تم جلب معلومات المحفظة ',
     'correct_password'=>'كلمة السر صحيحة ',
@@ -162,5 +165,7 @@ return [
     'Complaint_Created' => 'تم تقديم الشكوى بنجاح.',
     'Complaints_Retrived' => 'تم جلب الشكاوى بنجاح.',
     'Notifications_Retrived' => 'تم جلب الإشعارات بنجاح',
+    'Some_Extras_Already_Exist' => 'بعض الإضافات مرتبطة بهذا المنتج مسبقًا',
+    'Extras_Attached_Successfully' => 'تم إلحاق هذه الإضافات بالمنتج بنجاح',
 
 ];

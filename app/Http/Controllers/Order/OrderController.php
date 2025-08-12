@@ -66,4 +66,20 @@ class OrderController extends Controller
             return $this->Error($data,$message);
         }
     }
+
+    public function create_order_now(FormRequestOrder $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_orderService->create_order_now($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
 }

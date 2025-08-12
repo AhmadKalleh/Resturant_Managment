@@ -16,6 +16,53 @@ class CategoryService
     use TranslateHelper;
 
 
+    public function index_category_by_chef(): array
+    {
+        $lang = Auth::user()->preferred_language;
+
+        $chef_id = Auth::user()->chef->id;
+
+        // جلب الكاتيجوريز المرتبطة بالشيف مع الصورة والشيف
+        $categories = Category::with('image', 'chef')
+            ->where('chef_id', $chef_id)
+            ->get()
+            ->filter(function ($category) use ($lang) {
+                $namesToExclude = ['Top Ratings', 'الأعلى تقييما'];
+
+                // استثناء الـ Top Ratings فقط للـ roles معينة
+                if (Auth::user()->hasRole('resturant_manager') || Auth::user()->hasRole('chef')) {
+                    return !in_array($category->getTranslation('name', $lang), $namesToExclude);
+                }
+
+                return true;
+            })
+            ->values();
+
+        $data = [];
+
+        foreach ($categories as $category) {
+            // لا حاجة لهذا الشرط هنا لأنه تم التصفية سابقًا
+            $data[] = [
+                "id" => $category->id,
+                "name" => $category->getTranslation('name', $lang),
+                "description" => $category->getTranslation('description', $lang),
+                "image_path" => $category->image ? url('storage/' . $category->image->path) : null,
+                "chef" => [
+                    'id' => $category->chef->id,
+                    'speciality' => $category->chef->getTranslation('speciality', $lang),
+                    'years_of_experience' => $category->chef->years_of_experience,
+                    'bio' => $category->chef->bio,
+                    'certificates' => json_decode($category->chef->certificates, true),
+                ]
+            ];
+        }
+
+        $message = __('message.All_category_Retrived', [], $lang);
+        $code = 200;
+
+        return ['data' => $data, 'message' => $message, 'code' => $code];
+    }
+
     public function index():array
     {
 

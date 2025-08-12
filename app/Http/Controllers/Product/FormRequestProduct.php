@@ -32,6 +32,7 @@ class FormRequestProduct extends FormRequest
             {
                 'index' => $this->index(),
                 'show' => $this->show(),
+                'show_product_by_chef' => $this->show(),
                 'searchByCategory' => $this->searchByCategory(),
                 'search' => $this->search(),
                 'filter' => $this->filter(),

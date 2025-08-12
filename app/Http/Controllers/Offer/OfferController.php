@@ -33,6 +33,21 @@ class OfferController extends Controller
         }
     }
 
+    public function index_by_chef():JsonResponse
+    {
+        $data=[];
+        try
+        {
+            $data = $this->_offerService->index_by_chef();
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */

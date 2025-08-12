@@ -70,6 +70,66 @@ class ReservationService
     }
 
 
+    public function index_next_reservation(): array
+    {
+        $lang = Auth::user()->preferred_language;
+
+        $now = now();
+
+
+        $gracePeriod = 30; // بالدقائق
+        $delayExtension = 15; // بالدقائق
+
+        $next_reservations = Reservation::with(['table'])
+            ->where('is_canceled', false)
+            ->where('is_checked_in', false)
+            ->orderBy('reservation_start_time', 'asc')
+            ->get()
+            ->filter(function ($reservation) use ($now, $gracePeriod, $delayExtension) {
+                $startTime = Carbon::parse($reservation->reservation_start_time);
+                $endGraceTime = $startTime->copy()->addMinutes($gracePeriod);
+                $endExtensionTime = $endGraceTime->copy()->addMinutes($delayExtension);
+
+                return $reservation->reservation_start_time > $now // قبل الحجز
+                    || $now <= $endExtensionTime; // داخل فترة السماح أو التمديد
+            })
+            ->map(function ($reservation) use ($lang, $now, $gracePeriod, $delayExtension) {
+
+                $startTime = Carbon::parse($reservation->reservation_start_time);
+                $endGraceTime = $startTime->copy()->addMinutes($gracePeriod);
+                $endExtensionTime = $endGraceTime->copy()->addMinutes($delayExtension);
+
+                // تحديد الحالة
+                if ($startTime > $now) {
+                    $status = 'upcoming';
+                } elseif ($now <= $endGraceTime) {
+                    $status = 'waiting';
+                } elseif ($reservation->is_extended_delay && $now <= $endExtensionTime) {
+                    $status = 'extended_waiting';
+                } else {
+                    $status = 'canceled_auto'; // انتهى كل شيء
+                }
+                return [
+                    'reservation_id' => $reservation->id,
+                    'table_id' => $reservation->table_id,
+                    'price_table' => $reservation->table->price_text,
+                    'location_table' => $reservation->table->getTranslation('location', $lang),
+                    'reservation_start_time' => $startTime->toDateTimeString(),
+                    'reservation_end_time' => $reservation->reservation_end_time->toDateTimeString(),
+                    'status' => $status, // upcoming, waiting, extended_waiting, canceled_auto
+                ];
+            })->values();
+
+        $data = [
+            'next_reservations' => $next_reservations,
+        ];
+
+        $message = __('message.Reservation_Retrived',[],$lang);
+        $code = 200;
+
+        return ['data' =>$data,'message'=>$message,'code'=>$code];
+    }
+
 
     public function index():array
     {
@@ -556,6 +616,8 @@ class ReservationService
         $reservation = Reservation::query()->where('id','=',$request['reservation_id'])->first();
         $customer = $reservation->customer;
 
+
+        
         if($reservation)
         {
             $reservation->update([
@@ -564,8 +626,8 @@ class ReservationService
 
             $table_price = $reservation->table->price;
 
-            $old_amount = $customer->myWalllet->amount;
-            $customer->myWalllet()->update([
+            $old_amount = $customer->my_wallet->amount;
+            $customer->my_wallet()->update([
                 'amount' => $old_amount - ($table_price / 2)
             ]);
 

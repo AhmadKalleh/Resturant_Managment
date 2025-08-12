@@ -180,6 +180,54 @@ class ProductService
     }
 
 
+    public function show_product_by_chef($request):array
+    {
+        $product = Product::query()->where('id', '=', $request['product_id'])->first();
+        $lang = Auth::user()->preferred_language;
+
+        if(!is_null($product))
+        {
+
+            $image_path = $product->image->path;
+            $name = $product->getTranslation('name', $lang);
+            $description = $product->getTranslation('description', $lang);
+
+
+
+            $data = [
+                'id' => $product->id,
+                'name' => $name,
+                'description' => $description,
+                'price' => $product->price_text,
+                'calories' => $product->calories_text,
+                'rating' => ($product->average_rating),
+                'image_path' => url(Storage::url($image_path) ?? null),
+                'extra_product' => $product->extra_products->map(function ($extraProduct) use ($lang)
+                {
+
+                    return [
+                        'extra_product_id' => $extraProduct->id,
+                        'extra_name' => $extraProduct->extra?->getTranslation('name', $lang),
+                        'extra_price' => $extraProduct->extra->price_text,
+                    ];
+
+                }),
+
+            ];
+
+            $message = __('message.Product_Retrieved',[],$lang);
+            $code = 200;
+            return ['data' =>$data,'message'=>$message,'code'=>$code];
+
+        }
+        else
+        {
+            $message = __('message.Product_Not_Found',[],$lang);
+            $code = 404;
+            return ['data' =>[],'message'=>$message,'code'=>$code];
+        }
+    }
+
     public function show($request):array
     {
         $product = Product::query()->where('id', '=', $request['product_id'])->first();

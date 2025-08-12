@@ -18,6 +18,24 @@ class CategoryController extends Controller
     {
         $this->_categoryService = $categoryService;
     }
+
+    public function index_category_by_chef():JsonResponse
+    {
+
+        $data=[];
+        try
+        {
+            $data = $this->_categoryService->index_category_by_chef();
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+
     public function index():JsonResponse
     {
 

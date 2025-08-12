@@ -33,6 +33,7 @@ class FormRequestOrder extends FormRequest
             },
             'POST' => match ($this->route()->getActionMethod()) {
                 'create_pre_order' => $this->create_pre_order(),
+                'create_order_now' => $this->create_order_now(),
             },
 
             'DELETE'=> match ($this->route()->getActionMethod())
@@ -48,6 +49,16 @@ class FormRequestOrder extends FormRequest
         return [
             'prepare_at' => 'required|string',
             'reservation_id' =>'required|integer',
+            'cart_id' =>'required|integer',
+            'cart_item_ids'=>'required|array',
+            'cart_item_ids.*' =>'required|integer'
+        ];
+    }
+
+
+    public function create_order_now():array
+    {
+        return [
             'cart_id' =>'required|integer',
             'cart_item_ids'=>'required|array',
             'cart_item_ids.*' =>'required|integer'

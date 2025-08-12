@@ -162,6 +162,158 @@ class OrderService
 
     }
 
+    public function create_order_now($request):array
+    {
+        $lang = Auth::user()->preferred_language;
+        $customer_id = Auth::user()->customer->id;
+
+        $exist_reservation = Reservation::query()
+        ->where('customer_id',$customer_id)
+        ->where('reservation_start_time','<=', now())
+        ->where('reservation_end_time','>=', now())
+        ->first();
+
+        //return ['data'=>$exist_reservation,'message'=>'','code'=>200];
+
+        if($exist_reservation)
+        {
+            $exist_order = Order::query()->where('reservation_id','=',$exist_reservation->id)->first();
+            $cartItems = CartItem::with(['extra_products.extra'])
+                ->whereIn('id', $request['cart_item_ids'])
+                ->get();
+
+
+                $new_total_price = 0;
+
+                foreach ($cartItems as $item)
+                {
+
+                    $itemTotal = $item->price_at_order * $item->quantity;
+                    $extrasTotal = 0;
+
+                    foreach ($item->extra_products as $extraProduct)
+                    {
+                        $extrasTotal += $extraProduct->extra->price;
+                    }
+
+                    $new_total_price += $itemTotal + $extrasTotal;
+                }
+
+
+
+            $customer = Auth::user()->customer;
+            if (!$customer->my_wallet)
+            {
+                $data = [];
+                $message = __('message.Wallet_Not_Found', [], $lang); // استخدم مفتاح حقيقي هنا مثل Wallet_Not_Found
+                $code = 400;
+
+                return ['data' => $data, 'message' => $message, 'code' => $code];
+            }
+
+            if(is_null($exist_order))
+            {
+                $new_order_now = Auth::user()->customer->orders()->create([
+                    'reservation_id' => $exist_reservation->id,
+                    'total_amount' => $new_total_price,
+                ]);
+
+                if($customer->my_wallet->amount < $new_order_now->total_amount)
+                {
+                    $data = [];
+                    $message = __('message.Order_Price_exceeds_Your_Wallet', [], $lang); // استخدم مفتاح حقيقي هنا مثل Wallet_Not_Found
+                    $code = 400;
+
+                    return ['data' => $data, 'message' => $message, 'code' => $code];
+                }
+
+                CartItem::query()
+                ->whereIn('id', $request['cart_item_ids'])
+                ->update([
+                    'is_selected_for_checkout' => true,
+                ]);
+
+                $are_all_cart_items_taked = CartItem::query()
+                ->where('cart_id', $request['cart_id'])
+                ->where('is_selected_for_checkout', false)
+                ->doesntExist();
+
+                $new_payment = Payment::query()->create([
+                    'order_id' => $new_order_now->id,
+                    'amount' => $new_order_now->total_amount + $exist_reservation->table->price
+                ]);
+
+                $old_amount = $customer->my_wallet->amount;
+                $customer->my_wallet()->update([
+                    'amount' => $old_amount - $new_order_now->total_amount
+                ]);
+
+                Cart::query()
+                    ->where('id', $request['cart_id'])
+                    ->update([
+                        'order_id' => $new_order_now->id,
+                        'is_checked_out' => $are_all_cart_items_taked
+                    ]);
+
+                $data = [];
+                $message = __('message.Order_Now_Created_And_Cart_Attached', [], $lang);
+                $code = 201;
+            }
+            else
+            {
+
+                $exist_total_price = ($exist_order->total_amount) + $new_total_price;
+
+                if($customer->my_wallet->amount < $new_total_price)
+                {
+                    $data = [];
+                    $message = __('message.Order_Price_exceeds_Your_Wallet', [], $lang); // استخدم مفتاح حقيقي هنا مثل Wallet_Not_Found
+                    $code = 400;
+
+                    return ['data' => $data, 'message' => $message, 'code' => $code];
+                }
+
+                $exist_order->update([
+                    'total_amount' => $exist_total_price
+                ]);
+
+                $exist_order->payment->update([
+                    'amount' => $exist_order->total_amount + $exist_reservation->table->price
+                ]);
+
+                $old_amount = $customer->my_wallet->amount;
+                $customer->my_wallet()->update([
+                    'amount' => $old_amount - $new_total_price
+                ]);
+
+                CartItem::query()
+                ->whereIn('id', $request['cart_item_ids'])
+                ->update([
+                    'is_selected_for_checkout' => true,
+                ]);
+
+                $are_all_cart_items_taked = CartItem::query()
+                ->where('cart_id', $request['cart_id'])
+                ->where('is_selected_for_checkout', false)
+                ->doesntExist();
+
+                Cart::query()
+                    ->where('id', $request['cart_id'])
+                    ->update([
+                        'order_id' => $exist_order->id,
+                        'is_checked_out' => $are_all_cart_items_taked
+                    ]);
+
+                $data = [];
+                $message = __('message.Order_Now_Items_Attached', [], $lang);
+                $code = 200;
+            }
+        }
+
+        return ['data' =>$data,'message'=>$message,'code'=>$code];
+
+    }
+
     public function create_pre_order($request):array
     {
         $lang = Auth::user()->preferred_language;
@@ -205,6 +357,37 @@ class OrderService
                     $new_total_price += $itemTotal + $extrasTotal;
                 }
 
+
+
+            $customer = Auth::user()->customer;
+            if (!$customer->my_wallet)
+            {
+                $data = [];
+                $message = __('message.Wallet_Not_Found', [], $lang); // استخدم مفتاح حقيقي هنا مثل Wallet_Not_Found
+                $code = 400;
+
+                return ['data' => $data, 'message' => $message, 'code' => $code];
+            }
+
+            if(is_null($exist_order))
+            {
+
+
+
+                $new_pre_order = Auth::user()->customer->orders()->create([
+                    'reservation_id' => $request['reservation_id'],
+                    'total_amount' => $new_total_price,
+                ]);
+
+                if($customer->my_wallet->amount < $new_pre_order->total_amount)
+                {
+                    $data = [];
+                    $message = __('message.Order_Price_exceeds_Your_Wallet', [], $lang); // استخدم مفتاح حقيقي هنا مثل Wallet_Not_Found
+                    $code = 400;
+
+                    return ['data' => $data, 'message' => $message, 'code' => $code];
+                }
+
                 CartItem::query()
                 ->whereIn('id', $request['cart_item_ids'])
                 ->update([
@@ -218,18 +401,14 @@ class OrderService
                 ->where('is_selected_for_checkout', false)
                 ->doesntExist();
 
-
-            if(is_null($exist_order))
-            {
-
-                $new_pre_order = Auth::user()->customer->orders()->create([
-                    'reservation_id' => $request['reservation_id'],
-                    'total_amount' => $new_total_price,
-                ]);
-
                 $new_payment = Payment::query()->create([
                     'order_id' => $new_pre_order->id,
                     'amount' => $new_pre_order->total_amount + $exist_reservation->table->price
+                ]);
+
+                $old_amount = $customer->my_wallet->amount;
+                $customer->my_wallet()->update([
+                    'amount' => $old_amount - $new_pre_order->total_amount
                 ]);
 
                 Cart::query()
@@ -248,6 +427,15 @@ class OrderService
             {
                 $exist_total_price = ($exist_order->total_amount) + $new_total_price;
 
+                if($customer->my_wallet->amount < $new_total_price)
+                {
+                    $data = [];
+                    $message = __('message.Order_Price_exceeds_Your_Wallet', [], $lang); // استخدم مفتاح حقيقي هنا مثل Wallet_Not_Found
+                    $code = 400;
+
+                    return ['data' => $data, 'message' => $message, 'code' => $code];
+                }
+
                 $exist_order->update([
                     'total_amount' => $exist_total_price
                 ]);
@@ -255,6 +443,24 @@ class OrderService
                 $exist_order->payment->update([
                     'amount' => $exist_order->total_amount + $exist_reservation->table->price
                 ]);
+
+                $old_amount = $customer->my_wallet->amount;
+                $customer->my_wallet()->update([
+                    'amount' => $old_amount - $new_total_price
+                ]);
+
+                CartItem::query()
+                ->whereIn('id', $request['cart_item_ids'])
+                ->update([
+                    'is_selected_for_checkout' => true,
+                    'is_pre_order' => true,
+                    'prepare_at' => $request['prepare_at']
+                ]);
+
+                $are_all_cart_items_taked = CartItem::query()
+                ->where('cart_id', $request['cart_id'])
+                ->where('is_selected_for_checkout', false)
+                ->doesntExist();
 
                 Cart::query()
                     ->where('id', $request['cart_id'])
