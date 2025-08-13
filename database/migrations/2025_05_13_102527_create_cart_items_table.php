@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('total_price',8,2);
             $table->integer("quantity");
             $table->boolean('is_selected_for_checkout')->default(false);
+            $table->boolean('is_ready')->default(false);
             $table->boolean('is_pre_order')->default(false); // هل هذا المنتج لطلب مسبق؟
             $table->dateTime('prepare_at')->nullable(); // متى يُجهز هذا العنصر؟
             $table->timestamps();

@@ -35,6 +35,71 @@ class OrderController extends Controller
         }
     }
 
+    public function index_now_orders():JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_orderService->index_now_orders();
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+
+    public function index_completed_orders():JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_orderService->index_completed_orders();
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+    public function show_now_order_for_chef():JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_orderService->show_now_order_for_chef();
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+    public function show_pre_order_for_chef():JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_orderService->show_pre_order_for_chef();
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
     public function show_pre_order(FormRequestOrder $request):JsonResponse
     {
         $data=[];
@@ -42,6 +107,54 @@ class OrderController extends Controller
         try
         {
             $data = $this->_orderService->show_pre_order($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+    public function mark_cart_item_ready(FormRequestOrder $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_orderService->mark_cart_item_ready($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+    public function show_now_order(FormRequestOrder $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_orderService->show_now_order($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+    public function show_completed_orders(FormRequestOrder $request):JsonResponse
+    {
+        $data=[];
+
+        try
+        {
+            $data = $this->_orderService->show_completed_orders($request);
             return $this->Success($data['data'],$data['message'],$data['code']);
         }
         catch(Throwable $e)

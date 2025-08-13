@@ -354,9 +354,21 @@ Route::controller(OrderController::class)->group(function()
 
         Route::post('/create_order_now','create_order_now')->middleware('can:create-order');
 
-        // Route::post('/create_reservation','create_reservation')->middleware('can:create-reservation');
+        Route::get('/index_now_orders','index_now_orders')->middleware('can:index-order');
 
-        // Route::delete('/cancel_reservation','cancel_reservation')->middleware('can:delete-reservation');
+        Route::get('/show_now_order','show_now_order')->middleware('can:show-order');
+
+        Route::get('/index_completed_orders','index_completed_orders')->middleware('can:index-order');
+
+        Route::get('/show_completed_orders','show_completed_orders')->middleware('can:show-order');
+
+        Route::get('/show_now_order_for_chef','show_now_order_for_chef')->middleware('can:show-now-order-for-chef');
+
+        Route::get('/show_pre_order_for_chef','show_pre_order_for_chef')->middleware('can:show-pre-order-for-chef');
+
+        Route::post('/mark_cart_item_ready','mark_cart_item_ready')->middleware('can:mark-cart-item-ready');
+
+
 
     });
 

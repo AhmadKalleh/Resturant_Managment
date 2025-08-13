@@ -30,10 +30,13 @@ class FormRequestOrder extends FormRequest
         {
             'GET' => match ($this->route()->getActionMethod()) {
                 'show_pre_order' => $this->show_pre_order(),
+                'show_now_order' => $this->show_pre_order(),
+                'show_completed_orders' => $this->show_pre_order(),
             },
             'POST' => match ($this->route()->getActionMethod()) {
                 'create_pre_order' => $this->create_pre_order(),
                 'create_order_now' => $this->create_order_now(),
+                'mark_cart_item_ready' => $this->mark_cart_item_ready(),
             },
 
             'DELETE'=> match ($this->route()->getActionMethod())
@@ -71,6 +74,14 @@ class FormRequestOrder extends FormRequest
             'cart_id'=>'required|integer'
         ];
     }
+
+    public function mark_cart_item_ready():array
+    {
+        return [
+            'cart_item_id'=>'required|integer'
+        ];
+    }
+
 
 
     protected function failedValidation(Validator $validator)

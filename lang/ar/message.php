@@ -167,5 +167,15 @@ return [
     'Notifications_Retrived' => 'تم جلب الإشعارات بنجاح',
     'Some_Extras_Already_Exist' => 'بعض الإضافات مرتبطة بهذا المنتج مسبقًا',
     'Extras_Attached_Successfully' => 'تم إلحاق هذه الإضافات بالمنتج بنجاح',
-
+    'Pre_Order_Retrieved' => 'تم جلب الطلب المسبق بنجاح',
+    'Now_Order_Retrieved' => 'تم جلب الطلب الحالي بنجاح',
+    'No_Now_Orders' => 'لا توجد طلبات حالية',
+    'No_Pre_Orders' => 'لا توجد طلبات مسبقة',
+    'Completed_Orders_Retrived' => 'تم جلب الطلبات المكتملة بنجاح',
+    'There_Arenot_Completed_Orders' => 'لا توجد طلبات مكتملة',
+    'There_Isnot_Pre_Order' => 'لا يوجد طلب مسبق',
+    'Pre_Orders_Retrived' => 'تم جلب الطلبات المسبقة بنجاح',
+    'There_Arenot_Pre_Orders' => 'لا توجد طلبات مسبقة',
+    'There_Arenot_Now_Orders' => 'لا توجد طلبات حالية',
+    'CartItem_Ready_Updated'=>'تم تجهيز الوجبة بنجاح',
 ];

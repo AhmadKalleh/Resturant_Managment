@@ -11,7 +11,7 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id','order_id','is_checked_out'];
+    protected $fillable = ['customer_id','order_id','is_checked_out','is_completed'];
 
     public function customer(): BelongsTo
     {

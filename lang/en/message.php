@@ -159,5 +159,18 @@ return [
     'Notifications_Retrived' => 'Notifications retrieved successfully',
     'Some_Extras_Already_Exist' => 'Some extras are already linked to this product',
     'Extras_Attached_Successfully' => 'These extras have been successfully attached to the product',
+    'Pre_Order_Retrieved' => 'Pre-order retrieved successfully', // تم جلب الطلب المسبق بنجاح
+    'Now_Order_Retrieved' => 'Current order retrieved successfully', // تم جلب الطلب الحالي بنجاح
+    'No_Now_Orders' => 'There are no current orders', // لا توجد طلبات حالية
+    'No_Pre_Orders' => 'There are no pre-orders', // لا توجد طلبات مسبقة
+    'Completed_Orders_Retrived' => 'Completed orders retrieved successfully', // تم جلب الطلبات المكتملة بنجاح
+    'There_Arenot_Completed_Orders' => 'There are no completed orders', // لا توجد طلبات مكتملة
+    'There_Isnot_Pre_Order' => 'There is no pre-order', // لا يوجد طلب مسبق
+    'Pre_Orders_Retrived' => 'Pre-orders retrieved successfully', // تم جلب الطلبات المسبقة بنجاح
+    'There_Arenot_Pre_Orders' => 'There are no pre-orders', // لا توجد طلبات مسبقة
+    'There_Arenot_Now_Orders'=>'There are no current-orders',
+    'CartItem_Ready_Updated'=>'The meal was successfully prepared',
+
+
 ];
 
