@@ -30,12 +30,12 @@ class FormRequestOffer extends FormRequest
             'GET' => match ($this->route()->getActionMethod())
             {
                     'show' => $this->show(),
-                     default => [],
+                    default => [],
             },
             'POST' => match ($this->route()->getActionMethod()) {
                 'store' => $this->store(),
                 'update' => $this->update(),
-                 default => []
+                default => []
                 },
 
             'DELETE'=> match ($this->route()->getActionMethod())
@@ -53,22 +53,22 @@ class FormRequestOffer extends FormRequest
             'title_en' => [
                 'required',
                 'string',
-                'regex:/^[a-zA-Z0-9\s\p{P}]+$/u'
+                'regex:/^[a-zA-Z\s\-\_\&\^\%\$\#\@]+$/'
             ],
             'title_ar' => [
                 'required',
                 'string',
-                'regex:/^[\p{Arabic}0-9\s\p{P}]+$/u'
+                'regex:/^[\p{Arabic}\s\-\_\&\^\%\$\#\@]+$/u'
             ],
             'description_en' => [
                 'nullable',
                 'string',
-                'regex:/^[a-zA-Z0-9\s\p{P}]+$/u'
+                'regex:/^[a-zA-Z\s\-\_\&\^\%\$\#\@]+$/'
             ],
             'description_ar' => [
                 'nullable',
                 'string',
-                'regex:/^[\p{Arabic}0-9\s\p{P}]+$/u'
+                'regex:/^[\p{Arabic}\s\-\_\&\^\%\$\#\@]+$/u'
             ],
             'discount_value' => 'required|string|regex:/^\d+%$/',
             'start_date' => 'required|date|after_or_equal:'. Carbon::now()->toDateString(),
@@ -88,24 +88,24 @@ class FormRequestOffer extends FormRequest
             'title_en' => [
                 'sometimes',
                 'string',
-                'regex:/^[a-zA-Z0-9\s\p{P}]+$/u'
+                'regex:/^[a-zA-Z\s\-\_\&\^\%\$\#\@]+$/'
             ],
             'title_ar' => [
                 'sometimes',
                 'string',
-                'regex:/^[\p{Arabic}0-9\s\p{P}]+$/u'
+                'regex:/^[\p{Arabic}\s\-\_\&\^\%\$\#\@]+$/u'
             ],
             'description_en' => [
                 'sometimes',
                 'nullable',
                 'string',
-                'regex:/^[a-zA-Z0-9\s\p{P}]+$/u'
+                'regex:/^[a-zA-Z\s\-\_\&\^\%\$\#\@]+$/'
             ],
             'description_ar' => [
                 'sometimes',
                 'nullable',
                 'string',
-                'regex:/^[\p{Arabic}0-9\s\p{P}]+$/u'
+                'regex:/^[\p{Arabic}\s\-\_\&\^\%\$\#\@]+$/u'
             ],
             'discount_value' => 'sometimes|string|regex:/^\d+%$/',
             'start_date' => 'sometimes|date|after_or_equal:'. Carbon::now()->toDateString(),

@@ -163,6 +163,7 @@ class AuthService
 
                 $data = [
                     'id' => $user->id,
+                    'lan' => $user->preferred_language ?? 'en',
                     'token'=>$token
                 ];
                 $code = 200;

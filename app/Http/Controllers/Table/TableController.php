@@ -46,7 +46,7 @@ class TableController extends Controller
 
         try
         {
-            $data = $this->_tableService->store($request->validated());
+            $data = $this->_tableService->store($request);
             return $this->Success($data['data'],$data['message'],$data['code']);
         }
         catch(Throwable $e)
@@ -66,7 +66,7 @@ class TableController extends Controller
         try
         {
             $id = $request->input('id');
-            $data = $this->_tableService->update($request->validated(),$id);
+            $data = $this->_tableService->update($request,$id);
             return $this->Success($data['data'],$data['message'],$data['code']);
         }
         catch(Throwable $e)
@@ -96,7 +96,7 @@ class TableController extends Controller
 
     }
 
-    
+
     public function show (Request $request):JsonResponse
     {
 

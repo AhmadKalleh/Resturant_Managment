@@ -88,10 +88,10 @@ class FormRequestProduct extends FormRequest
     {
         return [
             'product_id'=>'required|integer',
-            'name_en' =>'sometimes|string|regex:/^[a-zA-Z\s]+$/',
-            'name_ar' =>'sometimes|string|regex:/^[\p{Arabic}\s]+$/u',
-            'description_en' =>'sometimes|string|regex:/^[a-zA-Z\s]+$/',
-            'description_ar' =>'sometimes|string|regex:/^[\p{Arabic}\s]+$/u',
+            'name_en' =>'sometimes|string|regex:/^[a-zA-Z\s\-\_\&\^\%\$\#\@]+$/',
+            'name_ar' =>'sometimes|string|regex:/^[\p{Arabic}\s\-\_\&\^\%\$\#\@]+$/u',
+            'description_en' =>'sometimes|string|regex:/^[a-zA-Z\s\-\_\&\^\%\$\#\@]+$/',
+            'description_ar' =>'sometimes|string|regex:/^[\p{Arabic}\s\-\_\&\^\%\$\#\@]+$/u',
             'price' => 'sometimes|numeric',
             'calories' =>'sometimes|numeric',
             'image_file' =>'sometimes|file|mimes:jpeg,png,jpg,gif,svg,ico'
@@ -102,10 +102,10 @@ class FormRequestProduct extends FormRequest
     {
         return [
             'category_id'=>'required|integer',
-            'name_en' =>'required|string|regex:/^[a-zA-Z\s]+$/',
-            'name_ar' =>'required|string|regex:/^[\p{Arabic}\s]+$/u',
-            'description_en' =>'required|string|regex:/^[a-zA-Z\s]+$/',
-            'description_ar' =>'required|string|regex:/^[\p{Arabic}\s]+$/u',
+            'name_en' =>'required|string|regex:/^[a-zA-Z\s\-\_\&\^\%\$\#\@]+$/',
+            'name_ar' =>'required|string|regex:/^[\p{Arabic}\s\-\_\&\^\%\$\#\@]+$/u',
+            'description_en' =>'required|string|regex:/^[a-zA-Z\s\-\_\&\^\%\$\#\@]+$/',
+            'description_ar' =>'required|string|regex:/^[\p{Arabic}\s\-\_\&\^\%\$\#\@]+$/u',
             'price' => 'required|numeric',
             'calories' =>'required|numeric',
             'image_file' =>'required|file|mimes:jpeg,png,jpg,gif,svg,ico'

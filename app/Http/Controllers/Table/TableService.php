@@ -14,12 +14,13 @@ class TableService
     use TranslateHelper;
 
 
-    public function index():array
+    public function index(): array
     {
-        $lang = Auth::user()->preferred_language;
+        $user = Auth::user();
+        $lang = $user->preferred_language;
         $tables = Table::with('image')->get();
-        if (!$tables)
-        {
+
+        if (!$tables) {
             return [
                 'data' => [],
                 'message' => __('message.resources_not_found', [], $lang),
@@ -28,24 +29,34 @@ class TableService
         }
 
         $data = [];
-        foreach ($tables as $table)
-        {
-            $data[] = [
+        foreach ($tables as $table) {
+            $tableData = [
                 'id'=> $table['id'],
-                'location' => $table->getTranslation('location', $lang),
                 'seats'=> $table['seats'],
-                'status'=> $this->translate('status',$table['status']),
                 'price' => $table->price_text,
                 'image_path' => $table->image ? url('storage/' . $table->image->path) : null,
             ];
+
+            // إذا كان المستخدم دوره reception => رجّع الموقع بكل اللغات
+            if ($user->roles->pluck('name')->first() === 'reception') {
+                $tableData['location'] = [
+                    'en' => $table->getTranslation('location', 'en'),
+                    'ar' => $table->getTranslation('location', 'ar'),
+                ];
+            } else {
+                // غير هيك رجع بلغة الزبون فقط
+                $tableData['location'] = $table->getTranslation('location', $lang);
+            }
+
+            $data[] = $tableData;
         }
 
-        $message = __('message.All_Tables_Retrives',[],$lang);
+        $message = __('message.All_Tables_Retrives', [], $lang);
         $code = 200;
 
-        return ['data' =>$data,'message'=>$message,'code'=>$code];
-
+        return ['data' => $data, 'message' => $message, 'code' => $code];
     }
+
 
     public function show ( $id )
     {
@@ -67,7 +78,6 @@ class TableService
             "id"=>$table->id,
             'location' => $table->getTranslation('location', $lang),
             'seats'=> $table->seats,
-            'status'=> $this->translate('status',$table['status']),
             'price' => $table->price_text,
             'image_path' => $table->image ? url('storage/' . $table->image->path) : null,
         ];
@@ -95,9 +105,14 @@ class TableService
             'price' =>$request['price'],
         ]);
 
-        $table->image()->create([
-            'path' => $this->uplodeImage($request->file('table_Image'),"tables"),
-        ]);
+
+        if ($request->hasFile('table_Image'))
+        {
+            $table->image()->create([
+                'path' => $this->uplodeImage($request->file('table_Image'), "tables"),
+            ]);
+        }
+
         $data = [];
 
 

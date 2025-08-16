@@ -64,8 +64,8 @@ class FormRequestExtra extends FormRequest
     {
         return [
             'extra_id' =>'required|integer|exists:extras,id',
-            'name_en' =>'sometimes|string|regex:/^[a-zA-Z\s]+$/',
-            'name_ar' =>'sometimes|string|regex:/^[\p{Arabic}\s]+$/u',
+            'name_en' =>'sometimes|string|regex:/^[a-zA-Z\s\-\_\&\^\%\$\#\@]+$/',
+            'name_ar' =>'sometimes|string|regex:/^[\p{Arabic}\s\-\_\&\^\%\$\#\@]+$/u',
             'price' => 'sometimes|numeric|min:0|max:999999.99',
             'calories' => 'sometimes|integer|min:0',
         ];
@@ -74,8 +74,8 @@ class FormRequestExtra extends FormRequest
     public function store():array
     {
         return [
-            'name_en' =>'required|string',
-            'name_ar' =>'required|string',
+            'name_en' =>'required|string|regex:/^[a-zA-Z\s\-\_\&\^\%\$\#\@]+$/',
+            'name_ar' =>'required|string|regex:/^[\p{Arabic}\s\-\_\&\^\%\$\#\@]+$/u',
             'price' => 'required|numeric|min:0|max:999999.99',
             'calories' => 'required|integer|min:0',
         ];

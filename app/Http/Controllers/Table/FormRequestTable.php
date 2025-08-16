@@ -43,8 +43,8 @@ class FormRequestTable extends FormRequest
     {
         return [
             'seats' => 'required|integer|min:1',
-            'location_en' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
-            'location_ar' => 'required|string|max:255|regex:/^[\p{Arabic}\s]+$/u',
+            'location_en' => 'required|string|max:255|regex:/^[a-zA-Z\s\-\_\&\^\%\$\#\@]+$/',
+            'location_ar' => 'required|string|max:255|regex:/^[\p{Arabic}\s\-\_\&\^\%\$\#\@]+$/u',
             'price' => 'required|numeric|min:0',
             'table_Image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,ico',
         ];
@@ -55,8 +55,8 @@ class FormRequestTable extends FormRequest
         return [
 
             'seats' => 'sometimes|integer|min:1',
-            'location_en' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
-            'location_ar' => 'required|string|max:255|regex:/^[\p{Arabic}\s]+$/u',
+            'location_en' => 'required|string|max:255|regex:/^[a-zA-Z\s\-\_\&\^\%\$\#\@]+$/',
+            'location_ar' => 'required|string|max:255|regex:/^[\p{Arabic}\s\-\_\&\^\%\$\#\@]+$/u',
             'price' => 'sometimes|numeric|min:0',
             'table_Image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,ico',
         ];
