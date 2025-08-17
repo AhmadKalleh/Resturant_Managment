@@ -18,7 +18,7 @@ class ReservationService
     {
         $lang = Auth::user()->preferred_language;
 
-        $now = now()->addHours(3);
+        $now = now();
 
         $reservations = Reservation::with(['table', 'extensions'])
         ->where('customer_id', Auth::user()->customer->id)
@@ -38,7 +38,7 @@ class ReservationService
         ->orderBy('reservation_start_time', 'asc')
         ->get()
         ->map(function ($reservation) use ($lang, $now) {
-            $now = now()->addHours(3); // للتوقيت المحلي
+            $now = now() ; // للتوقيت المحلي
             $cancel_limit_time = Carbon::parse($reservation->reservation_start_time)->addMinutes(30);
 
             $is_cancelable = ($now <= $cancel_limit_time);
@@ -135,7 +135,9 @@ class ReservationService
     {
         $lang = Auth::user()->preferred_language;
 
-        $now = now()->addHours(3);
+        $now = now();
+
+        //return ['data' => $now->toDateTimeString(),'message'=>'mm','code'=>200];
 
         $previous_reservations = Reservation::with(['table', 'extensions'])
         ->where('customer_id', Auth::user()->customer->id)
@@ -191,7 +193,7 @@ class ReservationService
             ->orderBy('reservation_end_time', 'desc')
             ->get()
             ->map(function ($reservation) use ($lang) {
-                $now = now()->addHours(3);
+                $now = now() ;
                 $is_extendalbe = !$reservation->is_extended &&
                         ($now <= $reservation->reservation_end_time);
 
@@ -236,7 +238,7 @@ class ReservationService
             ->orderBy('reservation_start_time', 'asc')
             ->get()
             ->map(function ($reservation) use ($lang) {
-                $now = now()->addHours(3); // للتوقيت المحلي
+                $now = now() ; // للتوقيت المحلي
                 $cancel_limit_time = Carbon::parse($reservation->reservation_start_time)->addMinutes(30);
 
                 $is_cancelable = ($now <= $cancel_limit_time);
@@ -617,7 +619,7 @@ class ReservationService
         $customer = $reservation->customer;
 
 
-        
+
         if($reservation)
         {
             $reservation->update([

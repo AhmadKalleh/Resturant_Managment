@@ -70,7 +70,7 @@ class OrderService
             ->where('customer_id', Auth::user()->customer->id)
             ->where('is_canceled', false)
             ->where('is_checked_in', false)
-            ->where('reservation_end_time', '>=', now()->addHours(3))
+            ->where('reservation_end_time', '>=', now())
             ->get()
             ->map(function ($reservation) {
                 $orders = $reservation->orders->map(function ($order) {
@@ -79,7 +79,7 @@ class OrderService
                             ->where('is_pre_order', 1)
                             ->where('is_ready',0)
                             ->where('is_selected_for_checkout',1)
-                            ->where('prepare_at', '>', now()->addHours(3));
+                            ->where('prepare_at', '>', now());
 
                         if ($pre_order_items->isEmpty()) {
                             return null;
@@ -169,11 +169,11 @@ class OrderService
             ->where('is_ready',0)
             ->where('is_selected_for_checkout',1)
             ->filter(function ($item) {
-                return Carbon::parse($item->prepare_at)->gt(now()->addHours(3));
+                return Carbon::parse($item->prepare_at)->gt(now());
             })
             ->map(function ($item) use ($lang) {
                 $prepare_at = Carbon::parse($item->prepare_at)->subMinutes(30);
-                $now = now()->addHours(3);
+                $now = now();
                 $is_cancelable = $now <= $prepare_at;
 
                 $formatted = $this->formatCartItem($item, $lang);
@@ -367,8 +367,8 @@ class OrderService
 
             $now_orders = Reservation::with(['orders.carts.cart_items.extra_products.extra'])
                 ->where('customer_id', Auth::user()->customer->id)
-                ->where('reservation_end_time', '>=', now()->addHours(3))
-                ->where('reservation_start_time', '<=', now()->addHours(3))
+                ->where('reservation_end_time', '>=', now() )
+                ->where('reservation_start_time', '<=', now() )
                 ->where('is_canceled', false)
                 ->get()
                 ->map(function ($reservation) {
