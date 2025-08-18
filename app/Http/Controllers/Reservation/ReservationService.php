@@ -51,8 +51,9 @@ class ReservationService
                 'table_id'               => $reservation->table_id,
                 'price_table'            => $reservation->table->price,
                 'loaction_table'         => $reservation->table->getTranslation('location', $lang),
-                'reservation_start_time' => $reservation->reservation_start_time->toDateTimeString(),
-                'reservation_end_time'   => $reservation->reservation_end_time->toDateTimeString(),
+                'reservation_start_time' => $reservation->reservation_start_time->format('F j, Y \a\t h:i A'),
+                'reservation_end_time'   => $reservation->reservation_end_time->format('F j, Y \a\t h:i A'),
+
                 'is_checked_in'          => $reservation->is_checked_in,
                 'is_cancelable'          => $is_cancelable,
                 'is_extendalbe'          => $is_extendalbe,
@@ -114,8 +115,8 @@ class ReservationService
                     'table_id' => $reservation->table_id,
                     'price_table' => $reservation->table->price_text,
                     'location_table' => $reservation->table->getTranslation('location', $lang),
-                    'reservation_start_time' => $startTime->toDateTimeString(),
-                    'reservation_end_time' => $reservation->reservation_end_time->toDateTimeString(),
+                    'reservation_start_time' => $startTime->format('F j, Y \a\t h:i A'),
+                    'reservation_end_time' => $reservation->reservation_end_time->format('F j, Y \a\t h:i A'),
                     'status' => $status, // upcoming, waiting, extended_waiting, canceled_auto
                 ];
             })->values();
@@ -157,8 +158,9 @@ class ReservationService
                 'table_id'                 => $reservation->table_id,
                 'price_table'              => $reservation->table->price,
                 'loaction_table'           => $reservation->table->getTranslation('location', $lang),
-                'reservation_start_time'   => $reservation->reservation_start_time->toDateTimeString(),
-                'reservation_end_time'     => $reservation->reservation_end_time->toDateTimeString(),
+                'reservation_start_time' => $reservation->reservation_start_time->format('F j, Y \a\t h:i A'),
+                'reservation_end_time'   => $reservation->reservation_end_time->format('F j, Y \a\t h:i A'),
+
                 'is_checked_in'            => $reservation->is_checked_in,
 
                 'extension_count' => $reservation->extensions->count(),
@@ -202,8 +204,9 @@ class ReservationService
                     'table_id'             => $reservation->table_id,
                     'price_table'          => $reservation->table->price,
                     'loaction_table'       => $reservation->table->getTranslation('location', $lang),
-                    'reservation_start_time' => $reservation->reservation_start_time->toDateTimeString(),
-                    'reservation_end_time'   => $reservation->reservation_end_time->toDateTimeString(),
+                    'reservation_start_time' => $reservation->reservation_start_time->format('F j, Y \a\t h:i A'),
+                    'reservation_end_time'   => $reservation->reservation_end_time->format('F j, Y \a\t h:i A'),
+
                     'is_checked_in'        => $reservation->is_checked_in,
                     'is_delay_extendalbe' => $is_extendalbe,
                     'extension_count' => $reservation->extensions->count(),
@@ -250,8 +253,9 @@ class ReservationService
                     'table_id' => $reservation->table_id,
                     'price_table' => $reservation->table->price,
                     'loaction_table' => $reservation->table->getTranslation('location', $lang),
-                    'reservation_start_time' => $reservation->reservation_start_time->toDateTimeString(),
-                    'reservation_end_time' => $reservation->reservation_end_time->toDateTimeString(),
+                    'reservation_start_time' => $reservation->reservation_start_time->format('F j, Y \a\t h:i A'),
+                    'reservation_end_time'   => $reservation->reservation_end_time->format('F j, Y \a\t h:i A'),
+
                     'is_checked_in' => $reservation->is_checked_in,
                     'is_cancelable' => $is_cancelable,
                     'is_delay_extendalbe' => $is_extendalbe,
@@ -303,8 +307,8 @@ class ReservationService
             {
                 return [
                     'reservation_id' => $reservation->id,
-                    'reservation_start_time' => $reservation->reservation_start_time->toDateTimeString(),
-                    'reservation_end_time' => $reservation->reservation_end_time->toDateTimeString(),
+                    'reservation_start_time' => $reservation->reservation_start_time->format('F j, Y \a\t h:i A'),
+                    'reservation_end_time'   => $reservation->reservation_end_time->format('F j, Y \a\t h:i A'),
                     'is_checked_in' => $reservation->is_checked_in,
                 ];
         });
@@ -369,8 +373,8 @@ class ReservationService
         {
             $message = __('message.extend_session', ['time' => $diffFormatted], $lang);
             $data = [
-                'new_start_time' => $myReservation->reservation_end_time->toDateTimeString(),
-                'new_end_time' => $nextReservation->reservation_start_time->toDateTimeString(),
+                'new_start_time' => $myReservation->reservation_end_time->format('F j, Y \a\t h:i A'),
+                'new_end_time' => $nextReservation->reservation_start_time->format('F j, Y \a\t h:i A'),
                 'untile_date' => $message,
             ];
             $code = 200;

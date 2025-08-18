@@ -48,7 +48,7 @@ class CartService
 
         $type = null;
 
-        //return ['data' => $reservation['reservation_start_time']->toDateTimeString(),'message'=>'h','code'=>200];
+        //return ['data' => ['da'=>$reservation['reservation_start_time']->toDateTimeString(),'now'=>$now->toDateTimeString()],'message'=>'h','code'=>200];
 
         if ($reservation)
         {

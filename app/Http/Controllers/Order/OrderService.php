@@ -93,7 +93,7 @@ class OrderService
                         }
 
                         return [
-                            'created_at' => Carbon::parse($cart->created_at)->format('F j, Y'),
+                            'created_at' => Carbon::parse($cart->created_at)->format('F j, Y \a\t h:i A'),
                             'cart_id' => $cart->id,
                             'total_pre_order_price' => number_format(ceil($new_total_price), 0, ',', ',') . ' $',
                             'items_count' => $pre_order_items->count(),
@@ -120,8 +120,8 @@ class OrderService
 
                 return [
                     'reservation_id' => $reservation->id,
-                    'reservation_start_time' => Carbon::parse($reservation->reservation_start_time)->format('Y-m-d H:i:s'),
-                    'reservation_end_time' => Carbon::parse($reservation->reservation_end_time)->format('Y-m-d H:i:s'),
+                    'reservation_start_time' => $reservation->reservation_start_time->format('F j, Y \a\t h:i A'),
+                    'reservation_end_time'   => $reservation->reservation_end_time->format('F j, Y \a\t h:i A'),
                     'orders' => $orders,
                 ];
             })
@@ -397,7 +397,7 @@ class OrderService
                                 }
 
                                 return [
-                                    'created_at' => Carbon::parse($cart->created_at)->format('F j, Y'),
+                                    'created_at' => Carbon::parse($cart->created_at)->format('F j, Y \a\t h:i A'),
                                     'cart_id' => $cart->id,
                                     'total_now_order_price' => number_format(ceil($new_total_price), 0, ',', ',') . ' $',
                                     'items_count' => $now_order_items->count(),
@@ -424,8 +424,8 @@ class OrderService
 
                     return [
                         'reservation_id' => $reservation->id,
-                        'reservation_start_time' => Carbon::parse($reservation->reservation_start_time)->format('Y-m-d H:i:s'),
-                        'reservation_end_time' => Carbon::parse($reservation->reservation_end_time)->format('Y-m-d H:i:s'),
+                        'reservation_start_time' => Carbon::parse($reservation->reservation_start_time)->format('F j, Y \a\t h:i A'),
+                        'reservation_end_time' => Carbon::parse($reservation->reservation_end_time)->format('F j, Y \a\t h:i A'),
                         'orders' => $orders,
                     ];
                 })
@@ -665,7 +665,7 @@ class OrderService
                                 }
 
                                 return [
-                                    'created_at' => Carbon::parse($cart->created_at)->format('F j, Y'),
+                                    'created_at' => Carbon::parse($cart->created_at)->format('F j, Y \a\t h:i A'),
                                     'cart_id' => $cart->id,
                                     'total_now_order_price' => number_format(ceil($new_total_price), 0, ',', ',') . ' $',
                                     'items_count' => $now_order_items->count(),
@@ -692,8 +692,8 @@ class OrderService
 
                     return [
                         'reservation_id' => $reservation->id,
-                        'reservation_start_time' => Carbon::parse($reservation->reservation_start_time)->format('Y-m-d H:i:s'),
-                        'reservation_end_time' => Carbon::parse($reservation->reservation_end_time)->format('Y-m-d H:i:s'),
+                        'reservation_start_time' => Carbon::parse($reservation->reservation_start_time)->format('F j, Y \a\t h:i A'),
+                        'reservation_end_time' => Carbon::parse($reservation->reservation_end_time)->format('F j, Y \a\t h:i A'),
                         'orders' => $orders,
                     ];
                 })
