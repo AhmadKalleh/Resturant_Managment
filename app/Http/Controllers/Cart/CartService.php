@@ -35,25 +35,41 @@ class CartService
         }
 
 
-
+        $now = now();
         $reservation = Auth::user()
         ->customer
         ->reservations()
-        ->latest('reservation_start_time')
+        ->where(function ($query) use ($now) {
+                $query->where('reservation_start_time', '<=', $now)
+                    ->where('reservation_end_time', '>=', $now);
+        })
+        ->where('is_canceled', false)
         ->first();
 
         $type = null;
 
+        //return ['data' => $reservation['reservation_start_time']->toDateTimeString(),'message'=>'h','code'=>200];
+
         if ($reservation)
         {
-            if ($reservation->reservation_start_time > Carbon::now()) {
-                $type = 'pre_order';
-            } elseif (
-                $reservation->reservation_start_time <= Carbon::now() &&
-                $reservation->reservation_end_time >= Carbon::now() &&
-                $reservation->is_checked_in
-            ) {
+            if ($reservation->is_checked_in) {
                 $type = 'in_session';
+            }
+            else
+            {
+                $type = 'pre_order';
+            }
+        }
+        else
+        {
+            $lastReservation = Auth::user()->customer
+                ->reservations()
+                ->where('is_canceled', false)
+                ->latest('reservation_start_time')
+                ->first();
+
+            if ($lastReservation && $lastReservation->reservation_start_time > $now) {
+                $type = 'pre_order';
             }
         }
 
