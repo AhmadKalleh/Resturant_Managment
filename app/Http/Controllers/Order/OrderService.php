@@ -202,13 +202,19 @@ class OrderService
         $exist_order = Order::query()->where('reservation_id','=',$request['reservation_id'])->first();
         $exist_reservation = Reservation::query()->where('id',$request['reservation_id'])->first();
 
-        if($request['prepare_at'] < $exist_reservation->reservation_start_time)
+        $reservationDate = Carbon::parse($exist_reservation->reservation_start_time)->toDateString(); // 2025-08-18
+
+        // اجمع التاريخ مع الوقت القادم من الطلب
+        $prepareAt = Carbon::parse($reservationDate . ' ' . $request['prepare_at']); // 2025-08-18 11:30:00
+
+        //return ['data'=>$prepareAt->toDateTimeString(),'message','','code'=>200];
+        if ($prepareAt < $exist_reservation->reservation_start_time)
         {
             $data = [];
             $message = __('message.Prepare_At_Must_After_Reservation_Start_Time', [], $lang);
             $code = 400;
         }
-        else if($request['prepare_at'] > $exist_reservation->reservation_end_time)
+        else if ($prepareAt > $exist_reservation->reservation_end_time)
         {
             $data = [];
             $message = __('message.Prepare_At_Must_Before_Reservation_End_Time', [], $lang);
@@ -274,7 +280,7 @@ class OrderService
                 ->update([
                     'is_selected_for_checkout' => true,
                     'is_pre_order' => true,
-                    'prepare_at' => $request['prepare_at']
+                    'prepare_at' => $prepareAt
                 ]);
 
                 $are_all_cart_items_taked = CartItem::query()
@@ -335,7 +341,7 @@ class OrderService
                 ->update([
                     'is_selected_for_checkout' => true,
                     'is_pre_order' => true,
-                    'prepare_at' => $request['prepare_at']
+                    'prepare_at' => $prepareAt
                 ]);
 
                 $are_all_cart_items_taked = CartItem::query()
