@@ -261,8 +261,7 @@ class ChatService
         );
 
 
-        //return ['data' => $messages,'me'=>'M','code'=>200];
-        // 📡 إرسال إلى OpenRouter
+        
 
 
         try

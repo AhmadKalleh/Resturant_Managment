@@ -474,24 +474,5 @@ Route::controller(NotificationController::class)->group(function()
 
 });
 
-use Illuminate\Support\Facades\Response;
-Route::post('/test-complaint', function() {
 
-
-
-    $notification_service = new NotificationService();
-    $notification_service->send_private_notification([
-    'receiverId' => 11,
-            'title' => [
-                        'en' => 'Complaint Resolved',
-                        'ar' => 'تم حل الشكوى'
-                    ],
-                    'body' => [
-                        'en' => 'Your complaint titled:'.'Ahmad'.'has been resolved. Response:'.'Resolved',
-                        'ar' => "تم حل الشكوى بعنوان «{'Ahmad'}».\nالرد: {'Resolved'}"
-                    ]
-        ]);
-
-    return Response::json(['data' => 'success']);
-})->middleware(['auth:sanctum']);
 

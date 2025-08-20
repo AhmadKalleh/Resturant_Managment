@@ -127,7 +127,7 @@ return [
     'Delay_Extended_Reservation' => 'Reservation extended for 15 more minutes.',
     'Extend_Delay_Price_Exceeds_Your_Wallet' =>' The extension fee is $3, but your wallet balance is insufficient',
     'Free_Extend' => 'You can freely extend your session; there are no reservations after yours',
-    'extend_session' => 'You can extend your session until the start of the next reservation after :time.',
+    'extend_session' => 'You can extend your session until the start of the next reservation :time.',
     'days' => '{0} 0 days|{1} 1 day|[2,*] :count days',
     'hours' => '{0} 0 hours|{1} 1 hour|[2,*] :count hours',
     'minutes' => '{0} 0 minutes|{1} 1 minute|[2,*] :count minutes',
