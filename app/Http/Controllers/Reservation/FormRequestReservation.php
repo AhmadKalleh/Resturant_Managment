@@ -69,24 +69,7 @@ class FormRequestReservation extends FormRequest
             'reservation_id' => ['required', 'integer', 'exists:reservations,id'],
             'extended_until' => [
                 'required',
-                'date_format:Y-m-d H:i:s',
-                function ($attribute, $value, $fail) {
-                    $reservationId = request('reservation_id');
-
-                    // تأكد أن الرقم صحيح و الحجز موجود
-                    $reservation = \App\Models\Reservation::find($reservationId);
-
-                    if (!$reservation) {
-                        return $fail('The reservation does not exist.');
-                    }
-
-                    // تحقق أن extended_until أكبر من وقت نهاية الحجز
-                    $endTime = $reservation->reservation_end_time;
-
-                    if (strtotime($value) <= strtotime($endTime)) {
-                        return $fail('The extended time must be after the original reservation end time: ' . $endTime);
-                    }
-                },
+                'string'
             ],
         ];
     }

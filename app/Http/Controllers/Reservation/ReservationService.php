@@ -51,8 +51,8 @@ class ReservationService
                 'table_id'               => $reservation->table_id,
                 'price_table'            => $reservation->table->price,
                 'loaction_table'         => $reservation->table->getTranslation('location', $lang),
-                'reservation_start_time' => $reservation->reservation_start_time->format('F j, Y \a\t h:i A'),
-                'reservation_end_time'   => $reservation->reservation_end_time->format('F j, Y \a\t h:i A'),
+                'reservation_start_time' => $reservation->reservation_start_time->toDateTimeString(),
+                'reservation_end_time'   => $reservation->reservation_end_time->toDateTimeString(),
 
                 'is_checked_in'          => $reservation->is_checked_in,
                 'is_cancelable'          => $is_cancelable,
@@ -526,6 +526,13 @@ class ReservationService
 
         $reservation = Reservation::query()->where('id','=',$request['reservation_id'])->first();
 
+        $reservationDate = Carbon::parse($reservation->reservation_start_time)->toDateString();
+
+        // اجمع التاريخ مع الوقت القادم من الطلب
+        $extended_until = Carbon::parse($reservationDate . ' ' . $request['extended_until']); // 2025-08-18 11:30:00
+
+        //return ['data'=>$extended_until->toDateTimeString(),'messsgae'=>'','code'=>200];
+
         $customer = Auth::user()->customer;
 
         if(!is_null($reservation))
@@ -545,11 +552,11 @@ class ReservationService
             $reservation->extensions()->create([
                 'reservation_id' => $reservation->id,
                 'extended_start' => $reservation->reservation_end_time,
-                'extended_until' => $request['extended_until']
+                'extended_until' => $extended_until
             ]);
 
             $reservation->update([
-                'reservation_end_time'=> $request['extended_until']
+                'reservation_end_time'=> $extended_until
             ]);
 
 
