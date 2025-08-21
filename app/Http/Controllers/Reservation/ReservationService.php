@@ -307,8 +307,8 @@ class ReservationService
             {
                 return [
                     'reservation_id' => $reservation->id,
-                    'reservation_start_time' => $reservation->reservation_start_time->format('F j, Y \a\t h:i A'),
-                    'reservation_end_time'   => $reservation->reservation_end_time->format('F j, Y \a\t h:i A'),
+                    'reservation_start_time' => $reservation->reservation_start_time->toDateTimeString(),
+                    'reservation_end_time'   => $reservation->reservation_end_time->toDateTimeString(),
                     'is_checked_in' => $reservation->is_checked_in,
                 ];
         });
@@ -373,8 +373,8 @@ class ReservationService
         {
             $message = __('message.extend_session', ['time' => $diffFormatted], $lang);
             $data = [
-                'new_start_time' => $myReservation->reservation_end_time->format('F j, Y \a\t h:i A'),
-                'new_end_time' => $nextReservation->reservation_start_time->format('F j, Y \a\t h:i A'),
+                'new_start_time' => $myReservation->reservation_end_time->toDateTimeString(),
+                'new_end_time' => $nextReservation->reservation_start_time->toDateTimeString(),
                 'untile_date' => $message,
             ];
             $code = 200;
@@ -383,7 +383,7 @@ class ReservationService
         {
             $data = [];
             $message = __('message.cannot_extend',[],$lang);
-            $code = 200;
+            $code = 400;
         }
 
 

@@ -261,7 +261,7 @@ class ChatService
         );
 
 
-        
+
 
 
         try
@@ -272,7 +272,7 @@ class ChatService
                     'Accept-Language' => 'en',
                     'X-Title' => 'Laravel Restaurant AI',
                 ])->post('https://openrouter.ai/api/v1/chat/completions', [
-                    'model' => 'mistralai/mistral-small',
+                    'model' => 'openai/gpt-3.5-turbo',
                     'messages' => $messages,
                 ]);
 
