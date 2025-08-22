@@ -56,7 +56,7 @@ class ChatService
         $lang = $user->preferred_language;
 
 
-        $welcomeMessage = config("ai.welcome_message_{$lang}") ?? config("ai.welcome_message_en");
+        $welcomeMessage = preg_replace('/^[ \t]+/m', '',config("ai.welcome_message_{$lang}") ?? config("ai.welcome_message_en"));
 
         if($user->customer->chat)
         {
@@ -82,8 +82,10 @@ class ChatService
         else
         {
             $chat_messages = [
-                'message' => $welcomeMessage,
-                'direction' => 'left'
+                [
+                    'message' => $welcomeMessage,
+                    'direction' => 'left'
+                ]
             ];
         }
 
