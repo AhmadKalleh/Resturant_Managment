@@ -93,7 +93,6 @@ class FormRequestAuth extends FormRequest
     {
         return [
             'verification_code' => 'required|string|regex:/^\d{6}$/',
-            //'payment_method' => 'required|string',
             'fcm_Token' =>'string'
         ];
     }

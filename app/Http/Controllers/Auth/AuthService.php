@@ -73,6 +73,7 @@ class AuthService
     {
         // create a new instance of User object with the specified permissions
 
+        //return ['data' => $request['verification_code'],'message','','code'=>200];
         $pendingUser = PendingUser::where('verfication_code', $request['verification_code'])->first();
         $lang = app()->getLocale();
 
@@ -101,7 +102,7 @@ class AuthService
             'person_height' => 0,
             'person_weight' => 0,
         ]);
-        $user->customer->mywallet()->create([
+        $user->customer->my_wallet()->create([
         'customer_id' =>$user->customer->id
         ]);
 
