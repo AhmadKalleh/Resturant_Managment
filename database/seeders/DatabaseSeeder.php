@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         $this->call(IngredientsSeeder::class);
         $this->call(ProductSeeder::class);
-        //$this->call(ImportBigData::class);
+        $this->call(ImportBigData::class);
         $this->call(RateSeeder::class);
         $this->call(ExtraSeeder::class);
         $this->call(OfferSeeder::class);
