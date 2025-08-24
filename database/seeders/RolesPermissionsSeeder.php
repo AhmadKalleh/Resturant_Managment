@@ -37,7 +37,7 @@ class RolesPermissionsSeeder extends Seeder
             'create-customer','update-customer','delete-customer','show-customer','index-customer','show_own_extra_for_product','show-now-order-for-chef','show-pre-order-for-chef',
             'create-reception','update-reception','delete-reception','index-reception','show-reception','extend_resservation_delay_time','mark-cart-item-ready',
             'delete-reservations','show-reservations','index-reservations','create-offer','update-offer','extend_resservation','get-my-leaves',
-            'create-products','update-products','delete-products','show-products','index-products','index-payments','create-leave',
+            'create-products','update-products','delete-products','show-products','index-products','index-payments','create-leave','index-product-by-admins',
             'create-categories','update-categories','delete-categories','show-categories','index-categories','index-leave','approve-leave','reject-leave',
             'show-order','index-order','behavior-monitoring','view-statistics','manage-profile','check-in-reservation','get-notification-counts',
             'index-extra','create-extra','update-extra','delete-extra','show-extra','create-order','transfer-ownership','resolve-complaint','dismiss-complaint',
@@ -63,7 +63,7 @@ class RolesPermissionsSeeder extends Seeder
             'create-products','update-products','delete-products','show-products','index-products','update-theme','update-lan','index-offer-by-chef','show-now-order-for-chef','show-pre-order-for-chef',
             'create-categories','update-categories','delete-categories','show-categories','index-categories','store_extra_product','index-own-notifivations','mark-all-read',
             'create-offer','update-offer','delete-offer','show-offer','index-offer','index-extra','delete_extra_product','get-my-leaves','index-category-by-chef','mark-cart-item-ready',
-            'create-extra','update-extra','delete-extra','show-extra','manage-profile','show_extra_product_details','create-leave','get-notification-counts',
+            'create-extra','update-extra','delete-extra','show-extra','manage-profile','show_extra_product_details','create-leave','get-notification-counts','index-product-by-admins',
             'index-order','mark-order-complete','show-info','change-mobile','update-password','update-image-profile','delete-account','show-product-by-chef'
         ];
 

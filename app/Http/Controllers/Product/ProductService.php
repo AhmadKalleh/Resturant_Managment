@@ -90,7 +90,58 @@ class ProductService
     }
 
 
+    public function index_product_by_admins($request):array
+    {
+        $category = Category::query()->where('id', $request['category_id'])->first();
+        $lang = Auth::user()->preferred_language;
 
+        if (!is_null($category))
+        {
+
+            
+            $products = $category->products()
+                    ->with('favorites')
+                    ->get()
+                    ->sortByDesc(fn($product) => $product->average_rating ?? 0)
+                    ->values()
+                    ->map(function ($product) use ($lang) {
+
+                        $image_path = $product->image->path ?? null;
+                        $name = $product->getTranslation('name', $lang);
+                        $description = $product->getTranslation('description', $lang);
+
+                        return
+                        [
+                            'id' => $product->id,
+                            'name' => $name,
+                            'description' => $description,
+                            'price' => $product->price_text,
+                            'calories' => $product->calories_text,
+                            'image_path' => url(Storage::url($image_path)),
+                            'rating' => $product->average_rating
+                        ];
+
+                    });
+
+                    $message = $products->isEmpty()
+                    ? __('message.No_Products_Available', [], $lang)
+                    : __('message.Products_Retrieved', [], $lang);
+
+                    return [
+                        'data' => $products,
+                        'message' => $message,
+                        'code' => 200
+                    ];
+            }
+        else
+        {
+            return [
+                'data' => [],
+                'message' => __('message.Category_Not_Found', [], $lang),
+                'code' => 404
+            ];
+        }
+    }
 
 
     public function index($request): array

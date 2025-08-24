@@ -174,6 +174,8 @@ Route::controller(ProductController::class)->group(function ()
     {
         Route::get('/index_product','index')->middleware('can:index-products');
 
+        Route::get('/index_product_by_admins','index_product_by_admins')->middleware('can:index-product-by-admins');
+
         Route::get('/top_ratings','top_ratings')->middleware('can:index-products');
 
         Route::post('/store_product','store')->middleware('can:create-products');

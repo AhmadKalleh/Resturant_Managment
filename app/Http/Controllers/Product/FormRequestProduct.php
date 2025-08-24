@@ -31,6 +31,8 @@ class FormRequestProduct extends FormRequest
             'GET' => match ($this->route()->getActionMethod())
             {
                 'index' => $this->index(),
+                'index_product_by_admins' => $this->index(),
+
                 'show' => $this->show(),
                 'show_product_by_chef' => $this->show(),
                 'searchByCategory' => $this->searchByCategory(),

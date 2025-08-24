@@ -17,12 +17,29 @@ class ProductController extends Controller
     {
         $this->_productService = $productService;
     }
+
+
     public function index(FormRequestProduct $request):JsonResponse
     {
         $data=[];
         try
         {
             $data = $this->_productService->index($request);
+            return $this->Success($data['data'],$data['message'],$data['code']);
+        }
+        catch(Throwable $e)
+        {
+            $message = $e->getMessage();
+            return $this->Error($data,$message);
+        }
+    }
+
+    public function index_product_by_admins(FormRequestProduct $request):JsonResponse
+    {
+        $data=[];
+        try
+        {
+            $data = $this->_productService->index_product_by_admins($request);
             return $this->Success($data['data'],$data['message'],$data['code']);
         }
         catch(Throwable $e)

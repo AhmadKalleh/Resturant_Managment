@@ -103,6 +103,31 @@ class StatisticsService
 
     private function daily_revenue():array
     {
+
+        // بيانات ثابتة للأيام
+    $dailyRevenue = collect([
+        ['date' => 'Sun', 'total' => '100 $'],
+        ['date' => 'Mon', 'total' => '150 $'],
+        ['date' => 'Tue', 'total' => '200 $'],
+        ['date' => 'Wed', 'total' => '50 $'],
+        ['date' => 'Thu', 'total' => '300 $'],
+        ['date' => 'Fri', 'total' => '400 $'],
+        ['date' => 'Sat', 'total' => '250 $'],
+    ]);
+
+    // بيانات ثابتة للمقارنة الأسبوعية
+    $weeklyComparison = [
+        'current_week_total' => 1450,
+        'last_week_total' => 1200,
+        'change_percent' => '+20%',
+    ];
+
+    // إضافة المقارنة الأسبوعية إلى آخر عنصر
+    $dailyRevenue->push([
+        'weekly_comparison' => $weeklyComparison
+    ]);
+
+    return [$dailyRevenue];
         $startOfWeek = now()->startOfWeek(Carbon::SUNDAY);
         $endOfWeek = now()->endOfWeek(Carbon::SATURDAY);
 
